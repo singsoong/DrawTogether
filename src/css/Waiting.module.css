@@ -8,3 +8,46 @@
 .header {
   height: 10vh;
 }
+
+.content {
+  padding-left: 10vw;
+  height: 20vh;
+}
+
+.title {
+  display: inline;
+}
+
+.code {
+  margin-left: 10vw;
+  display: inline;
+}
+
+.container {
+  padding-left: 10vw;
+}
+
+.playerContainer {
+  display: grid;
+  grid-template-columns: 25vw 25vw 25vw;
+  grid-template-rows: 25vh 25vh;
+  grid-gap: 3vw;
+  text-align: center;
+}
+.player{
+    border: 1px solid #718093;
+}
+
+.startBtn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    padding: 10px 60px;
+    border: 1px solid #718093;
+}
+
+.readyBtn{
+    display: inline-block;
+    padding: 10px 60px;
+    border: 1px solid #718093;
+}
