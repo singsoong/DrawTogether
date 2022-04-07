@@ -38,20 +38,20 @@
   grid-gap: 3vw;
   text-align: center;
 }
-.player{
-    border: 1px solid #718093;
+.player {
+  border: 1px solid #718093;
 }
 
-.startBtn{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: inline-block;
-    padding: 10px 60px;
-    border: 1px solid #718093;
+.startBtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 10px 60px;
+  border: 1px solid #718093;
 }
 
-.readyBtn{
-    display: inline-block;
-    padding: 10px 60px;
-    border: 1px solid #718093;
+.readyBtn {
+  display: inline-block;
+  padding: 10px 60px;
+  border: 1px solid #718093;
 }
