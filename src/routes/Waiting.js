@@ -1,5 +1,4 @@
 import styles from "../css/Waiting.module.css";
-import number from "../component/number"
 
 function Waiting() {
   return (
