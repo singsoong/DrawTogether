@@ -23,6 +23,10 @@
   display: inline;
 }
 
+.rcode {
+  display: inline;
+}
+
 .container {
   padding-left: 10vw;
 }

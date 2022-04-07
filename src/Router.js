@@ -1,3 +1,4 @@
+import React from 'react';
 import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -7,6 +8,7 @@ import Waiting from "./routes/Waiting";
 function Router() {
   return (
     <BrowserRouter>
+    <Main />
       <Switch>
         <Route path="/waiting">
           <Waiting />
