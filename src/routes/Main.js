@@ -10,8 +10,8 @@ function Main() {
       <TemplateBlock>{}
         대기화면
         <Link to="./waiting"> 
-  <Button> 시작 </Button>
-</Link>
+          <Button> 시작 </Button>
+        </Link>
       </TemplateBlock>
       </div>
     </>

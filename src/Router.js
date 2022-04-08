@@ -8,13 +8,12 @@ import Waiting from "./routes/Waiting";
 function Router() {
   return (
     <BrowserRouter>
-    <Main />
       <Switch>
         <Route path="/waiting">
           <Waiting />
         </Route>
         <Route path="/">
-          <Main />
+        <Main />
         </Route>
       </Switch>
     </BrowserRouter>
