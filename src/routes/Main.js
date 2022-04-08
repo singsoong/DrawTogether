@@ -4,6 +4,14 @@ import styled from 'styled-components';
 import Button from '../component/Button';
 
 function Main() {
+
+  const shoot = () => {
+    fetch('http://localhost:3001/api')
+        .then(res=>res.json())
+        .then(data=>console.log(data));
+    
+  }
+
   return (
     <>
       <div>
@@ -12,6 +20,9 @@ function Main() {
         <Link to="./waiting"> 
           <Button> 시작 </Button>
         </Link>
+      
+        <button onClick={shoot}>testFun</button>
+
       </TemplateBlock>
       </div>
     </>
