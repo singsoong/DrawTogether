@@ -1,6 +1,7 @@
 import styles from "../css/Waiting.module.css";
 
 function Waiting() {
+  const enterCode = window.location.pathname.slice(-6);
   return (
     <>
       <div className={styles.container}>
@@ -9,7 +10,7 @@ function Waiting() {
         </div>
         <div className={styles.content}>
           <h1 className={styles.title}>같이 그릴까?</h1>
-          <h4 className={styles.code}>입장 코드 : {Math.floor(Math.random() * 900000) + 100000}</h4>
+          <h4 className={styles.code}>입장 코드 : {enterCode}</h4>
         </div>
         <div className={styles.playerContainer}>
           <div className={styles.player}>
