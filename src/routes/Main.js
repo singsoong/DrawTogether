@@ -23,11 +23,12 @@ function Main() {
       <div>
         <TemplateBlock>
           {}
-          대기화면
+          같이 그릴까?
           <Link to={`./waiting/${code}`}>
-            <Button> 시작 </Button>
+            <Button>방 만들기</Button>
           </Link>
-          <button onClick={shoot}>testFun</button>
+          <Input></Input>
+          <button onClick={shoot}>입장하기</button>
         </TemplateBlock>
       </div>
     </>
@@ -35,9 +36,10 @@ function Main() {
 }
 
 const TemplateBlock = styled.div`
+  
   width: 1600px; /*가로*/
   height: 900px; /*세로*/
-  align-items: center;
+  text-align: center;
   line-height: 400px;
   font-size: 5rem;
   color: black;
@@ -48,11 +50,23 @@ const TemplateBlock = styled.div`
   border-radius: 16px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
 
-  margin: 0 auto; /* 페이지 중앙 */
+  margin: auto; /* 페이지 중앙 */
 
   margin-top: 16px;
   margin-bottom: 16px;
   flex-direction: column;
+`;
+
+const Input = styled.input.attrs(props => ({
+  type: "number",
+  size: props.size || "400px",
+  maxlength: "6"
+
+}))`
+    width: ${props => props.size};
+    height: 50px;
+    align-items: center;
+
 `;
 
 export default Main;
