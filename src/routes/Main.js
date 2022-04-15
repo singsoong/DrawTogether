@@ -2,15 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../component/Button";
+import Modal from "../component/Modal";
 
 function Main() {
   const [code, SetCode] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const shoot = () => {
-    fetch("http://localhost:3001/api")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+  const openModal = () => {
+    setModalOpen(true);
   };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  // const shoot = () => {
+  //   fetch("http://localhost:3001/api")
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // };
 
   const startBtn = () => {
     SetCode(Math.floor(Math.random() * 900000) + 100000);
@@ -28,7 +38,12 @@ function Main() {
             <Button>방 만들기</Button>
           </Link>
           <Input></Input>
-          <button onClick={shoot}>입장하기</button>
+          <button onClick={openModal}>입장하기</button>
+          <Modal
+            open={modalOpen}
+            close={closeModal}
+            header="입장 코드를 입력해주세요"
+          ></Modal>
         </TemplateBlock>
       </div>
     </>
@@ -36,7 +51,6 @@ function Main() {
 }
 
 const TemplateBlock = styled.div`
-  
   width: 1600px; /*가로*/
   height: 900px; /*세로*/
   text-align: center;
@@ -57,16 +71,14 @@ const TemplateBlock = styled.div`
   flex-direction: column;
 `;
 
-const Input = styled.input.attrs(props => ({
+const Input = styled.input.attrs((props) => ({
   type: "number",
   size: props.size || "400px",
-  maxlength: "6"
-
+  maxlength: "6",
 }))`
-    width: ${props => props.size};
-    height: 50px;
-    align-items: center;
-
+  width: ${(props) => props.size};
+  height: 50px;
+  align-items: center;
 `;
 
 export default Main;
