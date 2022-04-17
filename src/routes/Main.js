@@ -2,7 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../component/Button";
+import EButton from "../component/EnterButton";
 import Modal from "../component/Modal";
+import styles from "../css/Waiting.module.css";
+
+
+class About extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { username: '' };
+  }
+
+  myChangeHandler = evt => {
+    this.setState({ username: evt.target.value });
+  };
+
+  doSave = () => {
+    const { username } = this.state;
+    alert(username);
+  };
+}
+
 
 function Main() {
   const [code, SetCode] = useState(1);
@@ -32,33 +52,41 @@ function Main() {
     <>
       <div>
         <TemplateBlock>
-          {}
-          같이 그릴까?
-          <Link to={`./waiting/${code}`}>
-            <Button>방 만들기</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;같이 그릴까?
+          <button className={styles.settingBtn} onClick={openModal}>
+            설정
+          </button>
+          <Wrapper>
+          <Input onChange={About.myChangeHandler}></Input>
+          <Link  style={{ textDecoration: 'none' }} to={`./waiting/${code}`}>
+            <Button className="btn btn-primary" onClick={About.doSave}>방 만들기</Button>
           </Link>
-          <Input></Input>
-          <button onClick={openModal}>입장하기</button>
+          <EButton onClick={openModal}>입장하기</EButton>
           <Modal
             open={modalOpen}
             close={closeModal}
-            header="입장 코드를 입력해주세요"
+            header="닉네임을 입력해주세요"
           ></Modal>
+          </Wrapper>
         </TemplateBlock>
       </div>
     </>
   );
 }
 
+
+
+
+
 const TemplateBlock = styled.div`
   width: 1600px; /*가로*/
   height: 900px; /*세로*/
   text-align: center;
-  line-height: 400px;
   font-size: 5rem;
   color: black;
+  line-height: 400px;
 
-  position: relative;
+
   background: pink;
   border: 2px solid black;
   border-radius: 16px;
@@ -68,17 +96,25 @@ const TemplateBlock = styled.div`
 
   margin-top: 16px;
   margin-bottom: 16px;
-  flex-direction: column;
+`;
+
+const Wrapper = styled.section`
+line-height: 100px;
 `;
 
 const Input = styled.input.attrs((props) => ({
-  type: "number",
-  size: props.size || "400px",
-  maxlength: "6",
+  type: "text",
+  size: props.size || "390px",
+  maxLength: "10",
 }))`
   width: ${(props) => props.size};
   height: 50px;
   align-items: center;
 `;
+
+
+
+
+
 
 export default Main;
