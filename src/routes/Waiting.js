@@ -1,19 +1,11 @@
 import { useState } from "react";
 import styles from "../css/Waiting.module.css";
-import Modal from "../component/Modal";
 import styled from "styled-components";
-import SettingBtn from "../component/SettingBtn";
+import SettingBtn from "../components/SettingBtn";
 
 function Waiting() {
   const enterCode = window.location.pathname.slice(-6);
-  const [modalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
   return (
     <>
       <div className={styles.container}>

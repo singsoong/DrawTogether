@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Modal from "../component/Modal";
+import Modal from "../components/Modal";
 import axios from "axios";
-import SettingBtn from "../component/SettingBtn";
+import SettingBtn from "../components/SettingBtn";
 
 const Container = styled.div`
   background-color: #718093;
@@ -55,7 +55,6 @@ function Main() {
   const [code, SetCode] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
 
-
   const openModal = () => {
     setModalOpen(true);
   };
@@ -63,8 +62,6 @@ function Main() {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-
 
   // const shoot = () => {
   //   fetch("http://localhost:3001/api")
