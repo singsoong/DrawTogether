@@ -5,7 +5,7 @@ import Button from "../component/Button";
 import EButton from "../component/EnterButton";
 import Modal from "../component/Modal";
 import styles from "../css/Waiting.module.css";
-
+import axios from "axios";
 
 class About extends React.Component {
   constructor(props) {
@@ -48,25 +48,30 @@ function Main() {
 
   useEffect(startBtn, []);
 
+
   return (
     <>
       <div>
         <TemplateBlock>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;같이 그릴까?
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;같이 그릴까?
           <button className={styles.settingBtn} onClick={openModal}>
             설정
           </button>
           <Wrapper>
-          <Input onChange={About.myChangeHandler}></Input>
-          <Link  style={{ textDecoration: 'none' }} to={`./waiting/${code}`}>
-            <Button className="btn btn-primary" onClick={About.doSave}>방 만들기</Button>
-          </Link>
-          <EButton onClick={openModal}>입장하기</EButton>
-          <Modal
-            open={modalOpen}
-            close={closeModal}
-            header="닉네임을 입력해주세요"
-          ></Modal>
+            <Input onChange={About.myChangeHandler}></Input>
+            <Link style={{ textDecoration: 'none' }} to={`./waiting/${code}`}>
+              <Button className="btn btn-primary" onClick={() => {
+                axios.get('/api')
+                About.doSave()
+              }
+              }>방 만들기</Button>
+            </Link>
+            <EButton onClick={openModal}>입장하기</EButton>
+            <Modal
+              open={modalOpen}
+              close={closeModal}
+              header="닉네임을 입력해주세요"
+            ></Modal>
           </Wrapper>
         </TemplateBlock>
       </div>
