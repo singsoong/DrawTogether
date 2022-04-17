@@ -82,6 +82,9 @@ const Input = styled.input`
   ::-webkit-inner-spin-button {
     display: none;
   }
+  ::placeholder {
+    color: white;
+  }
   font-size: 20px;
   background-color: #7f8fa6;
   border: none;
