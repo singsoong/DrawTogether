@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 import axios from "axios";
@@ -36,7 +36,7 @@ const CreateRoomBtn = styled.button`
 const EnterBtn = styled(CreateRoomBtn)``;
 
 function Main() {
-  const [code, SetCode] = useState(1);
+  let code = 1;
   const [modalOpen, setModalOpen] = useState(false);
 
   const [name, setName] = useState("");
@@ -57,13 +57,10 @@ function Main() {
         },
       })
       .then(function (response) {
-        SetCode(response.data.entercode);
-        window.history.pushState("","","./waiting/" + code);
+        code = response.data.entercode;
+        window.history.pushState("", "", "./waiting/" + code);
         window.location.reload();
       });
-      
-    
-    
   };
 
   const onChange = (event) => {
@@ -71,20 +68,26 @@ function Main() {
     setName(name);
   };
 
-  const startBtn = () => {
-    SetCode(Math.floor(Math.random() * 900000) + 100000);
-  };
-
   const btnClick = () => {
-    axios.get("http://localhost:3001/enter", {
-      params: {
-        nickname: name,
-        entercode: code,
-      },
-    });
+    const Ec = document.getElementById("ECode");
+    code = Ec.value;
+    axios
+      .get("http://localhost:3001/enter", {
+        params: {
+          nickname: name,
+          entercode: code,
+        },
+      })
+      .then(function (response) {
+        const stateData = response.data.state;
+        if (stateData == "ok") {
+          window.history.pushState("", "", "./waiting/" + code);
+          window.location.reload();
+        } else {
+          console.log("fail");
+        }
+      });
   };
-
-  useEffect(startBtn, []);
 
   return (
     <Container>

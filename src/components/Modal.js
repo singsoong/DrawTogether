@@ -125,6 +125,7 @@ const Modal = (props) => {
             </Header>
             <Main>
               <Input
+                id="ECode"
                 onChange={onChange}
                 value={code}
                 placeholder="입장코드"
