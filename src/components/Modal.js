@@ -75,7 +75,7 @@ const Main = styled.div`
 
 const Footer = styled.div`
   padding: 12px 16px;
-  text-align: right;
+  text-align: center;
 `;
 
 const Input = styled.input`
@@ -92,8 +92,15 @@ const Input = styled.input`
   color: white;
 `;
 
+const OkBtn = styled.button`
+  background-color: #7f8fa6;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
+
 const Modal = (props) => {
-  const { open, close, header } = props;
+  const { open, close, header, click } = props;
   const [code, setCode] = useState("");
 
   const onChange = (event) => {
@@ -104,6 +111,8 @@ const Modal = (props) => {
       setCode(value);
     }
   };
+
+  const okBtnClick = click;
 
   return (
     <>
@@ -122,7 +131,9 @@ const Modal = (props) => {
                 type="number"
               />
             </Main>
-            <Footer></Footer>
+            <Footer>
+              <OkBtn onClick={okBtnClick}>확인</OkBtn>
+            </Footer>
           </Section>
         </OpenModal>
       ) : null}

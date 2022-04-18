@@ -31,29 +31,16 @@ const CreateRoomBtn = styled.button`
   width: 20vw;
   height: 5vh;
   margin: 5vw auto;
+  cursor: pointer;
 `;
 
 const EnterBtn = styled(CreateRoomBtn)``;
 
-class About extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { username: "" };
-  }
-
-  myChangeHandler = (evt) => {
-    this.setState({ username: evt.target.value });
-  };
-
-  doSave = () => {
-    const { username } = this.state;
-    alert(username);
-  };
-}
-
 function Main() {
   const [code, SetCode] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [name, setName] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -61,6 +48,23 @@ function Main() {
 
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const roomOnClick = () => {
+    axios
+      .get("http://localhost:3001/createRoom", {
+        params: {
+          nickname: name,
+        },
+      })
+      .then();
+    window.history.pushState("", "", "./waiting/");
+    window.location.reload();
+  };
+
+  const onChange = (event) => {
+    const name = event.target.value;
+    setName(name);
   };
 
   // const shoot = () => {
@@ -71,6 +75,15 @@ function Main() {
 
   const startBtn = () => {
     SetCode(Math.floor(Math.random() * 900000) + 100000);
+  };
+
+  const btnClick = () => {
+    axios.get("http://localhost:3001/enter", {
+      params: {
+        nickname: name,
+        entercode: code,
+      },
+    });
   };
 
   useEffect(startBtn, []);
@@ -84,22 +97,14 @@ function Main() {
         <Title>같이 그릴까?</Title>
       </Header>
       <Content>
-        <NameInput onChange={About.myChangeHandler} />
-        <Link style={{ textDecoration: "none" }} to={`./waiting/${code}`}>
-          <CreateRoomBtn
-            onClick={() => {
-              axios.get("/api");
-              About.doSave();
-            }}
-          >
-            방 만들기
-          </CreateRoomBtn>
-        </Link>
+        <NameInput value={name} onChange={onChange} />
+        <CreateRoomBtn onClick={roomOnClick}>방 만들기</CreateRoomBtn>
         <EnterBtn onClick={openModal}>입장하기</EnterBtn>
         <Modal
           open={modalOpen}
           close={closeModal}
           header="입장 코드를 입력해주세요"
+          click={btnClick}
         ></Modal>
       </Content>
     </Container>
