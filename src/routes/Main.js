@@ -51,17 +51,6 @@ function Main() {
   };
 
   const roomOnClick = () => {
-<<<<<<< HEAD
-    axios
-      .get("http://localhost:3001/createRoom", {
-        params: {
-          nickname: name,
-        },
-      })
-      .then();
-    window.history.pushState("", "", "./waiting/");
-    window.location.reload();
-=======
     axios.get("http://localhost:3001/createRoom", {
       params: {
         nickname: name
@@ -69,28 +58,17 @@ function Main() {
     });
     //window.history.pushState("","","./waiting/");
     //window.location.reload();
->>>>>>> jouno
   };
 
   const onChange = (event) => {
     const name = event.target.value;
     setName(name);
   };
-<<<<<<< HEAD
-
-  // const shoot = () => {
-  //   fetch("http://localhost:3001/api")
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // };
-=======
->>>>>>> jouno
 
   const startBtn = () => {
     SetCode(Math.floor(Math.random() * 900000) + 100000);
   };
 
-<<<<<<< HEAD
   const btnClick = () => {
     axios.get("http://localhost:3001/enter", {
       params: {
@@ -99,8 +77,6 @@ function Main() {
       },
     });
   };
-=======
->>>>>>> jouno
 
   useEffect(startBtn, []);
 
