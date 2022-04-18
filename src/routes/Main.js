@@ -31,29 +31,16 @@ const CreateRoomBtn = styled.button`
   width: 20vw;
   height: 5vh;
   margin: 5vw auto;
+  cursor: pointer;
 `;
 
 const EnterBtn = styled(CreateRoomBtn)``;
 
-class About extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { username: "" };
-  }
-
-  myChangeHandler = (evt) => {
-    this.setState({ username: evt.target.value });
-  };
-
-  doSave = () => {
-    const { username } = this.state;
-    alert(username);
-  };
-}
-
 function Main() {
   const [code, SetCode] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [name, setName] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -63,15 +50,25 @@ function Main() {
     setModalOpen(false);
   };
 
-  // const shoot = () => {
-  //   fetch("http://localhost:3001/api")
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // };
+  const roomOnClick = () => {
+    axios.get("http://localhost:3001/createRoom", {
+      params: {
+        nickname: name
+      },
+    });
+    //window.history.pushState("","","./waiting/");
+    //window.location.reload();
+  };
+
+  const onChange = (event) => {
+    const name = event.target.value;
+    setName(name);
+  };
 
   const startBtn = () => {
     SetCode(Math.floor(Math.random() * 900000) + 100000);
   };
+
 
   useEffect(startBtn, []);
 
@@ -84,17 +81,8 @@ function Main() {
         <Title>같이 그릴까?</Title>
       </Header>
       <Content>
-        <NameInput onChange={About.myChangeHandler} />
-        <Link style={{ textDecoration: "none" }} to={`./waiting/${code}`}>
-          <CreateRoomBtn
-            onClick={() => {
-              axios.get("/api");
-              About.doSave();
-            }}
-          >
-            방 만들기
-          </CreateRoomBtn>
-        </Link>
+        <NameInput value={name} onChange={onChange} />
+        <CreateRoomBtn onClick={roomOnClick}>방 만들기</CreateRoomBtn>
         <EnterBtn onClick={openModal}>입장하기</EnterBtn>
         <Modal
           open={modalOpen}
