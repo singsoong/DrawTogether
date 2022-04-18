@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const port =process.env.PORT || 3001;
 
 var createRoom = require('./router/createRoom');
+var enter = require('./router/enter');
 
 app.use(cors());
 
@@ -12,6 +13,8 @@ app.use(bodyParser.json());
 app.use('/api', (req, res)=> res.json({username:'jouno7201'}));
 
 app.use('/createRoom',createRoom);
+app.use('/enter',enter);
+
 /*app.get('/createRoom',(req, res)=>{
     console.log("test1234")
 });*/

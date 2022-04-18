@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 import axios from "axios";
@@ -51,13 +50,20 @@ function Main() {
   };
 
   const roomOnClick = () => {
-    axios.get("http://localhost:3001/createRoom", {
-      params: {
-        nickname: name
-      },
-    });
-    //window.history.pushState("","","./waiting/");
-    //window.location.reload();
+    axios
+      .get("http://localhost:3001/createRoom", {
+        params: {
+          nickname: name,
+        },
+      })
+      .then(function (response) {
+        SetCode(response.data.entercode);
+        window.history.pushState("","","./waiting/" + code);
+        window.location.reload();
+      });
+      
+    
+    
   };
 
   const onChange = (event) => {
