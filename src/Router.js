@@ -1,21 +1,22 @@
-import React from 'react';
-import { Switch } from "react-router-dom";
+import React from "react";
 import { Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
+import Game from "./routes/Game";
 import Main from "./routes/Main";
 import Waiting from "./routes/Waiting";
 
 function Router() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/waiting">
-          <Waiting />
-        </Route>
-        <Route path="/">
+      <Route exact path="/">
         <Main />
-        </Route>
-      </Switch>
+      </Route>
+      <Route path="/waiting">
+        <Waiting />
+      </Route>
+      <Route path="/game">
+        <Game />
+      </Route>
     </BrowserRouter>
   );
 }
