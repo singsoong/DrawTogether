@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import SettingBtn from "../components/SettingBtn";
 
+
 const Container = styled.div`
   padding-left: 10vw;
 `;
@@ -47,10 +48,27 @@ const StartBtn = styled.div`
   cursor: pointer;
 `;
 
+
+
+const Ready = styled.button`
+  display: block;
+  width: 20vw;
+  height: 5vh;
+  margin: 5vw auto;
+  cursor: pointer;
+`;
+
 const ReadyBtn = styled(StartBtn)``;
+
+function ready()  {
+  const btnElement = document.getElementById('btn');
+  btnElement.innerText = '새이름!';
+}
+
 
 function Waiting() {
   const enterCode = window.location.pathname.slice(-6);
+  
 
   return (
     <>
@@ -67,11 +85,21 @@ function Waiting() {
             <StartBtn>시작하기</StartBtn>
             <ReadyBtn>준비하기</ReadyBtn>
           </Player>
-          <Player>1</Player>
-          <Player>2</Player>
-          <Player>3</Player>
-          <Player>4</Player>
-          <Player>5</Player>
+          <Player>1
+            <Ready>준비하기</Ready>
+          </Player>
+          <Player>2
+            <Ready>준비하기</Ready>
+          </Player>
+          <Player>3
+            <Ready>준비하기</Ready>
+          </Player>
+          <Player>4
+            <Ready>준비하기</Ready>
+          </Player>
+          <Player>5
+            <Ready>준비하기</Ready>
+          </Player>
         </PlayerContainer>
       </Container>
     </>
