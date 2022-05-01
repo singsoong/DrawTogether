@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -8,31 +8,26 @@ const Wrapper = styled.div`
 const CavnasWrapper = styled.div`
   background-color: white;
   border: 1px solid black;
-  width: 365px;
-  height: 359px;
 `;
 
-function Canvas() {
+function Canvas({ color, stroke, init }) {
   const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-
-  const [ctx, setCtx] = useState();
+  const [ctx, setCtx] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 0.5;
     canvas.height = window.innerHeight * 0.5;
-
-    const context = canvas.getContext("2d");
-    context.strokeStyle = "red";
-    context.lineWidth = 5;
-    contextRef.current = context;
-
+    const context = canvas?.getContext("2d");
+    context.strokeStyle = color;
+    context.lineWidth = 2;
     setCtx(context);
-  }, []);
+  }, [init]);
 
   const startDrawing = () => {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = stroke;
     setIsDrawing(true);
   };
 
@@ -56,7 +51,6 @@ function Canvas() {
 
   return (
     <Wrapper>
-      <h2>Canvas</h2>
       <CavnasWrapper>
         <canvas
           ref={canvasRef}
