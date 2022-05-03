@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import SettingBtn from "../components/SettingBtn";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Container = styled.div`
   padding-left: 10vw;
@@ -37,6 +38,7 @@ const Player = styled.div`
   padding-right: 3vw;
   padding-top: 3vh;
   border: 1px solid #718093;
+  background-color: ${props => props.color};
 `;
 
 const StartBtn = styled.div`
@@ -49,19 +51,6 @@ const StartBtn = styled.div`
 `;
 
 const ReadyBtn = styled(StartBtn)``;
-
-function ready() {
-  const btnElement = document.getElementById('btn');
-  btnElement.innerText = '새이름!';
-}
-
-
-function colorChange() {
-  var color = ["#FC5C7D"];
-  var num = Math.floor(Math.raddom() * color.length);
-  var divTag = document.getElementById("colorCont");
-  divTag.style.backgroundolor = color[num];
-}
 
 function Waiting() {
   const enterCode = window.location.pathname.slice(-6);
@@ -77,6 +66,11 @@ function Waiting() {
         console.log("");
       }
       );
+  }; //닉네임 요청 및 출력 함수
+
+  const [color, setColor] = useState('white');
+  const onClick = () => {
+    color === 'white' ? setColor('yellow') : setColor('white');
   };
 
   return (
@@ -92,17 +86,17 @@ function Waiting() {
         <PlayerContainer>
           <Player>
             <StartBtn>시작하기</StartBtn>
-            <ReadyBtn onClick={() => colorChange()}>준비하기</ReadyBtn>
+            <ReadyBtn onClick={onClick}>준비하기</ReadyBtn>
           </Player>
-          <Player>{nickName}
+          <Player color={color}>{nickName}
           </Player>
-          <Player>{nickName}
+          <Player color={color}>{nickName}
           </Player>
-          <Player>{nickName}
+          <Player color={color}>{nickName}
           </Player>
-          <Player>{nickName}
+          <Player color={color}>{nickName}
           </Player>
-          <Player>{nickName}
+          <Player color={color}>{nickName}
           </Player>
         </PlayerContainer>
       </Container>
