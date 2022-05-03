@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SettingBtn from "../components/SettingBtn";
-
+import axios from "axios";
 
 const Container = styled.div`
   padding-left: 10vw;
@@ -48,27 +48,36 @@ const StartBtn = styled.div`
   cursor: pointer;
 `;
 
-
-
-const Ready = styled.button`
-  display: block;
-  width: 20vw;
-  height: 5vh;
-  margin: 5vw auto;
-  cursor: pointer;
-`;
-
 const ReadyBtn = styled(StartBtn)``;
 
-function ready()  {
+function ready() {
   const btnElement = document.getElementById('btn');
   btnElement.innerText = '새이름!';
 }
 
 
+function colorChange() {
+  var color = ["#FC5C7D"];
+  var num = Math.floor(Math.raddom() * color.length);
+  var divTag = document.getElementById("colorCont");
+  divTag.style.backgroundolor = color[num];
+}
+
 function Waiting() {
   const enterCode = window.location.pathname.slice(-6);
-  
+
+  const nickName = () => {
+    axios
+      .get('', {
+        params: {
+          nickname: "",
+        },
+      })
+      .then(function (response) {
+        console.log("");
+      }
+      );
+  };
 
   return (
     <>
@@ -83,22 +92,17 @@ function Waiting() {
         <PlayerContainer>
           <Player>
             <StartBtn>시작하기</StartBtn>
-            <ReadyBtn>준비하기</ReadyBtn>
+            <ReadyBtn onClick={() => colorChange()}>준비하기</ReadyBtn>
           </Player>
-          <Player>1
-            <Ready>준비하기</Ready>
+          <Player>{nickName}
           </Player>
-          <Player>2
-            <Ready>준비하기</Ready>
+          <Player>{nickName}
           </Player>
-          <Player>3
-            <Ready>준비하기</Ready>
+          <Player>{nickName}
           </Player>
-          <Player>4
-            <Ready>준비하기</Ready>
+          <Player>{nickName}
           </Player>
-          <Player>5
-            <Ready>준비하기</Ready>
+          <Player>{nickName}
           </Player>
         </PlayerContainer>
       </Container>
