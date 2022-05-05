@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import axios from "axios";
 import SettingBtn from "../components/SettingBtn";
 
+
 const Container = styled.div`
   background-color: #718093;
   max-width: 100vw;
@@ -58,7 +59,7 @@ function Main() {
       })
       .then(function (response) {
         code = response.data.entercode;
-        window.history.pushState("", "", "./waiting/" + code);
+        window.history.pushState("", "", "./waiting/" + code+"?"+name);
         window.location.reload();
       });
   };
@@ -80,8 +81,8 @@ function Main() {
       })
       .then(function (response) {
         const stateData = response.data.state;
-        if (stateData === "ok") {
-          window.history.pushState("", "", "./waiting/" + code);
+        if (stateData == "ok") {
+          window.history.pushState("", "", "./waiting/" + code+"?"+name);
           window.location.reload();
         } else {
           console.log("fail");
