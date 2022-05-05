@@ -73,69 +73,72 @@ function Waiting() {
   const [p3state, setp3state] = useState("wait");
   const [p4state, setp4state] = useState("wait");
   const [p5state, setp5state] = useState("wait");
-  
+
   const enterCode = window.location.pathname.slice(-6);
   const nickname = window.location.href.split("?")[1];
 
-  const [color, setColor] = useState('white');
-
+  const [color1, setColor1] = useState('white');
+  const [color2, setColor2] = useState('white');
+  const [color3, setColor3] = useState('white');
+  const [color4, setColor4] = useState('white');
+  const [color5, setColor5] = useState('white');
   const [myposition, setpMyposition] = useState(-1);
 
   const onClick = () => {
-    //color === 'white' ? setColor('yellow') : setColor('white'); 
-    
+
+
     var temp = 'wait';
 
-    if(myposition == 1){
+    if (myposition == 1) {
       temp = p1state;
-    }else if(myposition == 2){
+    } else if (myposition == 2) {
       temp = p2state;
-    }else if(myposition == 3){
+    } else if (myposition == 3) {
       temp = p3state;
-    }else if(myposition == 4){
+    } else if (myposition == 4) {
       temp = p4state;
-    }else if(myposition == 5){
+    } else if (myposition == 5) {
       temp = p5state;
     }
 
-    if(temp == 'wait'){
+    if (temp == 'wait') {
       temp = 'ready';
-    }else{
+    } else {
       temp = 'wait';
     }
 
-    socket.emit('state',[enterCode,nickname,temp]);
+    socket.emit('state', [enterCode, nickname, temp]);
   };
 
   useEffect(() => {
     socket.on('add', function (data) {
       console.log(data);
-      if(data.p1.nickname != ""){
-        if(data.p1.nickname == nickname){
+      if (data.p1.nickname != "") {
+        if (data.p1.nickname == nickname) {
           setpMyposition(1);
         }
         setp1(data.p1.nickname);
       }
-      if(data.p2.nickname != ""){
-        if(data.p2.nickname == nickname){
+      if (data.p2.nickname != "") {
+        if (data.p2.nickname == nickname) {
           setpMyposition(2);
         }
         setp2(data.p2.nickname);
       }
-      if(data.p3.nickname != ""){
-        if(data.p3.nickname == nickname){
+      if (data.p3.nickname != "") {
+        if (data.p3.nickname == nickname) {
           setpMyposition(3);
         }
         setp3(data.p3.nickname);
       }
-      if(data.p4.nickname != ""){
-        if(data.p4.nickname == nickname){
+      if (data.p4.nickname != "") {
+        if (data.p4.nickname == nickname) {
           setpMyposition(4);
         }
         setp4(data.p4.nickname);
       }
-      if(data.p5.nickname != ""){
-        if(data.p5.nickname == nickname){
+      if (data.p5.nickname != "") {
+        if (data.p5.nickname == nickname) {
           setpMyposition(5);
         }
         setp5(data.p5.nickname);
@@ -154,8 +157,15 @@ function Waiting() {
       setp3state(data.p3.state);
       setp4state(data.p4.state);
       setp5state(data.p5.state);
+
+      data.p1.state === 'ready' ? setColor1('yellow') : setColor1('white');
+      data.p2.state === 'ready' ? setColor2('yellow') : setColor2('white');
+      data.p3.state === 'ready' ? setColor3('yellow') : setColor3('white');
+      data.p4.state === 'ready' ? setColor4('yellow') : setColor4('white');
+      data.p5.state === 'ready' ? setColor5('yellow') : setColor5('white');
+      //플레이어의 상태를 확인하고 상태에 따라 플레이어의 준비칸 색깔을 변경한다
     });
-    socket.emit('add',  [enterCode,nickname]);
+    socket.emit('add', [enterCode, nickname]);
   });
 
   return (
@@ -173,15 +183,15 @@ function Waiting() {
             <StartBtn>시작하기</StartBtn>
             <ReadyBtn onClick={onClick}>준비하기</ReadyBtn>
           </Player>
-          <Player color={color}>{p1} : {p1state}
+          <Player color={color1}>{p1} : {p1state}
           </Player>
-          <Player color={color}>{p2} : {p2state}
+          <Player color={color2}>{p2} : {p2state}
           </Player>
-          <Player color={color}>{p3} : {p3state}
+          <Player color={color3}>{p3} : {p3state}
           </Player>
-          <Player color={color}>{p4} : {p4state}
+          <Player color={color4}>{p4} : {p4state}
           </Player>
-          <Player color={color}>{p5} : {p5state}
+          <Player color={color5}>{p5} : {p5state}
           </Player>
         </PlayerContainer>
       </Container>
