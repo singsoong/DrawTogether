@@ -80,7 +80,7 @@ function Main() {
       })
       .then(function (response) {
         const stateData = response.data.state;
-        if (stateData == "ok") {
+        if (stateData === "ok") {
           window.history.pushState("", "", "./waiting/" + code);
           window.location.reload();
         } else {
