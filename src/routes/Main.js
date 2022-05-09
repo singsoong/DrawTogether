@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Modal from "../components/Modal";
 import axios from "axios";
 import SettingBtn from "../components/SettingBtn";
-
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   background-color: #718093;
@@ -36,7 +36,8 @@ const CreateRoomBtn = styled.button`
 
 const EnterBtn = styled(CreateRoomBtn)``;
 
-function Main() {
+const Main = (props) => {
+  const history = useHistory();
   let code = 1;
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -59,19 +60,21 @@ function Main() {
       })
       .then(function (response) {
         code = response.data.entercode;
-        window.history.pushState("", "", "./waiting/" + code+"?"+name);
-        window.location.reload();
+        props.setCode(code);
+        history.push(`/waiting/${code}?${name}`);
       });
   };
 
   const onChange = (event) => {
     const name = event.target.value;
     setName(name);
+    props.setNickname(name);
   };
 
   const btnClick = () => {
     const Ec = document.getElementById("ECode");
     code = Ec.value;
+    props.setCode(code);
     axios
       .get("http://localhost:3001/enter", {
         params: {
@@ -82,8 +85,7 @@ function Main() {
       .then(function (response) {
         const stateData = response.data.state;
         if (stateData == "ok") {
-          window.history.pushState("", "", "./waiting/" + code+"?"+name);
-          window.location.reload();
+          history.push(`/waiting/${code}?${name}`);
         } else {
           console.log("fail");
         }
@@ -111,7 +113,7 @@ function Main() {
       </Content>
     </Container>
   );
-}
+};
 
 const NameInput = styled.input.attrs((props) => ({
   type: "text",

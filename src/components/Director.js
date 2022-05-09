@@ -160,7 +160,7 @@ function Director() {
           <ImageInput onChange={inputOnChange} />
         </ImageInputWrap>
         <UserChatWrapper>
-          <UserChatList readonly value={chatList} />
+          <UserChatList readonly defaultValue={chatList} />
           <UserChat />
         </UserChatWrapper>
       </ContentContainer>

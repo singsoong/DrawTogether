@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import SettingBtn from "../components/SettingBtn";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import socketio from 'socket.io-client';
+import React, { useEffect, useReducer, useRef, useState } from "react";
+import socketio from "socket.io-client";
+import { useHistory } from "react-router-dom";
 
-const socket = socketio('localhost:3002');
-
-
+const socket = socketio("localhost:3002");
 
 const Container = styled.div`
   padding-left: 10vw;
@@ -43,7 +42,7 @@ const Player = styled.div`
   padding-right: 3vw;
   padding-top: 3vh;
   border: 1px solid #718093;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
 `;
 
 const StartBtn = styled.div`
@@ -55,13 +54,10 @@ const StartBtn = styled.div`
   cursor: pointer;
 `;
 
-
-
 const ReadyBtn = styled(StartBtn)``;
 
-function Waiting() {
-  console.log("test");
-
+const Waiting = (props) => {
+  const history = useHistory();
   const [p1, setp1] = useState("empty");
   const [p2, setp2] = useState("empty");
   const [p3, setp3] = useState("empty");
@@ -74,21 +70,27 @@ function Waiting() {
   const [p4state, setp4state] = useState("wait");
   const [p5state, setp5state] = useState("wait");
 
-  const enterCode = window.location.pathname.slice(-6);
-  const nickname = window.location.href.split("?")[1];
+  const [enterCode, setEnterCode] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [number, setNumber] = useState(0);
 
-  const [color1, setColor1] = useState('white');
-  const [color2, setColor2] = useState('white');
-  const [color3, setColor3] = useState('white');
-  const [color4, setColor4] = useState('white');
-  const [color5, setColor5] = useState('white');
+  // const enterCode = window.location.pathname.slice(-6);
+  // const nickname = window.location.href.split("?")[1];
+
+  const [color1, setColor1] = useState("white");
+  const [color2, setColor2] = useState("white");
+  const [color3, setColor3] = useState("white");
+  const [color4, setColor4] = useState("white");
+  const [color5, setColor5] = useState("white");
   const [myposition, setpMyposition] = useState(-1);
 
+  const startClick = () => {
+    history.push("/game");
+  };
+
   const onClick = () => {
-
-
-    var temp = 'wait';
-
+    console.log(nickname);
+    var temp = "wait";
     if (myposition == 1) {
       temp = p1state;
     } else if (myposition == 2) {
@@ -101,17 +103,20 @@ function Waiting() {
       temp = p5state;
     }
 
-    if (temp == 'wait') {
-      temp = 'ready';
+    if (temp == "wait") {
+      temp = "ready";
     } else {
-      temp = 'wait';
+      temp = "wait";
     }
 
-    socket.emit('state', [enterCode, nickname, temp]);
+    socket.emit("state", [enterCode, nickname, temp]);
   };
 
   useEffect(() => {
-    socket.on('add', function (data) {
+    setEnterCode(props.code);
+    setNickname(props.nickname);
+
+    socket.on("add", function (data) {
       console.log(data);
       if (data.p1.nickname != "") {
         if (data.p1.nickname == nickname) {
@@ -151,22 +156,22 @@ function Waiting() {
       setp5state(data.p5.state);
     });
 
-    socket.on('state', function (data) {
+    socket.on("state", function (data) {
       setp1state(data.p1.state);
       setp2state(data.p2.state);
       setp3state(data.p3.state);
       setp4state(data.p4.state);
       setp5state(data.p5.state);
 
-      data.p1.state === 'ready' ? setColor1('yellow') : setColor1('white');
-      data.p2.state === 'ready' ? setColor2('yellow') : setColor2('white');
-      data.p3.state === 'ready' ? setColor3('yellow') : setColor3('white');
-      data.p4.state === 'ready' ? setColor4('yellow') : setColor4('white');
-      data.p5.state === 'ready' ? setColor5('yellow') : setColor5('white');
+      data.p1.state === "ready" ? setColor1("yellow") : setColor1("white");
+      data.p2.state === "ready" ? setColor2("yellow") : setColor2("white");
+      data.p3.state === "ready" ? setColor3("yellow") : setColor3("white");
+      data.p4.state === "ready" ? setColor4("yellow") : setColor4("white");
+      data.p5.state === "ready" ? setColor5("yellow") : setColor5("white");
       //플레이어의 상태를 확인하고 상태에 따라 플레이어의 준비칸 색깔을 변경한다
     });
-    socket.emit('add', [enterCode, nickname]);
-  });
+    socket.emit("add", [enterCode, nickname]);
+  }, [nickname, enterCode]);
 
   return (
     <>
@@ -180,23 +185,28 @@ function Waiting() {
         </Content>
         <PlayerContainer>
           <Player>
-            <StartBtn>시작하기</StartBtn>
+            <StartBtn onClick={startClick}>시작하기</StartBtn>
             <ReadyBtn onClick={onClick}>준비하기</ReadyBtn>
           </Player>
-          <Player color={color1}>{p1} : {p1state}
+          <Player color={color1}>
+            {p1} : {p1state}
           </Player>
-          <Player color={color2}>{p2} : {p2state}
+          <Player color={color2}>
+            {p2} : {p2state}
           </Player>
-          <Player color={color3}>{p3} : {p3state}
+          <Player color={color3}>
+            {p3} : {p3state}
           </Player>
-          <Player color={color4}>{p4} : {p4state}
+          <Player color={color4}>
+            {p4} : {p4state}
           </Player>
-          <Player color={color5}>{p5} : {p5state}
+          <Player color={color5}>
+            {p5} : {p5state}
           </Player>
         </PlayerContainer>
       </Container>
     </>
   );
-}
+};
 
 export default Waiting;
