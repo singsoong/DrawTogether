@@ -2,10 +2,8 @@ import styled from "styled-components";
 import SettingBtn from "../components/SettingBtn";
 import axios from "axios";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import socketio from "socket.io-client";
 import { useHistory } from "react-router-dom";
-
-const socket = socketio("localhost:3002");
+import {socket} from "../etc/Socket";
 
 const Container = styled.div`
   padding-left: 10vw;
@@ -74,9 +72,6 @@ const Waiting = (props) => {
   const [nickname, setNickname] = useState("");
   const [number, setNumber] = useState(0);
 
-  // const enterCode = window.location.pathname.slice(-6);
-  // const nickname = window.location.href.split("?")[1];
-
   const [color1, setColor1] = useState("white");
   const [color2, setColor2] = useState("white");
   const [color3, setColor3] = useState("white");
@@ -113,8 +108,11 @@ const Waiting = (props) => {
   };
 
   useEffect(() => {
+
     setEnterCode(props.code);
     setNickname(props.nickname);
+
+    console.log(socket);
 
     socket.on("add", function (data) {
       console.log(data);
@@ -154,8 +152,11 @@ const Waiting = (props) => {
       setp3state(data.p3.state);
       setp4state(data.p4.state);
       setp5state(data.p5.state);
+      
     });
+    
 
+    
     socket.on("state", function (data) {
       setp1state(data.p1.state);
       setp2state(data.p2.state);
@@ -170,6 +171,7 @@ const Waiting = (props) => {
       data.p5.state === "ready" ? setColor5("yellow") : setColor5("white");
       //플레이어의 상태를 확인하고 상태에 따라 플레이어의 준비칸 색깔을 변경한다
     });
+    
     socket.emit("add", [enterCode, nickname]);
   }, [nickname, enterCode]);
 

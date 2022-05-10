@@ -44,6 +44,10 @@ io.on('connect',function(socket){
         socket.to(data[0]).emit('state', roomdata);
         socket.emit('state', roomdata);
     });
+
+    socket.on('test',function(data){
+        console.log(data);
+    });
 });
 
 io.listen(3002);

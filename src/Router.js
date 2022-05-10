@@ -15,13 +15,13 @@ function Router() {
         <Main setNickname={setNickname} setCode={setCode} />
       </Route>
       <Route exact path="/waiting">
-        <Waiting nickname={nickname} code={code} />
+        <Waiting nickname={nickname} code={code}/>
       </Route>
       <Route path="/waiting/:code">
-        <Waiting nickname={nickname} code={code} />
+        <Waiting nickname={nickname} code={code}/>
       </Route>
       <Route path="/game">
-        <Game nickname={nickname} code={code} />
+        <Game nickname={nickname} code={code}/>
       </Route>
     </BrowserRouter>
   );
