@@ -79,11 +79,14 @@ exports.AddUser = function(nickname_p,roomNumber,id){
             }else if(rooms[i].p5.nickname == ""){
                 rooms[i].p5.nickname = nickname_p;
                 rooms[i].p5.id = id;
-            }
-
+            }   
+            
+            //rooms[i].playerCount++;
             break;
         }
     }
+
+    
 }
 
 exports.searchRoom = function(roomNumber){
@@ -93,6 +96,7 @@ exports.searchRoom = function(roomNumber){
         }
     }
 
+    console.log("room is null   roomnumber : "+roomNumber);
     return null;
 }
 

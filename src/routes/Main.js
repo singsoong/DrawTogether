@@ -73,7 +73,7 @@ const Main = (props) => {
 
   const btnClick = () => {
     const Ec = document.getElementById("ECode");
-    code = Ec.value;
+    code = parseInt(Ec.value);
     props.setCode(code);
     axios
       .get("http://localhost:3001/enter", {
@@ -86,6 +86,7 @@ const Main = (props) => {
         const stateData = response.data.state;
         if (stateData == "ok") {
           history.push(`/waiting/${code}?${name}`);
+          
         } else {
           console.log("fail");
         }

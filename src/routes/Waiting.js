@@ -55,7 +55,9 @@ const StartBtn = styled.div`
 const ReadyBtn = styled(StartBtn)``;
 
 const Waiting = (props) => {
+
   const history = useHistory();
+
   const [p1, setp1] = useState("empty");
   const [p2, setp2] = useState("empty");
   const [p3, setp3] = useState("empty");
@@ -70,7 +72,6 @@ const Waiting = (props) => {
 
   const [enterCode, setEnterCode] = useState("");
   const [nickname, setNickname] = useState("");
-  const [number, setNumber] = useState(0);
 
   const [color1, setColor1] = useState("white");
   const [color2, setColor2] = useState("white");
@@ -83,9 +84,10 @@ const Waiting = (props) => {
     history.push("/game");
   };
 
-  const onClick = () => {
-    console.log(nickname);
+  // 준비하기 btn 이벤트
+  const onReady = () => {
     var temp = "wait";
+
     if (myposition == 1) {
       temp = p1state;
     } else if (myposition == 2) {
@@ -104,24 +106,34 @@ const Waiting = (props) => {
       temp = "wait";
     }
 
+    // 상태 업데이트 요청
     socket.emit("state", [enterCode, nickname, temp]);
   };
 
-  useEffect(() => {
+  // user 상태 세팅 함수
+  const SettingState = (data)=>{
+    setp1state(data.p1.state);
+    setp2state(data.p2.state);
+    setp3state(data.p3.state);
+    setp4state(data.p4.state);
+    setp5state(data.p5.state);
+        
+    data.p1.state === "ready" ? setColor1("yellow") : setColor1("white");
+    data.p2.state === "ready" ? setColor2("yellow") : setColor2("white");
+    data.p3.state === "ready" ? setColor3("yellow") : setColor3("white");
+    data.p4.state === "ready" ? setColor4("yellow") : setColor4("white");
+    data.p5.state === "ready" ? setColor5("yellow") : setColor5("white");
+  }
 
-    setEnterCode(props.code);
-    setNickname(props.nickname);
-
-    console.log(socket);
-
-    socket.on("add", function (data) {
-      console.log(data);
+  // user 닉네임 세팅 함수
+  const SettingUser = (data)=>{
       if (data.p1.nickname != "") {
         if (data.p1.nickname == nickname) {
           setpMyposition(1);
         }
         setp1(data.p1.nickname);
       }
+
       if (data.p2.nickname != "") {
         if (data.p2.nickname == nickname) {
           setpMyposition(2);
@@ -146,33 +158,33 @@ const Waiting = (props) => {
         }
         setp5(data.p5.nickname);
       }
+  }
 
-      setp1state(data.p1.state);
-      setp2state(data.p2.state);
-      setp3state(data.p3.state);
-      setp4state(data.p4.state);
-      setp5state(data.p5.state);
-      
+  useEffect(() => {
+
+    // props 의 방입장 코드 및 닉네임 설정
+    setEnterCode(props.code);
+    setNickname(props.nickname);
+
+    // user 입장마다 이벤트 발생
+    socket.on("add", function (data) {
+      if(data != null){
+        SettingUser(data);
+        SettingState(data);
+      }
     });
     
-
-    
+    // user 상태 변경시 마다 이벤트 발생
     socket.on("state", function (data) {
-      setp1state(data.p1.state);
-      setp2state(data.p2.state);
-      setp3state(data.p3.state);
-      setp4state(data.p4.state);
-      setp5state(data.p5.state);
-
-      data.p1.state === "ready" ? setColor1("yellow") : setColor1("white");
-      data.p2.state === "ready" ? setColor2("yellow") : setColor2("white");
-      data.p3.state === "ready" ? setColor3("yellow") : setColor3("white");
-      data.p4.state === "ready" ? setColor4("yellow") : setColor4("white");
-      data.p5.state === "ready" ? setColor5("yellow") : setColor5("white");
-      //플레이어의 상태를 확인하고 상태에 따라 플레이어의 준비칸 색깔을 변경한다
+      if(data != null){
+        SettingState(data);
+      }
     });
     
-    socket.emit("add", [enterCode, nickname]);
+    // waiting 화면 들어올 시 , user 등록 요청
+    if(enterCode != "" && nickname != ""){
+      socket.emit("add", [enterCode, nickname]);
+    }
   }, [nickname, enterCode]);
 
   return (
@@ -188,7 +200,7 @@ const Waiting = (props) => {
         <PlayerContainer>
           <Player>
             <StartBtn onClick={startClick}>시작하기</StartBtn>
-            <ReadyBtn onClick={onClick}>준비하기</ReadyBtn>
+            <ReadyBtn onClick={onReady}>준비하기</ReadyBtn>
           </Player>
           <Player color={color1}>
             {p1} : {p1state}

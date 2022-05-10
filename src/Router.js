@@ -7,7 +7,7 @@ import Waiting from "./routes/Waiting";
 
 function Router() {
   const [nickname, setNickname] = useState("");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(0);
 
   return (
     <BrowserRouter>

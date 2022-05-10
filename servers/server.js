@@ -29,8 +29,8 @@ io.on('connect',function(socket){
 
         const roomdata = option.searchRoom(data[0]);
 
-        socket.join(data[0])
-        socket.to(data[0]).emit('add', roomdata);
+        socket.join(data[0]);
+        io.to(data[0]).emit('add', roomdata);
         socket.emit('add', roomdata);
     });
 
@@ -41,7 +41,7 @@ io.on('connect',function(socket){
         
         option.StateChange(data[2],data[0],data[1]);
         
-        socket.to(data[0]).emit('state', roomdata);
+        io.to(data[0]).emit('state', roomdata);
         socket.emit('state', roomdata);
     });
 
