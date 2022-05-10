@@ -160,6 +160,60 @@ const Waiting = (props) => {
       }
   }
 
+  // 3명 이상의 user 가 모두 ready 인지 체크 함수
+  const CheckAllready = (data)=>{
+
+    let count =0;
+    
+    if (data.p1.nickname != "") {
+      if (data.p1.state != "ready") {
+        return false;
+      }else{
+        count++;
+      }
+    }
+
+    if (data.p2.nickname != "") {
+      if (data.p2.state != "ready") {
+        return false;
+      }else{
+        count++;
+      }
+    }
+
+    if (data.p3.nickname != "") {
+      if (data.p3.state != "ready") {
+        return false;
+      }else{
+        count++;
+      }
+    }
+
+    if (data.p4.nickname != "") {
+      if (data.p4.state != "ready") {
+        return false;
+      }else{
+        count++;
+      }
+    }
+
+    if (data.p5.nickname != "") {
+      if (data.p5.state != "ready") {
+        return false;
+      }else{
+        count++;
+      }
+    }
+
+    //console.log(count);
+    
+    if(count > 2){
+      return true;
+    }else {
+      return false;
+    }
+  }
+
   useEffect(() => {
 
     // props 의 방입장 코드 및 닉네임 설정
@@ -178,6 +232,11 @@ const Waiting = (props) => {
     socket.on("state", function (data) {
       if(data != null){
         SettingState(data);
+        if( CheckAllready(data) == true ){
+          console.log("All user ready");
+        }else {
+          console.log("All user not ready");
+        }
       }
     });
     
