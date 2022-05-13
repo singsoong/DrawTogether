@@ -52,6 +52,12 @@ io.on('connect',function(socket){
         io.to(data[0]).emit('state', roomdata);
         socket.emit('gameStart', roomdata);
     });
+
+    socket.on('Dmessage',function(data){
+        console.log(data);
+
+        io.to(data[0]).emit('Dmessage', data[1]);
+    });
 });
 
 io.listen(3002);

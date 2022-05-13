@@ -52,7 +52,7 @@ const Game = (props) => {
 
   }, [code, nickname]);
 
-  return <>{director ? <Director></Director> : <Artist></Artist>}</>;
+  return <>{director ? <Director nickname={props.nickname} code={props.code}></Director> : <Artist nickname={props.nickname} code={props.code}></Artist>}</>;
 };
 
 export default Game;

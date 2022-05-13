@@ -52,12 +52,22 @@ const StartBtn = styled.div`
   cursor: pointer;
 `;
 
+const Timer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  padding: 10px 60px;
+  border: 1px solid #718093;
+  border-color: white;
+  cursor: pointer;
+`;
+
 const ReadyBtn = styled(StartBtn)``;
 
 const Waiting = (props) => {
 
   let flag = false;
-
+  
   const history = useHistory();
 
   const [p1, setp1] = useState("empty");
@@ -218,26 +228,27 @@ const Waiting = (props) => {
 
 
   //카운트다운 후 게임 화면으로 전환
-  const Counter = ()=>{
-    
-    let count = 5;
+  
+  const Counter = () => {
+    let countNum=5;
+    const temp = setInterval(() => {
+      console.log("countNum : " + countNum);
+      console.log("3. flag : " + flag);
+      document.getElementById("timer").innerText = countNum+"초 후에 시작합니다";
 
-    const temp = setInterval(()=>{
-      count = count -1;
-      console.log("count : " + count);
-      console.log("3. flag : "+ flag);
-      
-      if(flag == false ){
+      if (flag == false) {
         console.log("stop interval");
+        document.getElementById("timer").innerText = "";
         clearInterval(temp);
       }
-      
-      if(count == 0 && flag == true){
+
+      if (countNum == 0 && flag == true) {
         console.log("start game");
         clearInterval(temp);
         start();
       }
-    },1000);
+      countNum = countNum - 1;
+    }, 1000);
   }
 
   useEffect(() => {
@@ -261,12 +272,12 @@ const Waiting = (props) => {
         if (CheckAllready(data) == true) {
           console.log("All user ready");
           flag = true;
-          console.log("1. flag : "+ flag);
+          console.log("1. flag : " + flag);
           Counter();
         } else {
           console.log("All user not ready");
           flag = false;
-          console.log("2. flag : "+ flag);
+          console.log("2. flag : " + flag);
         }
       }
     });
@@ -276,7 +287,7 @@ const Waiting = (props) => {
     if (enterCode != "" && nickname != "") {
       socket.emit("add", [enterCode, nickname]);
     }
-  }, [nickname, enterCode ]);
+  }, [nickname, enterCode]);
 
 
   return (
@@ -292,6 +303,7 @@ const Waiting = (props) => {
         <PlayerContainer>
           <Player>
             <ReadyBtn onClick={onReady}>준비하기</ReadyBtn>
+            <Timer id="timer"></Timer>
           </Player>
           <Player color={color1}>
             {p1} : {p1state}

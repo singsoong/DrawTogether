@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styled from "styled-components";
 import Palette from "./Palette";
+import {socket} from "../etc/Socket";
 import inputBtnImage from "../assets/images/inputmenubtn.png";
 
 const Wrapper = styled.div`
@@ -116,7 +117,7 @@ const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
-function Director() {
+function Director(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
@@ -134,6 +135,12 @@ function Director() {
     const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
     setMyImage(nowImageUrl);
   };
+  const sendMessage_D = ()=>{
+    socket.emit("Dmessage",[props.code ,chat]);
+  }
+
+  useEffect(() => {
+  });
 
   return (
     <Wrapper>
@@ -147,7 +154,7 @@ function Director() {
         <hr />
         <ChatWrapper>
           <DirectorChat value={chat} onChange={onChange} />
-          <ChatOkBtn>보내기</ChatOkBtn>
+          <ChatOkBtn onClick = {sendMessage_D}>보내기</ChatOkBtn>
           <hr />
         </ChatWrapper>
         <ImageInputWrap>
