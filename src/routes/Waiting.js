@@ -56,6 +56,8 @@ const ReadyBtn = styled(StartBtn)``;
 
 const Waiting = (props) => {
 
+  let flag = false;
+
   const history = useHistory();
 
   const [p1, setp1] = useState("empty");
@@ -216,19 +218,28 @@ const Waiting = (props) => {
 
 
   //카운트다운 후 게임 화면으로 전환
-  const [count, setCount]= useState(0);
-  function Counter(){
+  const Counter = ()=>{
+    
+    let count = 5;
 
-    setInterval(()=>{
-      setCount(count - 1);
-      console.log(count)
-      if(count == 0){
+    const test = setInterval(()=>{
+      count = count -1;
+      console.log("count : " + count);
+      console.log("3. flag : "+ flag);
+      
+      if(flag == false ){
+        console.log("stop interval");
+        clearInterval(test);
+      }
+      
+      if(count == 0 && flag == true){
+        console.log("start game");
+        clearInterval(test);
         start();
       }
-    },5000);
-
-    return console.log(count);
+    },1000);
   }
+
   useEffect(() => {
 
     // props 의 방입장 코드 및 닉네임 설정
@@ -249,10 +260,13 @@ const Waiting = (props) => {
         SettingState(data);
         if (CheckAllready(data) == true) {
           console.log("All user ready");
+          flag = true;
+          console.log("1. flag : "+ flag);
           Counter();
         } else {
           console.log("All user not ready");
-          clearInterval(count);
+          flag = false;
+          console.log("2. flag : "+ flag);
         }
       }
     });
@@ -262,7 +276,7 @@ const Waiting = (props) => {
     if (enterCode != "" && nickname != "") {
       socket.emit("add", [enterCode, nickname]);
     }
-  }, [nickname, enterCode]);
+  }, [nickname, enterCode ]);
 
 
   return (
