@@ -222,19 +222,19 @@ const Waiting = (props) => {
     
     let count = 5;
 
-    const test = setInterval(()=>{
+    const temp = setInterval(()=>{
       count = count -1;
       console.log("count : " + count);
       console.log("3. flag : "+ flag);
       
       if(flag == false ){
         console.log("stop interval");
-        clearInterval(test);
+        clearInterval(temp);
       }
       
       if(count == 0 && flag == true){
         console.log("start game");
-        clearInterval(test);
+        clearInterval(temp);
         start();
       }
     },1000);

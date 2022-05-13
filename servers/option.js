@@ -8,27 +8,32 @@ exports.createRoom = function(roomNumber){
         p1:{
             nickname :"",
             state : "wait",
-            id : ""
+            id : "",
+            director : true
         }, 
         p2:{
             nickname :"",
             state : "wait",
-            id : ""
+            id : "",
+            director : false
         }, 
         p3:{
             nickname :"",
             state : "wait",
-            id : ""
+            id : "",
+            director : false
         },
         p4:{
             nickname :"",
             state : "wait",
-            id : ""
+            id : "",
+            director : false
         },
         p5:{
             nickname :"",
             state : "wait",
-            id : ""
+            id : "",
+            director : false
         }
     };
     
