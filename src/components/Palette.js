@@ -100,8 +100,8 @@ const Palette = (props) => {
   };
 
   const returnBtnOnClick = () => {
-    setRet(ret + 1);
-    props.re(ret + 1);
+    props.setRe(ret+1);
+    setRet(ret+1);
   };
 
   useEffect(() => {

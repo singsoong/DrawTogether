@@ -20,8 +20,6 @@ function Canvas({ color, stroke, init, pen, re }) {
   const [storeArr, setStoreArr] = useState([]);
   const [index, setIndex] = useState(-1);
 
-
-
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 0.5;
@@ -38,19 +36,20 @@ function Canvas({ color, stroke, init, pen, re }) {
   }, [pen, pencil]);
 
   useEffect(() => {
-    setRet(re + 1);
-    if (index <= 0) {
+    if (storeArr.length == 0) {
       const canvas = canvasRef.current;
       canvas.width = window.innerWidth * 0.5;
       canvas.height = window.innerHeight * 0.5;
       setCvs(canvas);
     } else {
+      if(storeArr.length != 0){
+        ctx.putImageData(storeArr[storeArr.length-1], 0, 0);
+      }
       storeArr.pop();
-      ctx.putImageData(storeArr[index-1], 0, 0);
-      setIndex(index - 1);
     }
-  }, [re]);
+  },[re]);
 
+  
   const startDrawing = () => {
     ctx.strokeStyle = color;
     ctx.lineWidth = stroke;
