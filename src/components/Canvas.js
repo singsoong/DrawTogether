@@ -10,25 +10,53 @@ const CavnasWrapper = styled.div`
   border: 1px solid black;
 `;
 
-function Canvas({ color, stroke, init }) {
+function Canvas({ color, stroke, init, pen, re }) {
   const canvasRef = useRef(null);
+  const [cvs, setCvs] = useState(null);
   const [ctx, setCtx] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [pencil, setPencil] = useState(true);
+  const [ret, setRet] = useState(0);
+  const [storeArr, setStoreArr] = useState([]);
+  const [index, setIndex] = useState(-1);
+
+
 
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 0.5;
     canvas.height = window.innerHeight * 0.5;
+    setCvs(canvas);
     const context = canvas?.getContext("2d");
     context.strokeStyle = color;
     context.lineWidth = 2;
     setCtx(context);
   }, [init]);
 
+  useEffect(() => {
+    setPencil(pen);
+  }, [pen, pencil]);
+
+  useEffect(() => {
+    setRet(re + 1);
+    if (index <= 0) {
+      const canvas = canvasRef.current;
+      canvas.width = window.innerWidth * 0.5;
+      canvas.height = window.innerHeight * 0.5;
+      setCvs(canvas);
+    } else {
+      storeArr.pop();
+      ctx.putImageData(storeArr[index-1], 0, 0);
+      setIndex(index - 1);
+    }
+  }, [re]);
+
   const startDrawing = () => {
     ctx.strokeStyle = color;
     ctx.lineWidth = stroke;
     setIsDrawing(true);
+    storeArr.push(ctx.getImageData(0, 0, cvs.width, cvs.height));
+    setIndex(index + 1);
   };
 
   const finishDrawing = () => {
@@ -37,14 +65,24 @@ function Canvas({ color, stroke, init }) {
 
   const drawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-
     if (ctx) {
-      if (!isDrawing) {
-        ctx.beginPath();
-        ctx.moveTo(offsetX, offsetY);
-      } else {
-        ctx.lineTo(offsetX, offsetY);
-        ctx.stroke();
+      if (pencil) {
+        if (!isDrawing) {
+          ctx.beginPath();
+          ctx.moveTo(offsetX, offsetY);
+        } else {
+          ctx.lineTo(offsetX, offsetY);
+          ctx.stroke();
+        }
+      } else if (!pencil) {
+        if (isDrawing) {
+          ctx.clearRect(
+            offsetX - ctx.lineWidth / 2,
+            offsetY - ctx.lineWidth / 2,
+            ctx.lineWidth,
+            ctx.lineWidth
+          );
+        }
       }
     }
   };

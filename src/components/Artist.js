@@ -78,19 +78,27 @@ function Artist() {
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
   const [chatList, setChatList] = useState("test1 : hello");
+  const [pen, setPen] = useState(true);
+  const [re, setRe] = useState(0);
 
   return (
     <Wrapper>
       <PaletteContainer>
-        <Palette setColor={setColor} setValue={setValue} setInit={setInit} />
+        <Palette
+          setColor={setColor}
+          setValue={setValue}
+          setInit={setInit}
+          pen={setPen}
+          re={setRe}
+        />
       </PaletteContainer>
       <ContentContainer>
         <Text>디렉터</Text>
         <DirectorText>나무가 많고 사람 3명이 서 있다.</DirectorText>
-        <Canvas color={color} stroke={value} init={init} />
+        <Canvas color={color} stroke={value} init={init} pen={pen} re={re} />
         <hr />
         <UserChatWrapper>
-          <UserChatList readonly value={chatList} />
+          <UserChatList readonly defaultValue={chatList} />
           <UserChat />
         </UserChatWrapper>
       </ContentContainer>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 15vw;
-  height: 60vh;
   border: 1px solid black;
   text-align: center;
 `;
@@ -23,7 +22,8 @@ const ColorItem = styled.div`
   border: 1px solid black;
 `;
 
-const EraseBtn = styled.button`
+const EraseAllBtn = styled.button`
+  margin-bottom: 20px;
   background-color: white;
   cursor: pointer;
   margin-top: 20px;
@@ -38,21 +38,48 @@ const SelectColor = styled.div`
   margin-top: 5px;
 `;
 
+const ToolWrapper = styled.div``;
+
 const Line = styled.hr``;
 
 const RangeBar = styled.input``;
+
+const ReturnBtn = styled.button`
+  background-color: white;
+  display: block;
+  text-align: center;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
 const Palette = (props) => {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(3);
   const [init, setInit] = useState(0);
+  const [pen, setPen] = useState(true);
+  const [ret, setRet] = useState(0);
+
+  const PenBtn = styled.button`
+    margin-right: 20px;
+    background-color: ${pen ? "skyblue" : "white"};
+  `;
+
+  const EraserBtn = styled.button`
+    margin-bottom: 10px;
+    background-color: ${pen ? "white" : "skyblue"};
+  `;
 
   const btnClick = (event) => {
     const targetColor = event.target.attributes.color.nodeValue;
     setColor(targetColor);
   };
 
-  const eraseBtnClick = () => {
+  const eraseBtnOnClick = () => {
     const initValue = init + 1;
     setInit(initValue);
   };
@@ -60,6 +87,21 @@ const Palette = (props) => {
   const onRangeChange = (event) => {
     const val = event.target.value;
     setValue(val);
+  };
+
+  const penOnClick = () => {
+    setPen(true);
+    props.pen(true);
+  };
+
+  const eraserOnClick = () => {
+    setPen(false);
+    props.pen(false);
+  };
+
+  const returnBtnOnClick = () => {
+    setRet(ret + 1);
+    props.re(ret + 1);
   };
 
   useEffect(() => {
@@ -94,16 +136,28 @@ const Palette = (props) => {
         <ColorItem onClick={btnClick} color="IndianRed" />
         <ColorItem onClick={btnClick} color="Khaki" />
       </GridContainer>
-      <EraseBtn onClick={eraseBtnClick}>모두 지우기</EraseBtn>
+      <BtnContainer>
+        <EraseAllBtn onClick={eraseBtnOnClick}>모두 지우기</EraseAllBtn>
+        <ReturnBtn onClick={returnBtnOnClick}>되돌리기</ReturnBtn>
+      </BtnContainer>
+
       <Line />
-      <RangeBar
-        type="range"
-        min="0.1"
-        max="5.0"
-        step="any"
-        value={value}
-        onChange={onRangeChange}
-      />
+      <ToolWrapper>
+        <PenBtn onClick={penOnClick} select={pen}>
+          펜
+        </PenBtn>
+        <EraserBtn onClick={eraserOnClick} select={pen}>
+          지우개
+        </EraserBtn>
+        <RangeBar
+          type="range"
+          min="0.1"
+          max="20.0"
+          step="any"
+          value={value}
+          onChange={onRangeChange}
+        />
+      </ToolWrapper>
     </Wrapper>
   );
 };
