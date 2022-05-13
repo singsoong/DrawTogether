@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styled from "styled-components";
 import Canvas from "./Canvas";
 import Palette from "./Palette";
+import {socket} from "../etc/Socket";
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,13 +74,21 @@ const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
-function Artist() {
+function Artist(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
   const [chatList, setChatList] = useState("test1 : hello");
   const [pen, setPen] = useState(true);
   const [re, setRe] = useState(0);
+
+  useEffect(() => {
+    socket.on("Dmessage",function (data) {
+      console.log("Dmessage : " + data);
+      document.getElementById("D_chat").innerText = data;
+    });
+  
+  });
 
   return (
     <Wrapper>
@@ -94,7 +103,7 @@ function Artist() {
       </PaletteContainer>
       <ContentContainer>
         <Text>디렉터</Text>
-        <DirectorText>나무가 많고 사람 3명이 서 있다.</DirectorText>
+        <DirectorText id="D_chat">나무가 많고 사람 3명이 서 있다.</DirectorText>
         <Canvas color={color} stroke={value} init={init} pen={pen} re={re} />
         <hr />
         <UserChatWrapper>

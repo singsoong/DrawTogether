@@ -45,8 +45,18 @@ io.on('connect',function(socket){
         socket.emit('state', roomdata);
     });
 
-    socket.on('test',function(data){
+    socket.on('gameStart',function(data){
         console.log(data);
+        const roomdata = option.searchRoom(data[0]);
+        console.log(roomdata);
+        io.to(data[0]).emit('state', roomdata);
+        socket.emit('gameStart', roomdata);
+    });
+
+    socket.on('Dmessage',function(data){
+        console.log(data);
+
+        io.to(data[0]).emit('Dmessage', data[1]);
     });
 });
 
