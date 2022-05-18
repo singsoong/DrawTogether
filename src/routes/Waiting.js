@@ -230,11 +230,14 @@ const Waiting = (props) => {
   //카운트다운 후 게임 화면으로 전환
   
   const Counter = () => {
-    let countNum=5;
+    let countNum=2;// 초
     const temp = setInterval(() => {
       console.log("countNum : " + countNum);
       console.log("3. flag : " + flag);
-      document.getElementById("timer").innerText = countNum+"초 후에 시작합니다";
+
+      if(document.getElementById("timer") != null ){
+        document.getElementById("timer").innerText = countNum+"초 후에 시작합니다";
+      }
 
       if (flag == false) {
         console.log("stop interval");

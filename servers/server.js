@@ -58,6 +58,24 @@ io.on('connect',function(socket){
 
         io.to(data[0]).emit('Dmessage', data[1]);
     });
+
+    socket.on('Umessage',function(data){
+        console.log(data);
+
+        io.to(data[0]).emit('Umessage', data[1]);
+        //socket.emit('Umessage', data[1]);
+    });
+
+    socket.on('image',function(data){
+        console.log(data);
+        
+        option.UpdateImg(data[2],data[0],data[1]);
+
+        const roomdata = option.searchRoom(data[0]);
+        
+        io.to(data[0]).emit('image', roomdata);
+        //socket.emit('image', data);
+    });
 });
 
 io.listen(3002);

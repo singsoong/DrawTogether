@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Palette from "./Palette";
 import { socket } from "../etc/Socket";
 import inputBtnImage from "../assets/images/inputmenubtn.png";
+import notDrawing from "../assets/images/notDrawing.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -94,15 +95,11 @@ const BackgroundImage = styled.div`
   cursor: pointer;
 `;
 
-const UserChatList = styled.input.attrs({
-  type: "text",
-})`
+const UserChatList = styled.div`
   width: 30vw;
   height: 15vh;
-  cursor: default;
-  &:focus {
-    outline: none;
-  }
+  background: white;
+  overflow:auto;
 `;
 
 const UserChat = styled.input.attrs({
@@ -110,13 +107,44 @@ const UserChat = styled.input.attrs({
 })`
   margin-top: 30px;
   width: 30vw;
+  height: 3vh;
   margin-right: 20px;
   margin-left: 60px;
-  height: 3vh;
 `;
 
 const UserChatWrapper = styled.div`
   text-align: center;
+`;
+
+const Player1 = styled.img`
+  border: 3px solid gray;
+  background-color: white;
+  width: 25vw;
+  height: 20vh;
+`;
+const Player2 = styled.img`
+  border: 3px solid gray;
+  background-color: white;
+  width: 25vw;
+  height: 20vh;
+`;
+const Player3 = styled.img`
+  border: 3px solid gray;
+  background-color: white;
+  width: 25vw;
+  height: 20vh;
+`;
+const Player4 = styled.img`
+  border: 3px solid gray;
+  background-color: white;
+  width: 25vw;
+  height: 20vh;
+`;
+
+const NotDrawing = styled.img`
+  width: 25vw;
+  height: 20vh;
+  border: 3px solid gray;
 `;
 
 const UserChatSendButton = styled.button``;
@@ -124,17 +152,14 @@ function Director(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
-  const [chat, setChat] = useState("");
+  const [chat_D, setChatD] = useState("");
+  const [chat_U, setChatU] = useState("");
   const [myImage, setMyImage] = useState(inputBtnImage);
-  const [chatList, setChatList] = useState("test1 : hello");
-
-  const onChange = (event) => {
-    const val = event.target.value;
-    setChat(val);
-  };
-  const userChatOnClick = () => {
-    console.log("userchat");
-  };
+  const [images,setImage] = useState([0,0,0,0]);
+  const [image1, setImage1] = useState(0);
+  const [image2, setImage2] = useState(0);
+  const [image3, setImage3] = useState(0);
+  const [image4, setImage4] = useState(0);
 
   const inputOnChange = (event) => {
     const nowSelectImageList = event.target.files;
@@ -142,10 +167,71 @@ function Director(props) {
     setMyImage(nowImageUrl);
   };
   const sendMessage_D = () => {
-    socket.emit("Dmessage", [props.code, chat]);
+    socket.emit("Dmessage", [props.code, chat_D]);
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    socket.on("image", function (data) {
+      console.log(data);
+
+      let arr = new Array(images);
+      
+      let flag1 = false;
+      let flag2 = false;
+      let flag3 = false;
+      let flag4 = false;
+      let flag5 = false;
+
+      for(let i =0;i<4;i++){
+        if(data.p1.director != true &&flag1 == false){
+          arr[i] = data.p1.image;
+          flag1 = true;
+          continue;
+        }
+        if(data.p2.director != true&&flag2 == false){
+          arr[i] = data.p2.image;
+          flag2 = true;
+          continue;
+        }
+        if(data.p3.director != true&&flag3 == false){
+          arr[i] = data.p3.image;
+          flag3 = true;
+          continue;
+        }
+        if(data.p4.director != true&&flag4 == false){
+          arr[i] = data.p4.image;
+          flag4 = true;
+          continue;
+        }
+        if(data.p5.director != true&&flag5 == false){
+          arr[i] = data.p5.image;
+          flag5 = true;
+          continue;
+        }
+      }
+
+      setImage(arr);
+        /*const UserChatList = document.getElementById("UserChatList");
+        const elemet = document.createElement("div");
+        elemet.innerText= data;
+        UserChatList.appendChild(elemet);
+        UserChatList.scrollTop = UserChatList.scrollHeight;*/
+    });
+  },[]);
+
+  const userChatOnClick = () => {
+    socket.emit("Umessage", [props.code,props.nickname+" : "+chat_U]);
+    setChatU("");
+  };
+
+  const onChangeD = (event) => {
+    const value = event.target.value;
+    setChatD(value);
+  };
+  const onChangeU = (event) => {
+    const value = event.target.value;
+    setChatU(value);
+  };
 
   return (
     <Wrapper>
@@ -158,7 +244,7 @@ function Director(props) {
         <Text>디렉터 채팅</Text>
         <hr />
         <ChatWrapper>
-          <DirectorChat value={chat} onChange={onChange} />
+          <DirectorChat value={chat_D} onChange={onChangeD} />
           <ChatOkBtn onClick={sendMessage_D}>보내기</ChatOkBtn>
           <hr />
         </ChatWrapper>
@@ -172,18 +258,37 @@ function Director(props) {
           <ImageInput onChange={inputOnChange} />
         </ImageInputWrap>
         <UserChatWrapper>
-          <UserChatList readonly defaultValue={chatList} />
-          <UserChat />
+
+          <UserChatList id="UserChatList">
+          </UserChatList>
+
+          <UserChat onChange={onChangeU} value={chat_U} />
           <UserChatSendButton onClick={userChatOnClick}>
             전송
           </UserChatSendButton>
         </UserChatWrapper>
       </ContentContainer>
       <PlayerContainer>
-        <Player></Player>
-        <Player></Player>
-        <Player></Player>
-        <Player></Player>
+        {images[0] ? (
+          <Player1 src={images[0]} alt="x" />
+        ) : (
+          <NotDrawing src={notDrawing} />
+        )}
+        {images[1] ? (
+          <Player2 src={images[1]} alt="x" />
+        ) : (
+          <NotDrawing src={notDrawing} />
+        )}
+        {images[2] ? (
+          <Player3 src={images[2]} alt="x" />
+        ) : (
+          <NotDrawing src={notDrawing} />
+        )}
+        {images[3] ? (
+          <Player4 src={images[3]} alt="x" />
+        ) : (
+          <NotDrawing src={notDrawing} />
+        )}
       </PlayerContainer>
     </Wrapper>
   );

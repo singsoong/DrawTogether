@@ -9,31 +9,36 @@ exports.createRoom = function(roomNumber){
             nickname :"",
             state : "wait",
             id : "",
-            director : true
+            director : true,
+            image : null
         }, 
         p2:{
             nickname :"",
             state : "wait",
             id : "",
-            director : false
+            director : false,
+            image : null
         }, 
         p3:{
             nickname :"",
             state : "wait",
             id : "",
-            director : false
+            director : false,
+            image : null
         },
         p4:{
             nickname :"",
             state : "wait",
             id : "",
-            director : false
+            director : false,
+            image : null
         },
         p5:{
             nickname :"",
             state : "wait",
             id : "",
-            director : false
+            director : false,
+            image : null
         }
     };
     
@@ -118,6 +123,25 @@ exports.StateChange = function(flag,roomNumber,nickname_p){
                 rooms[i].p4.state = flag;
             }else if(rooms[i].p5.nickname == nickname_p){
                 rooms[i].p5.state = flag;
+            }
+        }
+    }
+}
+
+
+exports.UpdateImg = function(img,roomNumber,nickname_p){
+    for(var i=0;i<roomCount;i++){
+        if(rooms[i].RoomNumber == roomNumber){
+            if(rooms[i].p1.nickname == nickname_p){
+                rooms[i].p1.image = img;
+            }else if(rooms[i].p2.nickname == nickname_p){
+                rooms[i].p2.image = img;
+            }else if(rooms[i].p3.nickname == nickname_p){
+                rooms[i].p3.image = img;
+            }else if(rooms[i].p4.nickname == nickname_p){
+                rooms[i].p4.image = img;
+            }else if(rooms[i].p5.nickname == nickname_p){
+                rooms[i].p5.image = img;
             }
         }
     }

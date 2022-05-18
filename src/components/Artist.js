@@ -51,15 +51,11 @@ const Player = styled.div`
   border: 3px solid gray;
 `;
 
-const UserChatList = styled.input.attrs({
-  type: "text",
-})`
+const UserChatList = styled.div`
   width: 30vw;
   height: 15vh;
-  cursor: default;
-  &:focus {
-    outline: none;
-  }
+  background: white;
+  overflow:auto;
 `;
 
 const UserChat = styled.input.attrs({
@@ -76,24 +72,46 @@ const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
+
+
 const UserChatSendButton = styled.button``;
 function Artist(props) {
+
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
-  const [chatList, setChatList] = useState("test1 : hello");
   const [pen, setPen] = useState(true);
   const [re, setRe] = useState(0);
+  const [chat, setChat] = useState("");
+
 
   useEffect(() => {
     socket.on("Dmessage", function (data) {
       console.log("Dmessage : " + data);
       document.getElementById("D_chat").innerText = data;
     });
-  });
+
+    /*socket.on("Umessage", function (data) {
+      console.log("Umessage : " + data);
+
+      if(props.director == false){
+        const UserChatList = document.getElementById("UserChatList");
+        const elemet = document.createElement("div");
+        elemet.innerText= data;
+        UserChatList.appendChild(elemet);
+        UserChatList.scrollTop = UserChatList.scrollHeight;
+      }
+    });*/
+  },[]);
 
   const userChatOnClick = () => {
-    console.log("userchat");
+    socket.emit("Umessage", [props.code,props.nickname+" : "+chat]);
+    setChat("");
+  };
+
+  const onChange = (event) => {
+    const value = event.target.value;
+    setChat(value);
   };
 
   return (
@@ -109,12 +127,15 @@ function Artist(props) {
       </PaletteContainer>
       <ContentContainer>
         <Text>디렉터</Text>
-        <DirectorText id="D_chat">나무가 많고 사람 3명이 서 있다.</DirectorText>
-        <Canvas color={color} stroke={value} init={init} pen={pen} re={re} />
+        <DirectorText id="D_chat">디렉터가 그림을 선택중입니다.</DirectorText>
+        <Canvas color={color} stroke={value} init={init} pen={pen} re={re} code={props.code} nickname={props.nickname} />
         <hr />
         <UserChatWrapper>
-          <UserChatList readonly defaultValue={chatList} />
-          <UserChat />
+
+          <UserChatList id="UserChatList">
+          </UserChatList>
+
+          <UserChat onChange={onChange} value={chat} />
           <UserChatSendButton onClick={userChatOnClick}>
             전송
           </UserChatSendButton>

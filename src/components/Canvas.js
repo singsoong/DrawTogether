@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { socket } from "../etc/Socket";
 
 const Wrapper = styled.div`
   background-color: gray;
@@ -10,7 +11,7 @@ const CavnasWrapper = styled.div`
   border: 1px solid black;
 `;
 
-function Canvas({ color, stroke, init, pen, re }) {
+function Canvas({ color, stroke, init, pen, re, image ,code ,nickname }) {
   const canvasRef = useRef(null);
   const [cvs, setCvs] = useState(null);
   const [ctx, setCtx] = useState(null);
@@ -19,6 +20,7 @@ function Canvas({ color, stroke, init, pen, re }) {
   const [ret, setRet] = useState(0);
   const [storeArr, setStoreArr] = useState([]);
   const [index, setIndex] = useState(-1);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -42,24 +44,31 @@ function Canvas({ color, stroke, init, pen, re }) {
       canvas.height = window.innerHeight * 0.5;
       setCvs(canvas);
     } else {
-      if(storeArr.length != 0){
-        ctx.putImageData(storeArr[storeArr.length-1], 0, 0);
+      if (storeArr.length != 0) {
+        ctx.putImageData(storeArr[storeArr.length - 1], 0, 0);
       }
       storeArr.pop();
     }
-  },[re]);
+  }, [re]);
 
-  
   const startDrawing = () => {
     ctx.strokeStyle = color;
     ctx.lineWidth = stroke;
     setIsDrawing(true);
     storeArr.push(ctx.getImageData(0, 0, cvs.width, cvs.height));
+
     setIndex(index + 1);
   };
 
   const finishDrawing = () => {
     setIsDrawing(false);
+    if (storeArr.length != 0) {
+      const img = cvs.toDataURL("image/png");
+      //setImageUrl(img);
+      //image(img);
+
+      socket.emit("image", [code,nickname,img]);
+    }
   };
 
   const drawing = ({ nativeEvent }) => {
