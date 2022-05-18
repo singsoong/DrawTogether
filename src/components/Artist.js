@@ -1,8 +1,8 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Canvas from "./Canvas";
 import Palette from "./Palette";
-import {socket} from "../etc/Socket";
+import { socket } from "../etc/Socket";
 
 const Wrapper = styled.div`
   display: flex;
@@ -68,12 +68,15 @@ const UserChat = styled.input.attrs({
   margin-top: 30px;
   width: 30vw;
   height: 3vh;
+  margin-right: 20px;
+  margin-left: 60px;
 `;
 
 const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
+const UserChatSendButton = styled.button``;
 function Artist(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
@@ -83,12 +86,15 @@ function Artist(props) {
   const [re, setRe] = useState(0);
 
   useEffect(() => {
-    socket.on("Dmessage",function (data) {
+    socket.on("Dmessage", function (data) {
       console.log("Dmessage : " + data);
       document.getElementById("D_chat").innerText = data;
     });
-  
   });
+
+  const userChatOnClick = () => {
+    console.log("userchat");
+  };
 
   return (
     <Wrapper>
@@ -109,6 +115,9 @@ function Artist(props) {
         <UserChatWrapper>
           <UserChatList readonly defaultValue={chatList} />
           <UserChat />
+          <UserChatSendButton onClick={userChatOnClick}>
+            전송
+          </UserChatSendButton>
         </UserChatWrapper>
       </ContentContainer>
       <PlayerContainer>

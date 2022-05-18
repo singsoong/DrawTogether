@@ -4,7 +4,7 @@ import Director from "../components/Director";
 import { socket } from "../etc/Socket";
 
 const Game = (props) => {
-  const [director, setDirector] = useState(false);
+  const [director, setDirector] = useState(true);
   const [nickname, setNickname] = useState("");
   const [code, setCode] = useState("");
 
@@ -34,8 +34,7 @@ const Game = (props) => {
         setDirector(false);
       }
     }
-  }
-
+  };
 
   useEffect(() => {
     setNickname(props.nickname);
@@ -43,15 +42,22 @@ const Game = (props) => {
 
     console.log(socket);
 
-    socket.emit("gameStart",[code, nickname]);
+    socket.emit("gameStart", [code, nickname]);
 
-    socket.on("gameStart",function (data) {
+    socket.on("gameStart", function (data) {
       SettingDirector(data);
     });
-
   }, [code, nickname]);
 
-  return <>{director ? <Director nickname={props.nickname} code={props.code}></Director> : <Artist nickname={props.nickname} code={props.code}></Artist>}</>;
+  return (
+    <>
+      {director ? (
+        <Director nickname={props.nickname} code={props.code}></Director>
+      ) : (
+        <Artist nickname={props.nickname} code={props.code}></Artist>
+      )}
+    </>
+  );
 };
 
 export default Game;

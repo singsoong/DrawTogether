@@ -1,7 +1,7 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Palette from "./Palette";
-import {socket} from "../etc/Socket";
+import { socket } from "../etc/Socket";
 import inputBtnImage from "../assets/images/inputmenubtn.png";
 
 const Wrapper = styled.div`
@@ -110,6 +110,8 @@ const UserChat = styled.input.attrs({
 })`
   margin-top: 30px;
   width: 30vw;
+  margin-right: 20px;
+  margin-left: 60px;
   height: 3vh;
 `;
 
@@ -117,6 +119,7 @@ const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
+const UserChatSendButton = styled.button``;
 function Director(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
@@ -129,18 +132,20 @@ function Director(props) {
     const val = event.target.value;
     setChat(val);
   };
+  const userChatOnClick = () => {
+    console.log("userchat");
+  };
 
   const inputOnChange = (event) => {
     const nowSelectImageList = event.target.files;
     const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
     setMyImage(nowImageUrl);
   };
-  const sendMessage_D = ()=>{
-    socket.emit("Dmessage",[props.code ,chat]);
-  }
+  const sendMessage_D = () => {
+    socket.emit("Dmessage", [props.code, chat]);
+  };
 
-  useEffect(() => {
-  });
+  useEffect(() => {});
 
   return (
     <Wrapper>
@@ -154,7 +159,7 @@ function Director(props) {
         <hr />
         <ChatWrapper>
           <DirectorChat value={chat} onChange={onChange} />
-          <ChatOkBtn onClick = {sendMessage_D}>보내기</ChatOkBtn>
+          <ChatOkBtn onClick={sendMessage_D}>보내기</ChatOkBtn>
           <hr />
         </ChatWrapper>
         <ImageInputWrap>
@@ -169,6 +174,9 @@ function Director(props) {
         <UserChatWrapper>
           <UserChatList readonly defaultValue={chatList} />
           <UserChat />
+          <UserChatSendButton onClick={userChatOnClick}>
+            전송
+          </UserChatSendButton>
         </UserChatWrapper>
       </ContentContainer>
       <PlayerContainer>
