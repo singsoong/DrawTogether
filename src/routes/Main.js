@@ -53,7 +53,7 @@ const Main = (props) => {
 
   const roomOnClick = () => {
     axios
-      .get("http://localhost:3001/createRoom", {
+      .get(window.location.protocol+"//"+window.location.hostname+":"+"3001/createRoom", {
         params: {
           nickname: name,
         },
@@ -76,7 +76,7 @@ const Main = (props) => {
     code = parseInt(Ec.value);
     props.setCode(code);
     axios
-      .get("http://localhost:3001/enter", {
+      .get(window.location.protocol+"//"+window.location.hostname+":"+"3001/enter", {
         params: {
           nickname: name,
           entercode: code,

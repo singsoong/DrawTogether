@@ -161,13 +161,35 @@ function Director(props) {
   const [image3, setImage3] = useState(0);
   const [image4, setImage4] = useState(0);
 
+  const [canEdit,setcanEdit] = useState(false);
+
+  const [count,setCount] = useState(1);
+
   const inputOnChange = (event) => {
     const nowSelectImageList = event.target.files;
     const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
     setMyImage(nowImageUrl);
   };
   const sendMessage_D = () => {
-    socket.emit("Dmessage", [props.code, chat_D]);
+
+    if(count <= 3){
+      socket.emit("Dmessage", [props.code, "힌트"+ count+":"+chat_D,0]);// 3번쨰 인자 : 0 디렉터 힌트 , 1 시스템 메세지
+      setChatD(new String(""));
+      setCount(new Number(count+1));
+    }
+
+    let temp = new Boolean();
+
+    if(count >= 3){
+      temp = true;
+      setcanEdit(temp);
+      setChatD(new String("더 이상 힌트를 입력할 수 없습니다."));
+      //canEdit = true;
+    }else{
+      temp = false;
+      setcanEdit(temp);
+      //canEdit = false;
+    }
   };
 
   useEffect(() => {
@@ -211,11 +233,6 @@ function Director(props) {
       }
 
       setImage(arr);
-        /*const UserChatList = document.getElementById("UserChatList");
-        const elemet = document.createElement("div");
-        elemet.innerText= data;
-        UserChatList.appendChild(elemet);
-        UserChatList.scrollTop = UserChatList.scrollHeight;*/
     });
   },[]);
 
@@ -244,7 +261,7 @@ function Director(props) {
         <Text>디렉터 채팅</Text>
         <hr />
         <ChatWrapper>
-          <DirectorChat value={chat_D} onChange={onChangeD} />
+          <DirectorChat value={chat_D} onChange={onChangeD} disabled={canEdit}/>
           <ChatOkBtn onClick={sendMessage_D}>보내기</ChatOkBtn>
           <hr />
         </ChatWrapper>

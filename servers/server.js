@@ -56,7 +56,7 @@ io.on('connect',function(socket){
     socket.on('Dmessage',function(data){
         console.log(data);
 
-        io.to(data[0]).emit('Dmessage', data[1]);
+        io.to(data[0]).emit('Dmessage', [data[1],data[2]]);
     });
 
     socket.on('Umessage',function(data){

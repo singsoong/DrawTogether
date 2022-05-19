@@ -88,7 +88,20 @@ function Artist(props) {
   useEffect(() => {
     socket.on("Dmessage", function (data) {
       console.log("Dmessage : " + data);
-      document.getElementById("D_chat").innerText = data;
+      if(data[1] == 0){ // 디렉터 힌트
+        if(data[0].indexOf("힌트1")!= -1){
+          console.log("힌트1 이 들어옴.");
+          document.getElementById("D_chat").innerText = data[0];
+        }else if(data[0].indexOf("힌트2") != -1){
+          console.log("힌트2 이 들어옴.");
+          document.getElementById("D_chat").innerText = document.getElementById("D_chat").innerText+"\n"+data[0];
+        }else if(data[0].indexOf("힌트3") != -1){
+          console.log("힌트3 이 들어옴.");
+          document.getElementById("D_chat").innerText = document.getElementById("D_chat").innerText+"\n"+data[0];
+        }
+      }else if(data[1] == 1){ // 시스템 메세지
+        document.getElementById("D_chat").innerText = data[0];
+      }
     });
 
     /*socket.on("Umessage", function (data) {
