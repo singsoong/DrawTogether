@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Game from "./routes/Game";
 import Main from "./routes/Main";
 import Waiting from "./routes/Waiting";
+import End from "./routes/End";
 
 function Router() {
   const [nickname, setNickname] = useState("");
@@ -22,6 +23,9 @@ function Router() {
       </Route>
       <Route path="/game">
         <Game nickname={nickname} code={code}/>
+      </Route>
+      <Route path="/end">
+        <End/>
       </Route>
     </BrowserRouter>
   );
