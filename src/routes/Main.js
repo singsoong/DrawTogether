@@ -6,8 +6,13 @@ import SettingBtn from "../components/SettingBtn";
 import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
-  background-color: #718093;
   max-width: 100vw;
+  width : 100vw;
+  height : 100vh;
+  background-image: url("../design/main/main_background.png");
+  background-size : cover;
+  display : flex;
+  flex-direction : column;
 `;
 const Top = styled.div`
   height: 10vh;
@@ -15,23 +20,52 @@ const Top = styled.div`
 const Header = styled.div`
   text-align: center;
   height: 30vh;
+  display : flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.h1`
   font-size: 5rem;
+  width : 600px;
+  height : 150px;
+  text-align : center;
+  line-height: 150px;
+  background-color : white;
+  background-image: url("../design/main/title_Background.png");
 `;
 
 const Content = styled.div`
   text-align: center;
   height: 50vh;
+  display : flex;
+  align-items: center;
+  justify-content: center;
 `;
 
+const ContentsWrap =styled.div`
+  width : 600px;
+  height : 400px;
+  background-color: rgba( 255, 255, 255, 0.4 );
+  display : flex;
+  flex-direction : column;
+  align-items: center;
+  justify-content: space-around;
+`;
 const CreateRoomBtn = styled.button`
   display: block;
-  width: 20vw;
-  height: 5vh;
-  margin: 5vw auto;
+  width: 80%;
+  height: 70px;
   cursor: pointer;
+  margin : 0;
+  padding : 0;
+  border : 5px solid #e1e1e1;
+  border-radius: 10px;
+  font-size : 25px;
+  background-image: url("../design/main/btn_background.png");
+  &:hover{
+    border: 5px solid #f7968a;
+  }
 `;
 
 const EnterBtn = styled(CreateRoomBtn)``;
@@ -102,15 +136,12 @@ const Main = (props) => {
         <Title>같이 그릴까?</Title>
       </Header>
       <Content>
-        <NameInput value={name} onChange={onChange} />
-        <CreateRoomBtn onClick={roomOnClick}>방 만들기</CreateRoomBtn>
-        <EnterBtn onClick={openModal}>입장하기</EnterBtn>
-        <Modal
-          open={modalOpen}
-          close={closeModal}
-          header="입장 코드를 입력해주세요"
-          click={btnClick}
-        ></Modal>
+        <ContentsWrap>
+          <NameInput value={name} onChange={onChange} />
+          <CreateRoomBtn onClick={roomOnClick}>방 만들기</CreateRoomBtn>
+          <EnterBtn onClick={openModal}>입장하기</EnterBtn>
+          <Modal open={modalOpen} close={closeModal} header="입장 코드를 입력해주세요" click={btnClick} ></Modal>
+        </ContentsWrap>
       </Content>
     </Container>
   );
@@ -118,13 +149,19 @@ const Main = (props) => {
 
 const NameInput = styled.input.attrs((props) => ({
   type: "text",
-  size: props.size || "20vw",
+  size: props.size || "80%",
   maxLength: "10",
   placeholder: "닉네임을 입력해주세요",
 }))`
   width: ${(props) => props.size};
-  height: 20px;
+  font-size : 30px;
+  height: 50px;
   align-items: center;
+  text-align : center;
+  padding : 0;
+  border : none;
+  border : 5px solid #e1e1e1;
+  border-radius: 10px;
 `;
 
 export default Main;
