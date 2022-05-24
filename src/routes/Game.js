@@ -4,11 +4,11 @@ import Artist from "../components/Artist";
 import { socket } from "../etc/Socket";
 
 const Game = (props) => {
-  const [director, setDirector] = useState(true);
+  const [director, setDirector] = useState(false);
 
   const SettingDirector = (data) => {
-    if(data == null){
-      return ;
+    if (data == null) {
+      return;
     }
 
     if (data.p1.nickname != "") {
@@ -50,20 +50,28 @@ const Game = (props) => {
     socket.on("Umessage", function (data) {
       console.log("Umessage : " + data);
 
-        const UserChatList = document.getElementById("UserChatList");
-        const elemet = document.createElement("div");
-        elemet.innerText= data;
-        UserChatList.appendChild(elemet);
-        UserChatList.scrollTop = UserChatList.scrollHeight;
+      const UserChatList = document.getElementById("UserChatList");
+      const elemet = document.createElement("div");
+      elemet.innerText = data;
+      UserChatList.appendChild(elemet);
+      UserChatList.scrollTop = UserChatList.scrollHeight;
     });
   }, []);
 
   return (
     <>
       {director ? (
-        <Director nickname={props.nickname} code={props.code} director={director}></Director>
+        <Director
+          nickname={props.nickname}
+          code={props.code}
+          director={director}
+        ></Director>
       ) : (
-        <Artist nickname={props.nickname} code={props.code} director={director}></Artist>
+        <Artist
+          nickname={props.nickname}
+          code={props.code}
+          director={director}
+        ></Artist>
       )}
     </>
   );

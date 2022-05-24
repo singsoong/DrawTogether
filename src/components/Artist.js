@@ -36,8 +36,10 @@ const PlayerContainer = styled.div`
   justify-content: center;
 `;
 
-const Text = styled.h2`
+const Text = styled.span`
   text-align: center;
+  color: red;
+  font-size: 30px;
 `;
 
 const DirectorText = styled.div`
@@ -55,7 +57,7 @@ const UserChatList = styled.div`
   width: 30vw;
   height: 15vh;
   background: white;
-  overflow:auto;
+  overflow: auto;
 `;
 
 const UserChat = styled.input.attrs({
@@ -72,53 +74,66 @@ const UserChatWrapper = styled.div`
   text-align: center;
 `;
 
+const TimeText = styled.div`
+  float: right;
+  color: red;
+  font-size: 30px;
+`;
 
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const UserChatSendButton = styled.button``;
 function Artist(props) {
-
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
   const [init, setInit] = useState(0);
   const [pen, setPen] = useState(true);
   const [re, setRe] = useState(0);
   const [chat, setChat] = useState("");
-
+  const [time, setTime] = useState(60);
+  const [selectCheck, setSelectCheck] = useState(false);
 
   useEffect(() => {
     socket.on("Dmessage", function (data) {
       console.log("Dmessage : " + data);
-      if(data[1] == 0){ // 디렉터 힌트
-        if(data[0].indexOf("힌트1")!= -1){
+      if (data[1] == 0) {
+        // 디렉터 힌트
+        if (data[0].indexOf("힌트1") != -1) {
           console.log("힌트1 이 들어옴.");
           document.getElementById("D_chat").innerText = data[0];
-        }else if(data[0].indexOf("힌트2") != -1){
+        } else if (data[0].indexOf("힌트2") != -1) {
           console.log("힌트2 이 들어옴.");
-          document.getElementById("D_chat").innerText = document.getElementById("D_chat").innerText+"\n"+data[0];
-        }else if(data[0].indexOf("힌트3") != -1){
+          document.getElementById("D_chat").innerText =
+            document.getElementById("D_chat").innerText + "\n" + data[0];
+        } else if (data[0].indexOf("힌트3") != -1) {
           console.log("힌트3 이 들어옴.");
-          document.getElementById("D_chat").innerText = document.getElementById("D_chat").innerText+"\n"+data[0];
+          document.getElementById("D_chat").innerText =
+            document.getElementById("D_chat").innerText + "\n" + data[0];
         }
-      }else if(data[1] == 1){ // 시스템 메세지
+      } else if (data[1] == 1) {
+        // 시스템 메세지
         document.getElementById("D_chat").innerText = data[0];
       }
     });
 
-    /*socket.on("Umessage", function (data) {
-      console.log("Umessage : " + data);
+    socket.on("SelectComplete", function (data) {
+      console.log("SelectCheck: " + data);
+      setSelectCheck(data[1]);
 
-      if(props.director == false){
-        const UserChatList = document.getElementById("UserChatList");
-        const elemet = document.createElement("div");
-        elemet.innerText= data;
-        UserChatList.appendChild(elemet);
-        UserChatList.scrollTop = UserChatList.scrollHeight;
+      if (data[1] == true) {
+        setInterval(() => {
+          setTime((prevNumber) => prevNumber - 1);
+        }, 1000);
       }
-    });*/
-  },[]);
+    });
+  }, []);
 
   const userChatOnClick = () => {
-    socket.emit("Umessage", [props.code,props.nickname+" : "+chat]);
+    socket.emit("Umessage", [props.code, props.nickname + " : " + chat]);
     setChat("");
   };
 
@@ -139,14 +154,22 @@ function Artist(props) {
         />
       </PaletteContainer>
       <ContentContainer>
-        <Text>디렉터</Text>
+        <TopContainer>
+          <Text>{time}</Text>
+        </TopContainer>
         <DirectorText id="D_chat">디렉터가 그림을 선택중입니다.</DirectorText>
-        <Canvas color={color} stroke={value} init={init} pen={pen} re={re} code={props.code} nickname={props.nickname} />
+        <Canvas
+          color={color}
+          stroke={value}
+          init={init}
+          pen={pen}
+          re={re}
+          code={props.code}
+          nickname={props.nickname}
+        />
         <hr />
         <UserChatWrapper>
-
-          <UserChatList id="UserChatList">
-          </UserChatList>
+          <UserChatList id="UserChatList"></UserChatList>
 
           <UserChat onChange={onChange} value={chat} />
           <UserChatSendButton onClick={userChatOnClick}>

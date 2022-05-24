@@ -4,6 +4,13 @@ import Palette from "./Palette";
 import { socket } from "../etc/Socket";
 import inputBtnImage from "../assets/images/inputmenubtn.png";
 import notDrawing from "../assets/images/notDrawing.png";
+import sample1 from "../assets/images/sample1.jpg";
+import sample2 from "../assets/images/sample2.jpg";
+import sample3 from "../assets/images/sample3.jpg";
+import sample4 from "../assets/images/sample4.jpg";
+import sample5 from "../assets/images/sample5.jpg";
+import sample6 from "../assets/images/sample6.jpg";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,8 +57,9 @@ const PlayerContainer = styled.div`
   justify-content: center;
 `;
 
-const Text = styled.h2`
-  text-align: center;
+const Text = styled.span`
+  font-size: 30px;
+  margin-left: 300px;
 `;
 
 const ChatWrapper = styled.div`
@@ -99,7 +107,7 @@ const UserChatList = styled.div`
   width: 30vw;
   height: 15vh;
   background: white;
-  overflow:auto;
+  overflow: auto;
 `;
 
 const UserChat = styled.input.attrs({
@@ -147,7 +155,26 @@ const NotDrawing = styled.img`
   border: 3px solid gray;
 `;
 
+const DefaultImageBtn = styled.button``;
+
 const UserChatSendButton = styled.button``;
+
+const SelectCompleteBtn = styled.button`
+  margin-left: 30px;
+  background-color: aqua;
+`;
+
+const TimeText = styled.div`
+  float: right;
+  color: red;
+  font-size: 30px;
+`;
+
+const TopContainer = styled.div`
+  padding-top: 15px;
+  padding-right: 20px;
+`;
+
 function Director(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
@@ -155,37 +182,37 @@ function Director(props) {
   const [chat_D, setChatD] = useState("");
   const [chat_U, setChatU] = useState("");
   const [myImage, setMyImage] = useState(inputBtnImage);
-  const [images,setImage] = useState([0,0,0,0]);
-  const [image1, setImage1] = useState(0);
-  const [image2, setImage2] = useState(0);
-  const [image3, setImage3] = useState(0);
-  const [image4, setImage4] = useState(0);
+  const [images, setImage] = useState([0, 0, 0, 0]);
+  const [canEdit, setcanEdit] = useState(false);
+  const [count, setCount] = useState(1);
+  const [time, setTime] = useState(60);
+  const [selectCheck, setSelectCheck] = useState(false);
+  const history = useHistory();
 
-  const [canEdit,setcanEdit] = useState(false);
-
-  const [count,setCount] = useState(1);
+  const sampleImage = [sample1, sample2, sample3, sample4, sample5, sample6];
 
   const inputOnChange = (event) => {
-    const nowSelectImageList = event.target.files;
-    const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
-    setMyImage(nowImageUrl);
+    if (!selectCheck) {
+      const nowSelectImageList = event.target.files;
+      const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
+      setMyImage(nowImageUrl);
+    }
   };
   const sendMessage_D = () => {
-
-    if(count <= 3){
-      socket.emit("Dmessage", [props.code, "힌트"+ count+":"+chat_D,0]);// 3번쨰 인자 : 0 디렉터 힌트 , 1 시스템 메세지
+    if (count <= 3) {
+      socket.emit("Dmessage", [props.code, "힌트" + count + ":" + chat_D, 0]); // 3번쨰 인자 : 0 디렉터 힌트 , 1 시스템 메세지
       setChatD(new String(""));
-      setCount(new Number(count+1));
+      setCount(new Number(count + 1));
     }
 
     let temp = new Boolean();
 
-    if(count >= 3){
+    if (count >= 3) {
       temp = true;
       setcanEdit(temp);
       setChatD(new String("더 이상 힌트를 입력할 수 없습니다."));
       //canEdit = true;
-    }else{
+    } else {
       temp = false;
       setcanEdit(temp);
       //canEdit = false;
@@ -197,35 +224,35 @@ function Director(props) {
       console.log(data);
 
       let arr = new Array(images);
-      
+
       let flag1 = false;
       let flag2 = false;
       let flag3 = false;
       let flag4 = false;
       let flag5 = false;
 
-      for(let i =0;i<4;i++){
-        if(data.p1.director != true &&flag1 == false){
+      for (let i = 0; i < 4; i++) {
+        if (data.p1.director != true && flag1 == false) {
           arr[i] = data.p1.image;
           flag1 = true;
           continue;
         }
-        if(data.p2.director != true&&flag2 == false){
+        if (data.p2.director != true && flag2 == false) {
           arr[i] = data.p2.image;
           flag2 = true;
           continue;
         }
-        if(data.p3.director != true&&flag3 == false){
+        if (data.p3.director != true && flag3 == false) {
           arr[i] = data.p3.image;
           flag3 = true;
           continue;
         }
-        if(data.p4.director != true&&flag4 == false){
+        if (data.p4.director != true && flag4 == false) {
           arr[i] = data.p4.image;
           flag4 = true;
           continue;
         }
-        if(data.p5.director != true&&flag5 == false){
+        if (data.p5.director != true && flag5 == false) {
           arr[i] = data.p5.image;
           flag5 = true;
           continue;
@@ -234,10 +261,24 @@ function Director(props) {
 
       setImage(arr);
     });
-  },[]);
+  }, []);
+
+  useEffect(() => {
+    if (selectCheck) {
+      setInterval(() => {
+        setTime((prevNumber) => prevNumber - 1);
+      }, 1000);
+    }
+  }, [selectCheck]);
+
+  useEffect(() => {
+    if (time == 0) {
+      history.push("/end");
+    }
+  }, [time]);
 
   const userChatOnClick = () => {
-    socket.emit("Umessage", [props.code,props.nickname+" : "+chat_U]);
+    socket.emit("Umessage", [props.code, props.nickname + " : " + chat_U]);
     setChatU("");
   };
 
@@ -250,6 +291,18 @@ function Director(props) {
     setChatU(value);
   };
 
+  const defaultImageOnClick = () => {
+    if (!selectCheck) {
+      let random = Math.floor(Math.random() * sampleImage.length);
+      setMyImage(sampleImage[random]);
+    }
+  };
+
+  const selctOnClick = () => {
+    setSelectCheck(true);
+    socket.emit("SelectComplete", [props.code, true]);
+  };
+
   return (
     <Wrapper>
       <PaletteContainer>
@@ -258,10 +311,18 @@ function Director(props) {
         </BlackContainer>
       </PaletteContainer>
       <ContentContainer>
-        <Text>디렉터 채팅</Text>
+        <TopContainer>
+          <Text>디렉터 채팅</Text>
+          <TimeText>{time}</TimeText>
+        </TopContainer>
+
         <hr />
         <ChatWrapper>
-          <DirectorChat value={chat_D} onChange={onChangeD} disabled={canEdit}/>
+          <DirectorChat
+            value={chat_D}
+            onChange={onChangeD}
+            disabled={canEdit}
+          />
           <ChatOkBtn onClick={sendMessage_D}>보내기</ChatOkBtn>
           <hr />
         </ChatWrapper>
@@ -270,14 +331,18 @@ function Director(props) {
             <BackgroundImage>
               <img src={myImage} alt="myImage" width="500" height="300" />
             </BackgroundImage>
+            <DefaultImageBtn onClick={defaultImageOnClick}>
+              기본 이미지로 선택하기
+            </DefaultImageBtn>
+            <SelectCompleteBtn onClick={selctOnClick}>
+              사진 선택완료
+            </SelectCompleteBtn>
             <hr />
           </label>
           <ImageInput onChange={inputOnChange} />
         </ImageInputWrap>
         <UserChatWrapper>
-
-          <UserChatList id="UserChatList">
-          </UserChatList>
+          <UserChatList id="UserChatList"></UserChatList>
 
           <UserChat onChange={onChangeU} value={chat_U} />
           <UserChatSendButton onClick={userChatOnClick}>
