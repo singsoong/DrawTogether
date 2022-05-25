@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import imagee from "./../assets/images/inputmenubtn.png";
 import { useHistory } from "react-router-dom";
-
+import useSound from './BgmSounds';
+import effectSound from './BgmEffect';
+import BGM from './Audio/bgm1.mp3'
 
 const BacktoMainBtn = styled.button`
   display: block;
@@ -53,7 +55,7 @@ const End = () => {
   } 
   const GalleryonClick = () => {
   }   
-
+  useSound(BGM, 1, 5000);//bgm 재생
     return (
         <contain>
             <Header>
