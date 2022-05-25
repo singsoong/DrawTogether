@@ -267,13 +267,15 @@ function Director(props) {
     if (selectCheck) {
       setInterval(() => {
         setTime((prevNumber) => prevNumber - 1);
+        socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
       }, 1000);
     }
   }, [selectCheck]);
 
   useEffect(() => {
     if (time == 0) {
-      history.push("/end");
+      // 투표 진행
+      //history.push("/end");
     }
   }, [time]);
 
@@ -300,7 +302,7 @@ function Director(props) {
 
   const selctOnClick = () => {
     setSelectCheck(true);
-    socket.emit("SelectComplete", [props.code, true]);
+    document.getElementById("select_img").setAttribute("for","");
   };
 
   return (
@@ -313,7 +315,7 @@ function Director(props) {
       <ContentContainer>
         <TopContainer>
           <Text>디렉터 채팅</Text>
-          <TimeText>{time}</TimeText>
+          <TimeText id="gametimer">{time}</TimeText>
         </TopContainer>
 
         <hr />
@@ -327,7 +329,7 @@ function Director(props) {
           <hr />
         </ChatWrapper>
         <ImageInputWrap>
-          <label htmlFor="ex_file">
+          <label id ="select_img" htmlFor= "ex_file" >
             <BackgroundImage>
               <img src={myImage} alt="myImage" width="500" height="300" />
             </BackgroundImage>

@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import Director from "../components/Director";
 import Artist from "../components/Artist";
 import { socket } from "../etc/Socket";
-import useSound from './BgmSounds';
-import effectSound from './BgmEffect';
-import BGM from './Audio/bgm2.mp3'
 
 const Game = (props) => {
   const [director, setDirector] = useState(false);
@@ -60,7 +57,6 @@ const Game = (props) => {
       UserChatList.scrollTop = UserChatList.scrollHeight;
     });
   }, []);
-  useSound(BGM, 1, 10000);//bgm 재생
 
   return (
     <>

@@ -10,25 +10,24 @@ const Wrapper = styled.div`
 
 const PaletteContainer = styled.div`
   width: 20vw;
-  height: 97vh;
-  background-color: lightgray;
+  height: 100vh;
+  background-color: #fedac2;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
 `;
 
 const ContentContainer = styled.div`
   width: 50vw;
-  background-color: lightgray;
-  border: 1px solid black;
+  background-color: #fff1e4;
+  border-left : 1px solid #fcb198;
+  border-right : 1px solid #fcb198;
 `;
 
 const PlayerContainer = styled.div`
   padding-top: 5vh;
   width: 30vw;
-  background-color: lightgray;
-  border: 3px solid gray;
+  background-color: #feeecd;
   display: grid;
   grid-template-columns: 25vw;
   grid-template-rows: 20vh 20vh 20vh 20vh;
@@ -38,40 +37,59 @@ const PlayerContainer = styled.div`
 
 const Text = styled.span`
   text-align: center;
-  color: red;
+  color: black;
   font-size: 30px;
+  width : 100px;
 `;
 
 const DirectorText = styled.div`
-  border: 1px solid black;
+  height : 30px;
   padding: 10px;
   text-align: center;
+  line-height: 30px;
 `;
 
 const Player = styled.div`
   background-color: white;
   border: 3px solid gray;
+  border-radius: 10px;
 `;
 
 const UserChatList = styled.div`
-  width: 30vw;
+  width: 40vw;
   height: 15vh;
   background: white;
   overflow: auto;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  margin-top 20px;
+  text-align : left;
+  padding-top:20px;
+  padding-left:20px;
 `;
 
 const UserChat = styled.input.attrs({
   type: "text",
 })`
   margin-top: 30px;
-  width: 30vw;
-  height: 3vh;
-  margin-right: 20px;
-  margin-left: 60px;
+  width: 35vw;
+  height: 20px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+`;
+
+const ChatWrap = styled.div`
+  width: 40.5vw;
+  display: flex;
+  justify-content:space-between;
 `;
 
 const UserChatWrapper = styled.div`
   text-align: center;
+  display : flex;
+  flex-direction : column;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const TimeText = styled.div`
@@ -84,9 +102,24 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height : 50px;
 `;
 
-const UserChatSendButton = styled.button``;
+const UserChatSendButton = styled.button`
+  margin-top: 30px;
+  width: 4vw;
+  height: 32px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  &:hover{
+    background-color: #fcb198;
+  }
+`;
+
+const Line = styled.hr`
+  border: 1px solid #fcb198;
+  margin : 0;
+`;
 function Artist(props) {
   const [color, setColor] = useState("black");
   const [value, setValue] = useState(2.5);
@@ -120,7 +153,7 @@ function Artist(props) {
       }
     });
 
-    socket.on("SelectComplete", function (data) {
+    /*socket.on("SelectComplete", function (data) {
       console.log("SelectCheck: " + data);
       setSelectCheck(data[1]);
 
@@ -129,7 +162,20 @@ function Artist(props) {
           setTime((prevNumber) => prevNumber - 1);
         }, 1000);
       }
+    });*/
+
+    socket.on("gametime",function(data) {
+      console.log(data);
+
+      if(document.getElementById("gameTimer") != null){
+        document.getElementById("gameTimer").innerText = data;
+
+        if( data == "0"){
+          // 투표 진행
+        }
+      }
     });
+
   }, []);
 
   const userChatOnClick = () => {
@@ -155,9 +201,11 @@ function Artist(props) {
       </PaletteContainer>
       <ContentContainer>
         <TopContainer>
-          <Text>{time}</Text>
+          <Text id="gameTimer">{time}</Text>
         </TopContainer>
+        <Line />
         <DirectorText id="D_chat">디렉터가 그림을 선택중입니다.</DirectorText>
+        <Line />
         <Canvas
           color={color}
           stroke={value}
@@ -167,14 +215,15 @@ function Artist(props) {
           code={props.code}
           nickname={props.nickname}
         />
-        <hr />
+        <Line />
         <UserChatWrapper>
           <UserChatList id="UserChatList"></UserChatList>
-
-          <UserChat onChange={onChange} value={chat} />
-          <UserChatSendButton onClick={userChatOnClick}>
-            전송
-          </UserChatSendButton>
+          <ChatWrap>
+            <UserChat onChange={onChange} value={chat} />
+            <UserChatSendButton onClick={userChatOnClick}>
+              전송
+            </UserChatSendButton>
+          </ChatWrap>
         </UserChatWrapper>
       </ContentContainer>
       <PlayerContainer>

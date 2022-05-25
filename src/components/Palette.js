@@ -3,8 +3,10 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 15vw;
-  border: 1px solid black;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
   text-align: center;
+  background-color : #fff9eb;
 `;
 
 const GridContainer = styled.div`
@@ -19,42 +21,67 @@ const GridContainer = styled.div`
 const ColorItem = styled.div`
   background-color: ${(props) => props.color || "black"};
   cursor: pointer;
-  border: 1px solid black;
-`;
-
-const EraseAllBtn = styled.button`
-  margin-bottom: 20px;
-  background-color: white;
-  cursor: pointer;
-  margin-top: 20px;
+  border: 1px solid #fcb198;
+  border-radius: 10px;
 `;
 
 const SelectColor = styled.div`
   background-color: ${(props) => props.color || "black"};
-  border: 1px solid white;
+  border: 1px solid #fcb198;
   width: 40px;
   height: 40px;
   margin: 0 auto;
-  margin-top: 5px;
+  margin-top: 8px;
+  margin-bottom : 8px;
+  border-radius: 10px;
 `;
 
-const ToolWrapper = styled.div``;
+const ToolWrapper = styled.div`
+  height : 60px;
+  display : flex;
+  align-items: center;
+  justify-content: space-around;
+`;
 
-const Line = styled.hr``;
+const Line = styled.hr`
+  border: 1px solid #fcb198;
+  margin : 0;
+`;
 
-const RangeBar = styled.input``;
+const RangeBar = styled.input`
+  width : 40%;
+`;
+
+const EraseAllBtn = styled.button`
+  background-color: white;
+  cursor: pointer;
+  width  : 40%;
+  height : 40px;
+  border: 1px solid #fcb198;
+  border-radius: 10px;
+  &:hover{
+    background-color: #fcb198;
+  }
+`;
 
 const ReturnBtn = styled.button`
   background-color: white;
   display: block;
   text-align: center;
+  width  : 40%;
+  height : 40px;
+  border: 1px solid #fcb198;
+  border-radius: 10px;
+  &:hover{
+    background-color: #fcb198;
+  }
 `;
 
 const BtnContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
+  height : 80px;
 `;
 
 const Palette = (props) => {
@@ -65,13 +92,20 @@ const Palette = (props) => {
   const [ret, setRet] = useState(0);
 
   const PenBtn = styled.button`
-    margin-right: 20px;
-    background-color: ${pen ? "skyblue" : "white"};
+    background-color: ${pen ? "#fcb198" : "white"};
+    border: 1px solid #fcb198;
+    border-radius: 10px;
+    width : 25%;
+    height : 30px;
   `;
 
   const EraserBtn = styled.button`
-    margin-bottom: 10px;
-    background-color: ${pen ? "white" : "skyblue"};
+    background-color: ${pen ? "white" : "#fcb198"};
+    border: 1px solid #fcb198;
+    border-radius: 10px;
+    width : 25%;
+    height : 30px;
+    overflow : hidden;
   `;
 
   const btnClick = (event) => {
@@ -144,7 +178,7 @@ const Palette = (props) => {
       <Line />
       <ToolWrapper>
         <PenBtn onClick={penOnClick} select={pen}>
-          펜
+          팬
         </PenBtn>
         <EraserBtn onClick={eraserOnClick} select={pen}>
           지우개

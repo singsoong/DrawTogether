@@ -8,7 +8,6 @@ const Wrapper = styled.div`
 
 const CavnasWrapper = styled.div`
   background-color: white;
-  border: 1px solid black;
 `;
 
 function Canvas({ color, stroke, init, pen, re, image ,code ,nickname }) {

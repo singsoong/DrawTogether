@@ -76,6 +76,12 @@ io.on('connect',function(socket){
         io.to(data[0]).emit('image', roomdata);
         //socket.emit('image', data);
     });
+
+    socket.on('gametime',function(data){
+        console.log(data);
+
+        io.to(data[0]).emit('gametime', data[1]);
+    });
 });
 
 io.listen(3002);

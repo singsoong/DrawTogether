@@ -4,9 +4,6 @@ import Modal from "../components/Modal";
 import axios from "axios";
 import SettingBtn from "../components/SettingBtn";
 import { useHistory } from "react-router-dom";
-import useSound from './BgmSounds';
-import effectSound from './BgmEffect';
-import BGM from './Audio/bgm1.mp3'
 
 const Container = styled.div`
   max-width: 100vw;
@@ -129,7 +126,6 @@ const Main = (props) => {
         }
       });
   };
- useSound(BGM, 1, 5000);//bgm 재생
 
   return (
     <Container>

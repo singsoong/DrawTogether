@@ -4,12 +4,17 @@ import axios from "axios";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
-import useSound from './BgmSounds';
-import effectSound from './BgmEffect';
-import BGM from './Audio/bgm1.mp3'
 
 const Container = styled.div`
-  padding-left: 10vw;
+  margin : 0;
+  padding : 0;
+  width : 100vw;
+  height : 100vh;
+  display : flex;
+  flex-direction : column;
+  align-items: center;
+  background-image: url("../design/waiting/waiting_background.png");
+  background-size : cover;
 `;
 
 const Header = styled.div`
@@ -17,42 +22,77 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  padding-left: 10vw;
-  height: 20vh;
+  box-sizing: border-box;  
+  width : 100%;
+  height: 200px;
+  padding :15px;
+  border : 10px solid #f8a28b;
+  display : flex;
+  align-items: center;
+  background-color: #fff5e9;
+  justify-content: center;
+`; 
+
+const Wrap= styled.div`
+  box-sizing: border-box;  
+  width : 100%;
+  height: 100%;
+  border : 20px solid #ffd6c4;
+  display : flex;
+  align-items: center;
+  background-color: #fff5e9;
+  text-align : center;
 `;
 
 const Title = styled.h1`
-  display: inline;
+  font-size: 30px;
+  width : 200px;
+  height : 50px;
+  text-align : center;
+  margin-left : 300px;
 `;
 
 const CodeText = styled.h4`
-  margin-left: 10vw;
-  display: inline;
+  font-size : 30px;
+  width : 300px;
+  height : 50px;
+  margin-left : 100px;
 `;
 
 const PlayerContainer = styled.div`
-  display: grid;
-  grid-template-columns: 25vw 25vw 25vw;
-  grid-template-rows: 25vh 25vh;
-  grid-gap: 3vw;
+  width : 80%;
+  height : 600px;
   text-align: center;
+  display : flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const Player = styled.div`
-  padding-left: 3vw;
-  padding-right: 3vw;
-  padding-top: 3vh;
-  border: 1px solid #718093;
+  border : 5px solid #f7968a;
+  border-radius: 10px;
   background-color: ${(props) => props.color};
+  width : 400px;
+  height : 30%;
+  display : flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const StartBtn = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: block;
-  padding: 10px 60px;
-  border: 1px solid #718093;
+  border : 5px solid #f7968a;
+  border-radius: 10px;
   cursor: pointer;
+  width : 300px;
+  height : 50px;
+  text-align : center;
+  line-height: 50px;
+  color : black;
+  &:hover{
+    background-color : #ffeacd;
+  }
 `;
 
 const Timer = styled.div`
@@ -133,11 +173,11 @@ const Waiting = (props) => {
     setp4state(data.p4.state);
     setp5state(data.p5.state);
 
-    data.p1.state === "ready" ? setColor1("yellow") : setColor1("white");
-    data.p2.state === "ready" ? setColor2("yellow") : setColor2("white");
-    data.p3.state === "ready" ? setColor3("yellow") : setColor3("white");
-    data.p4.state === "ready" ? setColor4("yellow") : setColor4("white");
-    data.p5.state === "ready" ? setColor5("yellow") : setColor5("white");
+    data.p1.state === "ready" ? setColor1("#ffe9e1") : setColor1("white");
+    data.p2.state === "ready" ? setColor2("#ffe9e1") : setColor2("white");
+    data.p3.state === "ready" ? setColor3("#ffe9e1") : setColor3("white");
+    data.p4.state === "ready" ? setColor4("#ffe9e1") : setColor4("white");
+    data.p5.state === "ready" ? setColor5("#ffe9e1") : setColor5("white");
   }
 
   // user 닉네임 세팅 함수
@@ -295,19 +335,18 @@ const Waiting = (props) => {
     }
   }, [nickname, enterCode]);
 
-  useSound(BGM, 1, 5000);//bgm 재생
+
   return (
     <>
       <Container>
-        <Header>
-          <SettingBtn>설정</SettingBtn>
-        </Header>
         <Content>
-          <Title>같이 그릴까?</Title>
-          <CodeText>입장 코드 : {enterCode}</CodeText>
+          <Wrap>
+            <Title>같이 그릴까?</Title>
+            <CodeText>입장 코드 : {enterCode}</CodeText>
+          </Wrap>
         </Content>
         <PlayerContainer>
-          <Player>
+          <Player color={"white"}>
             <ReadyBtn onClick={onReady}>준비하기</ReadyBtn>
             <Timer id="timer"></Timer>
           </Player>
