@@ -4,6 +4,9 @@ import axios from "axios";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
+import useSound from './BgmSounds';
+import effectSound from './BgmEffect';
+import BGM from './Audio/bgm1.mp3'
 
 const Container = styled.div`
   margin : 0;
@@ -336,6 +339,7 @@ const Waiting = (props) => {
   }, [nickname, enterCode]);
 
 
+  useSound(BGM, 1, 5000);//bgm 재생
   return (
     <>
       <Container>
