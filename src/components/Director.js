@@ -22,7 +22,6 @@ const PaletteContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
   position: relative;
   cursor: not-allowed;
 `;
@@ -41,15 +40,15 @@ const BlackContainer = styled.div`
 
 const ContentContainer = styled.div`
   width: 50vw;
-  background-color: lightgray;
-  border: 1px solid black;
+  background-color: #fff1e4;
+  border-left : 1px solid #fcb198;
+  border-right : 1px solid #fcb198;
 `;
 
 const PlayerContainer = styled.div`
   padding-top: 5vh;
   width: 30vw;
-  background-color: lightgray;
-  border: 3px solid gray;
+  background-color: #feeecd;
   display: grid;
   grid-template-columns: 25vw;
   grid-template-rows: 20vh 20vh 20vh 20vh;
@@ -63,12 +62,25 @@ const Text = styled.span`
 `;
 
 const ChatWrapper = styled.div`
+  height : 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
+  line-height: 30px;
+  display : flex;
+  justify-content: center;
 `;
 
 const ChatOkBtn = styled.button`
-  margin-left: 50px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  background-color: white;
+  &:hover{
+    background-color: #fcb198;
+  }
+  height: 50px;
   cursor: pointer;
+  margin-left : 10px;
 `;
 
 const Player = styled.div`
@@ -79,10 +91,11 @@ const Player = styled.div`
 const DirectorChat = styled.input`
   width: 400px;
   height: 40px;
-  margin-left: 100px;
-  margin-bottom: 10px;
   text-align: center;
   overflow: hidden;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  font-size : 20px;
 `;
 
 const ImageInput = styled.input.attrs({
@@ -96,83 +109,168 @@ const ImageInput = styled.input.attrs({
 const ImageInputWrap = styled.div`
   margin: 0 8px 0 8px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const BackgroundImage = styled.div`
-  margin-top: 50px;
   cursor: pointer;
+  width : 100%;
+  height : 320px;
+  display : flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const UserChatList = styled.div`
-  width: 30vw;
+  width: 40vw;
   height: 15vh;
   background: white;
   overflow: auto;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  margin-top 20px;
+  text-align : left;
+  padding-top:20px;
+  padding-left:20px;
 `;
 
 const UserChat = styled.input.attrs({
   type: "text",
 })`
   margin-top: 30px;
-  width: 30vw;
-  height: 3vh;
-  margin-right: 20px;
-  margin-left: 60px;
+  width: 35vw;
+  height: 20px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+`;
+
+const ChatWrap = styled.div`
+  width: 40.5vw;
+  display: flex;
+  justify-content:space-between;
 `;
 
 const UserChatWrapper = styled.div`
   text-align: center;
+  display : flex;
+  flex-direction : column;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const Player1 = styled.img`
-  border: 3px solid gray;
   background-color: white;
+  border: 3px solid gray;
+  border-radius: 10px;
   width: 25vw;
   height: 20vh;
 `;
 const Player2 = styled.img`
-  border: 3px solid gray;
   background-color: white;
+  border: 3px solid gray;
+  border-radius: 10px;
   width: 25vw;
   height: 20vh;
 `;
 const Player3 = styled.img`
-  border: 3px solid gray;
   background-color: white;
+  border: 3px solid gray;
+  border-radius: 10px;
   width: 25vw;
   height: 20vh;
 `;
 const Player4 = styled.img`
-  border: 3px solid gray;
   background-color: white;
+  border: 3px solid gray;
+  border-radius: 10px;
   width: 25vw;
   height: 20vh;
 `;
 
 const NotDrawing = styled.img`
+  background-color: white;
+  border: 3px solid gray;
+  border-radius: 10px;  
   width: 25vw;
   height: 20vh;
-  border: 3px solid gray;
 `;
 
-const DefaultImageBtn = styled.button``;
+const DefaultImageBtn = styled.button`
+  width: 12vw;
+  height: 32px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  background-color: white;
+  &:hover{
+    background-color: #fcb198;
+  }
 
-const UserChatSendButton = styled.button``;
+`;
+
+const UserChatSendButton = styled.button`
+  margin-top: 30px;
+  width: 4vw;
+  height: 32px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  background-color: white;
+  &:hover{
+    background-color: #fcb198;
+  }
+`;
 
 const SelectCompleteBtn = styled.button`
-  margin-left: 30px;
-  background-color: aqua;
+  margin-left :50px;
+  width: 8vw;
+  height: 32px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  background-color: white;
+  &:hover{
+    background-color: #fcb198;
+  }
 `;
 
 const TimeText = styled.div`
-  float: right;
-  color: red;
+  text-align: center;
+  color: black;
   font-size: 30px;
+  width : 100px;
 `;
 
 const TopContainer = styled.div`
-  padding-top: 15px;
-  padding-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height : 50px;
+`;
+const Line = styled.hr`
+  border: 1px solid #fcb198;
+  margin : 0;
+`;
+
+const Label = styled.label`
+  margin-top : 15px;
+  margin-bottom : 10px;
+  display: flex;
+  width : 500px;
+  height : 300px;
+  flex-direction : column;
+  align-items: center;
+  justify-content: space-around;
+  border : 8px solid #fcb198;
+  border-radius:10px;
+`;
+
+const BtnWrap = styled.div`
+  width : 100%;
+  height : 50px;
+  margin-bottom : 10px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
 `;
 
 function Director(props) {
@@ -266,8 +364,10 @@ function Director(props) {
   useEffect(() => {
     if (selectCheck) {
       setInterval(() => {
-        setTime((prevNumber) => prevNumber - 1);
-        socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
+        if(parseInt(document.getElementById("gametimer").innerText) > 0){ 
+          setTime((prevNumber) => prevNumber - 1);
+          socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
+        }
       }, 1000);
     }
   }, [selectCheck]);
@@ -314,11 +414,10 @@ function Director(props) {
       </PaletteContainer>
       <ContentContainer>
         <TopContainer>
-          <Text>디렉터 채팅</Text>
           <TimeText id="gametimer">{time}</TimeText>
         </TopContainer>
 
-        <hr />
+        <Line />
         <ChatWrapper>
           <DirectorChat
             value={chat_D}
@@ -326,30 +425,33 @@ function Director(props) {
             disabled={canEdit}
           />
           <ChatOkBtn onClick={sendMessage_D}>보내기</ChatOkBtn>
-          <hr />
         </ChatWrapper>
+        <Line />
         <ImageInputWrap>
-          <label id ="select_img" htmlFor= "ex_file" >
+          <Label id ="select_img" htmlFor= "ex_file" >
             <BackgroundImage>
-              <img src={myImage} alt="myImage" width="500" height="300" />
+              <img src={myImage} alt="myImage" width="500" height="300" border-radius="10px"/>
             </BackgroundImage>
-            <DefaultImageBtn onClick={defaultImageOnClick}>
-              기본 이미지로 선택하기
-            </DefaultImageBtn>
-            <SelectCompleteBtn onClick={selctOnClick}>
-              사진 선택완료
-            </SelectCompleteBtn>
-            <hr />
-          </label>
+          </Label>
+          <BtnWrap>
+              <DefaultImageBtn onClick={defaultImageOnClick}>
+                기본 이미지로 선택하기
+              </DefaultImageBtn>
+              <SelectCompleteBtn onClick={selctOnClick}>
+                사진 선택완료
+              </SelectCompleteBtn>
+            </BtnWrap>
           <ImageInput onChange={inputOnChange} />
         </ImageInputWrap>
+        <Line />
         <UserChatWrapper>
           <UserChatList id="UserChatList"></UserChatList>
-
-          <UserChat onChange={onChangeU} value={chat_U} />
-          <UserChatSendButton onClick={userChatOnClick}>
-            전송
-          </UserChatSendButton>
+          <ChatWrap>
+            <UserChat onChange={onChangeU} value={chat_U} />
+            <UserChatSendButton onClick={userChatOnClick}>
+              전송
+            </UserChatSendButton>
+          </ChatWrap>
         </UserChatWrapper>
       </ContentContainer>
       <PlayerContainer>

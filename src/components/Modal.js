@@ -38,15 +38,16 @@ const Section = styled.div`
   width: 90%;
   max-width: 450px;
   margin: 0 auto;
-  border-radius: 0.3rem;
-  background-color: #fff;
+  border-radius: 10px;
+  border : 5px solid #f7968a;
+  background-color: white;
   animation: ${modalShow} 0.3s;
   overflow: hidden;
 `;
 const Header = styled.div`
   position: relative;
   padding: 16px 64px 16px 16px;
-  background-color: #f1f1f1;
+  background-color: white;
   font-weight: 700;
   text-align: center;
   padding-left: 50px;
@@ -68,8 +69,8 @@ const CloseBtn = styled.button`
 
 const Main = styled.div`
   padding: 16px;
-  border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #f7968a;
+  border-top: 1px solid #f7968a;
   text-align: center;
 `;
 
@@ -85,18 +86,28 @@ const Input = styled.input`
   ::placeholder {
     color: white;
   }
-  font-size: 20px;
-  background-color: #7f8fa6;
+  font-size: 30px;
+  background-color: white;
   border: none;
   text-align: center;
-  color: white;
+  color: black;
+  border : 5px solid #f7968a;
+  border-radius : 10px;
 `;
 
 const OkBtn = styled.button`
-  background-color: #7f8fa6;
-  color: white;
-  border: none;
+  background-color: white;
+  border : 5px solid #f7968a;
+  border-radius : 10px;
+  width : 20%;
+  color: #f7968a;
   cursor: pointer;
+
+  &:hover{
+    border: 5px solid #f7968a;
+    background-color: #f7968a;
+    color: white;
+  }
 `;
 
 const Modal = (props) => {

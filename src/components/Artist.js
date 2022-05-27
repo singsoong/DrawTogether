@@ -111,6 +111,7 @@ const UserChatSendButton = styled.button`
   height: 32px;
   border: 5px solid #fcb198;
   border-radius: 10px;
+  background-color: white;
   &:hover{
     background-color: #fcb198;
   }

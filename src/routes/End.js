@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import imagee from "./../assets/images/inputmenubtn.png";
+import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
 
-
+const Container = styled.div`
+  background-color : #ffeec3;
+  width : 100%;
+  height : 100vh;
+`;
 const BacktoMainBtn = styled.button`
-  display: block;
   width: 20vw;
   height: 3vh;
   margin: 5% auto;
@@ -12,33 +16,65 @@ const BacktoMainBtn = styled.button`
 `;
 
 const RankBar = styled.div`
+  width : 500px;
+  height : 50px;
   text-align: left;
-  padding-left: 2vw;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  margin-left: 20vw;
-  margin-right: 20vw;
-  margin-top: 3vh;
-  border: 1px solid black;
+  border: 3px solid #F7F1ED;
+  line-height: 50px;
+  padding-left : 10px;
+  background-color : white;
+`;
+const RankBar1 = styled.div`
+  width : 500px;
+  height : 50px;
+  text-align: left;
+  border: 3px solid #F7F1ED;
+  line-height: 50px;
+  padding-left : 10px;
+  background-color : white;
+  border-bottom : 5px solid #fcb198;
+  display: flex;
+  align-items: center;
 `;
 
 const Header = styled.div`
+  display : flex;
+  justify-content: center;
+  align-items: center;
+  height : 150px;
   text-align: center;
   padding-bottom: 0vh;
 `;
 
 const Content = styled.div`
+  display : flex;
+  flex-direction : column;
   text-align: center;
-  height: 50vh;
+  height: 700px;
+  align-items: center;
+  justify-content:space-around;
 `;
 
 const Title = styled.h1`
   font-size: 5rem;
 `;
 
-const Btn = styled(BacktoMainBtn)``;
+const Btn = styled(BacktoMainBtn)`
+  margin-top: 30px;
+  width: 120px;
+  height: 32px;
+  border: 5px solid #fcb198;
+  border-radius: 10px;
+  background-color: white;
+  &:hover{
+    background-color: #fcb198;
+  }
+`;
 
-
+const BtnWrap = styled.div`
+  width: 300px;
+  display : flex;
+`;
 
 const End = () => {
 
@@ -55,7 +91,7 @@ const End = () => {
   }   
 
     return (
-        <contain>
+        <Container>
             <Header>
               <Title>순위</Title>
             </Header>            
@@ -64,16 +100,24 @@ const End = () => {
                 className="image" 
                 alt="inputmenubtn" 
                 src={imagee}
+
+                width ="500px"
+                height="300px"
               />
-              <RankBar>{p1rank}</RankBar>
+              <RankBar1>
+                <img src={goldmedal} width ="40px" height="40px"/>
+                {p1rank}
+              </RankBar1>
               <RankBar>{p2rank}</RankBar>
               <RankBar>{p3rank}</RankBar>
               <RankBar>{p4rank}</RankBar>
-              <Btn onClick={MainonClick}>홈으로</Btn>
-              <Btn onClick={GalleryonClick}>갤러리</Btn>
+              <BtnWrap>
+                <Btn onClick={MainonClick}>홈으로</Btn>
+                <Btn onClick={GalleryonClick}>갤러리</Btn>
+              </BtnWrap>
             </Content>
 
-        </contain>
+        </Container>
     )
 }
 
