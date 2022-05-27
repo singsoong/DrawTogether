@@ -2,12 +2,16 @@ import styled from "styled-components";
 import imagee from "./../assets/images/inputmenubtn.png";
 import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
+import useSound from './BgmSounds';
+import effectSound from './BgmEffect';
+import BGM from './Audio/bgm1.mp3'
 
 const Container = styled.div`
   background-color : #ffeec3;
   width : 100%;
   height : 100vh;
 `;
+
 const BacktoMainBtn = styled.button`
   width: 20vw;
   height: 3vh;
@@ -89,7 +93,7 @@ const End = () => {
   } 
   const GalleryonClick = () => {
   }   
-
+  useSound(BGM, 1, 5000);//bgm 재생
     return (
         <Container>
             <Header>
