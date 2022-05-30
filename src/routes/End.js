@@ -5,8 +5,6 @@ import { useHistory } from "react-router-dom";
 import useSound from './BgmSounds';
 import effectSound from './BgmEffect';
 import BGM from './Audio/bgm1.mp3'
-import React from 'react';
-import { KakaoLinkDefault, KakaoLinkScrap } from "react-kakao-link"
 
 const Container = styled.div`
   background-color : #ffeec3;
@@ -59,7 +57,6 @@ const Content = styled.div`
   height: 700px;
   align-items: center;
   justify-content:space-around;
-  background-color: #ffeec3;
 `;
 
 const Title = styled.h1`
@@ -79,7 +76,7 @@ const Btn = styled(BacktoMainBtn)`
 `;
 
 const BtnWrap = styled.div`
-  width: 400px;
+  width: 300px;
   display : flex;
 `;
 
@@ -95,46 +92,7 @@ const End = () => {
     history.push("/");
   } 
   const GalleryonClick = () => {
-  }
-  
-  
-  const template = {
-    objectType: "feed",
-    content: {
-      title: "DrawTogether 같이 그릴까 ?",
-      description: "#그림 #함께 #그리자 #취미 #소통 #친목",
-      imageUrl:
-        "http://13.209.48.229:3000/design/kakao/kakaomain.PNG",
-      link: {
-        mobileWebUrl: "",
-        webUrl: "http://13.209.48.229:3000",
-      },
-    },
-    social: {
-      likeCount: 286,
-      commentCount: 45,
-      sharedCount: 845,
-    },
-    buttons: [
-      {
-        title: "웹으로 보기",
-        link: {
-          mobileWebUrl: "",
-          webUrl: "http://13.209.48.229:3000",
-        },
-      },
-      {
-        title: "앱으로 보기",
-        link: {
-          mobileWebUrl: "",
-          webUrl: "",
-        },
-      },
-    ],
-  }
-
-
-
+  }   
   useSound(BGM, 1, 5000);//bgm 재생
     return (
         <Container>
@@ -161,19 +119,8 @@ const End = () => {
                 <Btn onClick={MainonClick}>홈으로</Btn>
                 <Btn onClick={GalleryonClick}>갤러리</Btn>
               </BtnWrap>
-              <KakaoLinkDefault
-                  className="template"
-                  template={template}
-                  jsKey={"d8083b1b84b796d6d016e824b0f7da8f"}
-                >
-                  <img 
-                    width = "50px"
-                    height= "50px"
-                    src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-                    alt="카카오링크 보내기 버튼"
-                  />
-                </KakaoLinkDefault>
             </Content>
+
         </Container>
     )
 }

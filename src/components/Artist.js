@@ -43,7 +43,7 @@ const Text = styled.span`
 `;
 
 const DirectorText = styled.div`
-  height : 90px;
+  height : 30px;
   padding: 10px;
   text-align: center;
   line-height: 30px;
