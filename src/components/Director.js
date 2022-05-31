@@ -130,7 +130,7 @@ const UserChatList = styled.div`
   overflow: auto;
   border: 5px solid #fcb198;
   border-radius: 10px;
-  margin-top 20px;
+  margin-top: 20px;
   text-align : left;
   padding-top:20px;
   padding-left:20px;
