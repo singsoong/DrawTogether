@@ -4,6 +4,8 @@ import Canvas from "./Canvas";
 import Palette from "./Palette";
 import { socket } from "../etc/Socket";
 import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -174,6 +176,8 @@ function Artist(props) {
   const [player2, setPlayer2] = useState(false);
   const [player3, setPlayer3] = useState(false);
   const [player4, setPlayer4] = useState(false);
+  const history = useHistory();
+
 
   useEffect(() => {
     socket.on("Dmessage", function (data) {
@@ -205,6 +209,7 @@ function Artist(props) {
         document.getElementById("gameTimer").innerText = data;
 
         if (data == "0") {
+          history.push("/end");
           // 투표 진행
         }
       }

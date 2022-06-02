@@ -375,7 +375,7 @@ function Director(props) {
   useEffect(() => {
     if (time == 0) {
       // 투표 진행
-      //history.push("/end");
+      history.push("/end");
     }
   }, [time]);
 

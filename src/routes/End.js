@@ -1,17 +1,15 @@
 import styled from "styled-components";
+import React, { useState } from "react";
+import Modal from "../components/RankModal";
 import imagee from "./../assets/images/inputmenubtn.png";
 import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
-import useSound from './BgmSounds';
-import effectSound from './BgmEffect';
-import BGM from './Audio/bgm1.mp3'
 
 const Container = styled.div`
   background-color : #ffeec3;
   width : 100%;
   height : 100vh;
 `;
-
 const BacktoMainBtn = styled.button`
   width: 20vw;
   height: 3vh;
@@ -87,13 +85,23 @@ const End = () => {
   const p3rank = "temp3";
   const p4rank = "temp4";
 
+  const [showModal, setShowModal] = useState(true);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const history = useHistory();
   const MainonClick = () => {
     history.push("/");
   } 
   const GalleryonClick = () => {
   }   
-  useSound(BGM, 1, 5000);//bgm 재생
+
     return (
         <Container>
             <Header>
@@ -104,7 +112,6 @@ const End = () => {
                 className="image" 
                 alt="inputmenubtn" 
                 src={imagee}
-
                 width ="500px"
                 height="300px"
               />
@@ -117,7 +124,13 @@ const End = () => {
               <RankBar>{p4rank}</RankBar>
               <BtnWrap>
                 <Btn onClick={MainonClick}>홈으로</Btn>
-                <Btn onClick={GalleryonClick}>갤러리</Btn>
+                <Btn onClick={GalleryonClick}>갤러리</Btn>                
+                <Btn onClick={openModal}>임시</Btn>
+                <Modal 
+                  open={showModal} 
+                  close={closeModal} 
+                  header="입장 코드를 입력해주세요" 
+                ></Modal>
               </BtnWrap>
             </Content>
 
