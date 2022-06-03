@@ -82,6 +82,12 @@ io.on('connect',function(socket){
 
         io.to(data[0]).emit('gametime', data[1]);
     });
+
+    socket.on('gameScore',function(data){
+        console.log(data);
+
+        io.to(data[0]).emit('gameScore', data[1]);
+    });
 });
 
 io.listen(3002);

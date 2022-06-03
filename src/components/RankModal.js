@@ -1,8 +1,7 @@
+import { click } from "@testing-library/user-event/dist/click";
 import React, { useState, useEffect, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import { socket } from "../etc/Socket";
-
-import tsimage from "./../assets/images/inputmenubtn.png";
 
 const modalShow = keyframes`
     from{
@@ -97,53 +96,46 @@ const OkBtn = styled.button`
   }
 `;
 
-const Modal = (props) => {
+export const sendImage = () => {
+  
+}
+
+const RankModal = (props) => {
   const { open, close, header } = props;
   const [images, setImage] = useState([0, 0, 0, 0]);
-  const [isChecked, setIsChecked] = useState(false);
   const [checkedItem, setCheckedItem] = useState(new Set());
-  const [index, setIndex] = useState(-1);
-  const [printImage, setPrintImage] = useState(0);
+  const [indexImage, setIndexImage] = useState(0);
+  const [score, setScore] = useState([0, 0]);
+  const [tempScore, setTempScore] = useState([0, 0]);
 
-  const formData = [
-    { id: 1, name: "1점" },
-    { id: 2, name: "2점" },
-    { id: 3, name: "3점" },
-    { id: 4, name: "4점" },
-    { id: 5, name: "5점" }
-  ]
-
-  const checkHandler = ({ target }) => {
-    setIsChecked(!isChecked);
-    checkedItemHandler(target.value, target.checked);
-    setIndex(index + 1);
-  };
-
-  const checkedItemHandler = (id, isChecked) => {
-    if (isChecked) {
-      checkedItem.clear();
-      checkedItem.add(id);
-      setCheckedItem(checkedItem);
-    }else if (!isChecked && checkedItem.has(id)) {
-      checkedItem.delete(id);
-      setCheckedItem(checkedItem);
-    }
-    console.log(checkedItem);
-    return checkedItem;
+  const radioItemHandler = (e) => {    
+    setCheckedItem(e.target.value);    
+    let arr = [0, 0];
+    arr[0] = indexImage;
+    arr[1] = checkedItem;
+    setTempScore(arr);
+    console.log(arr,tempScore,e.target.value, indexImage);
   }
 
   //임시리셋
   const reset = () => {
-    setPrintImage(0);
+    setIndexImage(0);
   }
 
+  const clo = close;
+
   const nextButtonHandler = () => {
-    if (images.size < printImage) {
-      
+    console.log(score);
+    if (images[indexImage+1] == null) {
+      clo();
+      console.log("close");
     } else {
-      setPrintImage(printImage + 1);
+      setIndexImage(indexImage + 1);
+      console.log("+1");
     }
-  }
+    socket.emit("gameScore", tempScore);
+    console.log(images[indexImage + 1]);
+  }  
 
   useEffect(() => {
     socket.on("image", function (data) {
@@ -207,12 +199,12 @@ const Modal = (props) => {
                   <img
                     className="OriPic"
                     alt="OriPic"
-                    src={images[0]}
+                    src={images[indexImage]}
                     width="500px"
                     height="300px"
                   ></img>
-                </div>
-                {checkedItem}
+                </div>                
+                  {checkedItem}점
                 <div>
                   <h1>
                     ply
@@ -220,7 +212,7 @@ const Modal = (props) => {
                   <img
                     className="plyic"
                     alt="plyPic"
-                    src={images[printImage]}
+                    src={images[indexImage]}
                     width="500px"
                     height="300px"
                   ></img>
@@ -228,17 +220,52 @@ const Modal = (props) => {
               </div>              
             </Main>
             <Footer>
-              <div className="checkBox" style={{display: 'flex'}}>
-                {formData.map((item) => (
-                  <label key={item.id} className="innerBox">                    
-                    <div>{item.name}</div>
-                    <input
-                      type="checkbox"
-                      value={item.name}
-                      onChange={(e) => checkHandler(e)}
-                      />
-                  </label>
-                ))}
+              <div className="radio" style={{display: 'flex'}}>
+                <input
+                  type="radio"
+                  value="1"
+                  checked={checkedItem === "1"}
+                  onChange={radioItemHandler}
+                />
+                <label>
+                  1점
+                </label>
+                <input
+                  type="radio"
+                  value="2"
+                  checked={checkedItem === "2"}
+                  onChange={radioItemHandler}
+                />
+                <label>
+                  2점
+                </label>
+                <input
+                  type="radio"
+                  value="3"
+                  checked={checkedItem === "3"}
+                  onChange={radioItemHandler}
+                />
+                <label>
+                  3점
+                </label>
+                <input
+                  type="radio"
+                  value="4"
+                  checked={checkedItem === "4"}
+                  onChange={radioItemHandler}
+                />
+                <label>
+                  4점
+                </label>
+                <input
+                  type="radio"
+                  value="5"
+                  checked={checkedItem === "5"}
+                  onChange={radioItemHandler}
+                />
+                <label>
+                  5점
+                </label>
               </div>
               <div>
                 <OkBtn onClick={nextButtonHandler}>제출</OkBtn>
@@ -252,4 +279,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default RankModal;

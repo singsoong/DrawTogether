@@ -209,7 +209,7 @@ function Artist(props) {
         document.getElementById("gameTimer").innerText = data;
 
         if (data == "0") {
-          history.push("/end");
+          // history.push("/end");
           // 투표 진행
         }
       }

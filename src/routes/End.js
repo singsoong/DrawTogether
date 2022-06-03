@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../components/RankModal";
+import axios from "axios";
 import imagee from "./../assets/images/inputmenubtn.png";
 import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
+import { socket } from "../etc/Socket";
 
 const Container = styled.div`
   background-color : #ffeec3;
@@ -78,13 +80,12 @@ const BtnWrap = styled.div`
   display : flex;
 `;
 
-const End = () => {
+const End = (props) => {
 
-  const p1rank = "temp1";
-  const p2rank = "temp2";
-  const p3rank = "temp3";
-  const p4rank = "temp4";
-
+  const [player1Rank, setPlayer1Rank] = useState("empty");
+  const [player2Rank, setPlayer2Rank] = useState("empty");
+  const [player3Rank, setPlayer3Rank] = useState("empty");
+  const [player4Rank, setPlayer4Rank] = useState("empty");
   const [showModal, setShowModal] = useState(true);
 
   const openModal = () => {
@@ -94,6 +95,14 @@ const End = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+
+  
+  useEffect(() => {
+    socket.on("gameScore", function (data) {
+      console.log(data);
+    })
+  });
 
   const history = useHistory();
   const MainonClick = () => {
@@ -117,11 +126,11 @@ const End = () => {
               />
               <RankBar1>
                 <img src={goldmedal} width ="40px" height="40px"/>
-                {p1rank}
+                {player1Rank}
               </RankBar1>
-              <RankBar>{p2rank}</RankBar>
-              <RankBar>{p3rank}</RankBar>
-              <RankBar>{p4rank}</RankBar>
+              <RankBar>{player2Rank}</RankBar>
+              <RankBar>{player3Rank}</RankBar>
+              <RankBar>{player4Rank}</RankBar>
               <BtnWrap>
                 <Btn onClick={MainonClick}>홈으로</Btn>
                 <Btn onClick={GalleryonClick}>갤러리</Btn>                
