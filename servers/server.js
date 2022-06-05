@@ -25,6 +25,7 @@ io.on('connect',function(socket){
     socket.emit('msg', `${socket.id} 연결 되었습니다.`);
   
     socket.on('add', function (data) {
+        console.log(data);
         option.AddUser(data[1],data[0],socket.id);
 
         const roomdata = option.searchRoom(data[0]);
@@ -35,12 +36,14 @@ io.on('connect',function(socket){
     });
 
     socket.on('lookup', function (data) {
+        console.log(data);
         const roomdata = option.searchRoom(data[0]);
 
         socket.emit('lookup', roomdata);
     });
 
     socket.on('state', function (data) {
+        console.log(data);
         const roomdata = option.searchRoom(data[0]);
 
         console.log(socket.id+"가 " +data+"상태 입니다.");
@@ -52,28 +55,28 @@ io.on('connect',function(socket){
     });
 
     socket.on('gameStart',function(data){
-        console.log(data);
+        // console.log(data);
         const roomdata = option.searchRoom(data[0]);
-        console.log(roomdata);
+        // console.log(roomdata);
         io.to(data[0]).emit('state', roomdata);
         socket.emit('gameStart', roomdata);
     });
 
     socket.on('Dmessage',function(data){
-        console.log(data);
+        // console.log(data);
 
         io.to(data[0]).emit('Dmessage', [data[1],data[2]]);
     });
 
     socket.on('Umessage',function(data){
-        console.log(data);
+        // console.log(data);
 
         io.to(data[0]).emit('Umessage', data[1]);
         //socket.emit('Umessage', data[1]);
     });
 
     socket.on('image',function(data){
-        console.log(data);
+        // console.log(data);
         
         option.UpdateImg(data[2],data[0],data[1]);
 
@@ -84,13 +87,13 @@ io.on('connect',function(socket){
     });
 
     socket.on('gametime',function(data){
-        console.log(data);
+        // console.log(data);
 
         io.to(data[0]).emit('gametime', data[1]);
     });
 
     socket.on('gameScore',function(data){
-        console.log(data);
+        console.log("add game score");
         const arr = [0, 0, 0, 0, 0];
         arr = option.outputScore(option.roomNumber);
         option.AddScore(data);

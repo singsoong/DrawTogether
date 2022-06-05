@@ -129,21 +129,21 @@ const RankModal = (props) => {
   const clo = close;
 
   const nextButtonHandler = () => {
-    console.log(score);
+    // console.log(score);
     if (images[indexImage+1] == null) {
       clo();
-      console.log("close");
+      // console.log("close");
     } else {
       setIndexImage(indexImage + 1);
-      console.log("+1");
+      // console.log("+1");
     }
-    socket.emit("gameScore", score);
-    console.log(images[indexImage + 1]);
+    // socket.emit("gameScore", score);
+    // console.log(images[indexImage + 1]);
   }  
 
   useEffect(() => {
     socket.on("image", function (data) {
-      console.log(data);
+      // console.log(data);
 
       let arr = new Array(images);
       let tempDirectorImage = directorImage;
@@ -157,12 +157,12 @@ const RankModal = (props) => {
       for (let i = 0; i < 5; i++) {
         if (flag1 == false) {
           if (data.p1.director != true) {
-            console.log("user1 image load success");
+            // console.log("user1 image load success");
             arr[0] = data.p1.image;
             flag1 = true;
             continue;
           } else {
-            console.log("director1 image load success");
+            // console.log("director1 image load success");
             arr[0] = missingImage;
             tempDirectorImage = data.p1.image;
             flag1 = true;
@@ -170,12 +170,12 @@ const RankModal = (props) => {
         }
         if (flag2 == false) {
           if (data.p2.director != true) {
-            console.log("user2 image load success");
+            // console.log("user2 image load success");
             arr[1] = data.p2.image;
             flag2 = true;
             continue;
           } else {
-            console.log("director2 image load success");
+            // console.log("director2 image load success");
             arr[1] = missingImage;
             tempDirectorImage = data.p2.image;
             flag2 = true;
@@ -183,12 +183,12 @@ const RankModal = (props) => {
         }
         if (flag3 == false) {
           if (data.p3.director != true) {
-            console.log("user3 image load success");
+            // console.log("user3 image load success");
             arr[2] = data.p3.image;
             flag3 = true;
             continue;
           } else {
-            console.log("director3 image load success");
+            // console.log("director3 image load success");
             arr[2] = missingImage;
             tempDirectorImage = data.p3.image;
             flag3 = true;
@@ -196,12 +196,12 @@ const RankModal = (props) => {
         }
         if (flag4 == false) {
           if (data.p4.director != true) {
-            console.log("user4 image load success");
+            // console.log("user4 image load success");
             arr[3] = data.p4.image;
             flag4 = true;
             continue;
           } else {
-            console.log("director4 image load success");
+            // console.log("director4 image load success");
             arr[3] = missingImage;
             tempDirectorImage = data.p4.image;
             flag4 = true;
@@ -210,12 +210,12 @@ const RankModal = (props) => {
         }
         if (flag5 == false) {
           if (data.p5.director != true) {
-            console.log("user5 image load success");
+            // console.log("user5 image load success");
             arr[4] = data.p5.image;
             flag5 = true;
             continue;
           } else {
-            console.log("director5 image load success");
+            // console.log("director5 image load success");
             arr[4] = missingImage;
             tempDirectorImage = data.p5.image;
             flag5 = true;
@@ -225,7 +225,7 @@ const RankModal = (props) => {
 
       setImage(arr);
       setDirectorImage(tempDirectorImage);
-      console.log(images, directorImage);
+      // console.log(images, directorImage);
     });
   }, []);
 

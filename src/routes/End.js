@@ -78,13 +78,7 @@ const BtnWrap = styled.div`
   display : flex;
 `;
 
-const End = (props) => {
-
-  const [player1, setPlayer1] = useState(["empty", 0, true, 0]);
-  const [player2, setPlayer2] = useState(["empty", 0, true, 0]);
-  const [player3, setPlayer3] = useState(["empty", 0, true, 0]);
-  const [player4, setPlayer4] = useState(["empty", 0, true, 0]);  
-  const [player5, setPlayer5] = useState(["empty", 0, true, 0]);
+const End = () => {
   const [showModal, setShowModal] = useState(true);
   const [index, setIndex] = useState(-1);
   const [first, setFirst] = useState("");
@@ -107,49 +101,41 @@ const End = (props) => {
     socket.on("lookup", function (data) {
       console.log(data);
 
-      makeupData(data);
-    });
-  });
+      const rank1 = [
+        [data.p1.nickname, data.p1.score, data.p1.director, data.p1.image],
+        [data.p2.nickname, data.p2.score, data.p2.director, data.p2.image],
+        [data.p3.nickname, data.p3.score, data.p3.director, data.p3.image],
+        [data.p4.nickname, data.p4.score, data.p4.director, data.p4.image],
+        [data.p5.nickname, data.p5.score, data.p5.director, data.p5.image]
+      ];
+      const rank2 = [0, 0, 0, 0];
+      const temp = 0;
 
-  const makeupData = (data) => {
-    setPlayer1(data.p1.nickname, data.p1.score, data.p1.director, data.p1.image);
-    setPlayer2(data.p2.nickname, data.p2.score, data.p2.director, data.p2.image);
-    setPlayer3(data.p3.nickname, data.p3.score, data.p3.director, data.p3.image);
-    setPlayer4(data.p4.nickname, data.p4.score, data.p4.director, data.p4.image);
-    setPlayer5(data.p5.nickname, data.p5.score, data.p5.director, data.p5.image);
-
-    calculatorRank();
-  }
-
-  const calculatorRank = () => {
-    const rank1 = [player1, player2, player3, player4, player5];
-    const rank2 = [0, 0, 0, 0];
-    const temp = 0;
-
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 3-i; j++) {
-        if (rank1[i][1] < rank1[i+1][1]) {
-          temp = rank1[j];
-          rank1[j] = rank1[j+1];
-          rank1[j+1] = temp; 
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 3-i; j++) {
+          if (rank1[i][1] < rank1[i+1][1]) {
+            temp = rank1[j];
+            rank1[j] = rank1[j+1];
+            rank1[j+1] = temp; 
+          }
         }
       }
-    }
-    
-    for (let i = 0, j = 0; i < 4; i++) {
-      if(!rank1[i][2]) {
-        rank2[j] = rank1[i];
-        j++;
+      
+      for (let i = 0, j = 0; i < 4; i++) {
+        if(!rank1[i][2]) {
+          rank2[j] = rank1[i];
+          j++;
+        }
       }
-    }
-
-    setTopImage(rank2[1][3]);
-    setFirst(rank2[1][0]);
-    setSecond(rank2[2][0]);
-    setThird(rank2[3][0]);
-    setForth(rank2[4][0]);
-    console.log(rank2);
-  }
+  
+      setTopImage(rank2[1][3]);
+      setFirst(rank2[1][0]);
+      setSecond(rank2[2][0]);
+      setThird(rank2[3][0]);
+      setForth(rank2[4][0]);
+      console.log(rank2);
+    });
+  });
 
   const history = useHistory();
   const MainonClick = () => {
@@ -158,44 +144,44 @@ const End = (props) => {
   const GalleryonClick = () => {
   }  
   const randerClick = () => {
-    setIndex(index+1);
+    console.log("rerandering");
+    setIndex(index + 1);
   } 
 
-    return (
-        <Container>
-            <Header>
-              <Title>순위</Title>
-            </Header>            
-            <Content>
-              <img 
-                className="image" 
-                alt="firstUser" 
-                src={topImage}
-                width ="500px"
-                height="300px"
-              />
-              <RankBar1>
-                <img src={goldmedal} width ="40px" height="40px"/>
-                {first}
-              </RankBar1>
-              <RankBar>{second}</RankBar>
-              <RankBar>{third}</RankBar>
-              <RankBar>{forth}</RankBar>
-              <BtnWrap>
-                <Btn onClick={MainonClick}>홈으로</Btn>
-                <Btn onClick={GalleryonClick}>갤러리</Btn>                
-                <Btn onClick={openModal}>임시모달</Btn>
-                <Btn onClick={randerClick}>임시초기화</Btn>
-                <Modal 
-                  open={showModal} 
-                  close={closeModal} 
-                  header="점수" 
-                ></Modal>
-              </BtnWrap>
-            </Content>
-
-        </Container>
-    )
+  return (
+    <Container>
+        <Header>
+          <Title>순위</Title>
+        </Header>            
+        <Content>
+          <img 
+            className="image" 
+            alt="firstUser" 
+            src={topImage}
+            width ="500px"
+            height="300px"
+          />
+          <RankBar1>
+            <img src={goldmedal} width ="40px" height="40px"/>
+            {first}
+          </RankBar1>
+          <RankBar>{second}</RankBar>
+          <RankBar>{third}</RankBar>
+          <RankBar>{forth}</RankBar>
+          <BtnWrap>
+            <Btn onClick={MainonClick}>홈으로</Btn>
+            <Btn onClick={GalleryonClick}>갤러리</Btn>                
+            <Btn onClick={openModal}>임시모달</Btn>
+            <Btn onClick={randerClick}>임시초기화</Btn>
+            <Modal 
+              open={showModal} 
+              close={closeModal} 
+              header="점수" 
+            ></Modal>
+          </BtnWrap>
+        </Content>
+    </Container>
+  )
 }
 
 export default End;

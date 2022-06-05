@@ -294,7 +294,6 @@ function Director(props) {
       const nowSelectImageList = event.target.files;
       const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
       setMyImage(nowImageUrl);
-      socket.emit("image", [props.code,props.nickname,nowImageUrl]);
     }
   };
   const sendMessage_D = () => {
@@ -317,6 +316,10 @@ function Director(props) {
       //canEdit = false;
     }
   };
+
+  useEffect(() => {
+    socket.emit("image", [props.code,props.nickname,myImage]);
+  });
 
   useEffect(() => {
     socket.on("image", function (data) {
