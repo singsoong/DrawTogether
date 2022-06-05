@@ -62,7 +62,7 @@ const Game = (props) => {
     });
   }, []);
 
-  useSound(BGM, 1, 10000);//bgm 재생
+  useSound(BGM,0);//bgm 재생
   return (
     <>
       {director ? (

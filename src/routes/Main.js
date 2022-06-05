@@ -130,7 +130,7 @@ const Main = (props) => {
       });
   };
   
-  useSound(BGM, 1, 5000);//bgm 재생
+  useSound(BGM,0);//bgm 재생
   return (
     <Container>
       <Top>
