@@ -34,6 +34,12 @@ io.on('connect',function(socket){
         socket.emit('add', roomdata);
     });
 
+    socket.on('lookup', function (data) {
+        const roomdata = option.searchRoom(data[0]);
+
+        socket.emit('lookup', roomdata);
+    });
+
     socket.on('state', function (data) {
         const roomdata = option.searchRoom(data[0]);
 
@@ -85,8 +91,10 @@ io.on('connect',function(socket){
 
     socket.on('gameScore',function(data){
         console.log(data);
-
-        io.to(data[0]).emit('gameScore', data[1]);
+        const arr = [0, 0, 0, 0, 0];
+        arr = option.outputScore(option.roomNumber);
+        option.AddScore(data);
+        io.to(data[0]).emit('gameScore', arr);
     });
 });
 

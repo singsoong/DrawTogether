@@ -1,6 +1,9 @@
+const { findRenderedComponentWithType } = require("react-dom/test-utils");
+
 var roomCount = 0;
 exports.roomNumber = new Array();
 var rooms= new Array();
+const voteCheck = [false,false,false,false,false];
 
 exports.createRoom = function(roomNumber){
     room = {
@@ -10,35 +13,40 @@ exports.createRoom = function(roomNumber){
             state : "wait",
             id : "",
             director : true,
-            image : null
+            image : null,
+            score : ""
         }, 
         p2:{
             nickname :"",
             state : "wait",
             id : "",
             director : false,
-            image : null
+            image : null,
+            score : ""
         }, 
         p3:{
             nickname :"",
             state : "wait",
             id : "",
             director : false,
-            image : null
+            image : null,
+            score : ""
         },
         p4:{
             nickname :"",
             state : "wait",
             id : "",
             director : false,
-            image : null
+            image : null,
+            score : ""
         },
         p5:{
             nickname :"",
             state : "wait",
             id : "",
             director : false,
-            image : null
+            image : null,
+            score : ""
         }
     };
     
@@ -145,6 +153,42 @@ exports.UpdateImg = function(img,roomNumber,nickname_p){
             }
         }
     }
+}
+
+exports.AddScore = function(score,roomNumber,nickname_p) {    
+    for(var i=0;i<roomCount;i++){
+        if(rooms[i].RoomNumber == roomNumber){
+            if (rooms[i].p1.nickname == nickname_p) {
+                for (let j = 0; j < 5; j++) {
+                    if (voteCheck[j]) {
+                        console.log("already vote");
+                    } else {
+                        rooms[i].p1.score += score[0];  
+                        rooms[i].p2.score += score[1];
+                        rooms[i].p3.score += score[2];
+                        rooms[i].p4.score += score[3];
+                        rooms[i].p5.score += score[4];
+                        voteCheck[j] = true;
+                    }                      
+                }
+                      
+            }
+        }
+    }
+}
+
+exports.outputScore = function(roomNumber) {
+    const arr = [0, 0, 0, 0, 0];
+    for(var i=0;i<roomCount;i++){
+        if(rooms[i].RoomNumber == roomNumber){
+            arr[0] = rooms[i].p1.score;
+            arr[1] = rooms[i].p2.score;
+            arr[2] = rooms[i].p3.score;
+            arr[3] = rooms[i].p4.score;
+            arr[4] = rooms[i].p5.score;
+        }
+    }
+    return arr;
 }
 
 exports.roomCount = roomCount;

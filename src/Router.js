@@ -25,7 +25,7 @@ function Router() {
         <Game nickname={nickname} code={code}/>
       </Route>
       <Route path="/end">
-        <End/>
+        <End nickname={nickname} code={code}/>
       </Route>
     </BrowserRouter>
   );

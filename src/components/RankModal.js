@@ -2,83 +2,86 @@ import { click } from "@testing-library/user-event/dist/click";
 import React, { useState, useEffect, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import { socket } from "../etc/Socket";
+import missingImage from ".././assets/images/missingImage.png";
 
 const modalShow = keyframes`
     from{
-        opacity 0;
-        margin-top -50px;
+        opacity: 0;
+        margin-top: -50px;
     }
     to{
-        opacity 1;
-        margin-top 0;
+        opacity: 1;
+        margin-top: 0;
     }
 `;
 
 const modalBgShow = keyframes`
     from{
-        opacity 0;
+        opacity: 0;
     }
     to{
-        opacity 1;
+        opacity: 1;
     }
 `;
 
 const OpenModal = styled.div`
-  position fixed;
-  top 0;
-  right 0;
-  bottom 0;
-  left 0;
-  z-index 99;
-  background-color rgba(0, 0, 0, 0.6);
-  display flex;
-  align-items center;
-  animation ${modalBgShow} 0.3s;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  animation: ${modalBgShow} 0.3s;
 `;
 
 const Section = styled.div`
-  width 90%;
-  max-width 1450px;
-  margin 0 auto;
-  border-radius 10px;
-  border  5px solid #f7968a;
-  background-color white;
-  animation ${modalShow} 0.3s;
-  overflow hidden;
+  width: 90%;
+  max-width: 1450px;
+  margin: 0 auto;
+  border-radius: 10px;
+  border : 5px solid #f7968a;
+  background-color: white;
+  animation: ${modalShow} 0.3s;
+  overflow: hidden;
 `;
+
 const Header = styled.div`
-  position relative;
-  padding 16px 64px 16px 16px;
-  background-color white;
-  font-weight 700;
-  text-align center;
-  padding-left 50px;
+  position: relative;
+  padding: 16px 64px 16px 16px;
+  background-color: white;
+  font-weight: 700;
+  text-align: center;
+  padding-left: 50px;
 `;
+
 const CloseBtn = styled.button`
-  outline none;
-  cursor pointer;
-  border 0;
-  position absolute;
-  top 15px;
-  right 15px;
-  width 30px;
-  font-size 21px;
-  font-weight 700;
-  text-align center;
-  color #999;
-  background-color transparent;
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  color: #999;
+  background-color: transparent;
 `;
 
 const Main = styled.div`
-  padding 16px;
-  border-bottom 1px solid #f7968a;
-  border-top 1px solid #f7968a;
-  text-align center;
+  padding: 16px;
+  border-bottom: 1px solid #f7968a;
+  border-top: 1px solid #f7968a;
+  text-align: center;
 `;
 
 const Footer = styled.div`
-  padding 12px 16px;
-  text-align center;
+  padding: 12px 16px;
+  text-align: center;
 `;
 
 const OkBtn = styled.button`
@@ -105,16 +108,17 @@ const RankModal = (props) => {
   const [images, setImage] = useState([0, 0, 0, 0]);
   const [checkedItem, setCheckedItem] = useState(new Set());
   const [indexImage, setIndexImage] = useState(0);
-  const [score, setScore] = useState([0, 0]);
-  const [tempScore, setTempScore] = useState([0, 0]);
+  const [score, setScore] = useState([0, 0, 0, 0, 0]);
+  const [directorImage, setDirectorImage] = useState(0);
+  const [index, setIndex] = useState(-1);
 
   const radioItemHandler = (e) => {    
-    setCheckedItem(e.target.value);    
-    let arr = [0, 0];
-    arr[0] = indexImage;
-    arr[1] = checkedItem;
-    setTempScore(arr);
-    console.log(arr,tempScore,e.target.value, indexImage);
+    // setIndex(index+1); 
+    setCheckedItem(e.target.value); 
+    let arr = score;
+    arr[indexImage] = e.target.value;
+    setScore(arr);
+    console.log(arr,score,e.target.value, indexImage);
   }
 
   //임시리셋
@@ -133,7 +137,7 @@ const RankModal = (props) => {
       setIndexImage(indexImage + 1);
       console.log("+1");
     }
-    socket.emit("gameScore", tempScore);
+    socket.emit("gameScore", score);
     console.log(images[indexImage + 1]);
   }  
 
@@ -142,6 +146,7 @@ const RankModal = (props) => {
       console.log(data);
 
       let arr = new Array(images);
+      let tempDirectorImage = directorImage;
 
       let flag1 = false;
       let flag2 = false;
@@ -149,35 +154,78 @@ const RankModal = (props) => {
       let flag4 = false;
       let flag5 = false;
 
-      for (let i = 0; i < 4; i++) {
-        if (data.p1.director != true && flag1 == false) {
-          arr[i] = data.p1.image;
-          flag1 = true;
-          continue;
+      for (let i = 0; i < 5; i++) {
+        if (flag1 == false) {
+          if (data.p1.director != true) {
+            console.log("user1 image load success");
+            arr[0] = data.p1.image;
+            flag1 = true;
+            continue;
+          } else {
+            console.log("director1 image load success");
+            arr[0] = missingImage;
+            tempDirectorImage = data.p1.image;
+            flag1 = true;
+          }
         }
-        if (data.p2.director != true && flag2 == false) {
-          arr[i] = data.p2.image;
-          flag2 = true;
-          continue;
+        if (flag2 == false) {
+          if (data.p2.director != true) {
+            console.log("user2 image load success");
+            arr[1] = data.p2.image;
+            flag2 = true;
+            continue;
+          } else {
+            console.log("director2 image load success");
+            arr[1] = missingImage;
+            tempDirectorImage = data.p2.image;
+            flag2 = true;
+          }
         }
-        if (data.p3.director != true && flag3 == false) {
-          arr[i] = data.p3.image;
-          flag3 = true;
-          continue;
+        if (flag3 == false) {
+          if (data.p3.director != true) {
+            console.log("user3 image load success");
+            arr[2] = data.p3.image;
+            flag3 = true;
+            continue;
+          } else {
+            console.log("director3 image load success");
+            arr[2] = missingImage;
+            tempDirectorImage = data.p3.image;
+            flag3 = true;
+          }
         }
-        if (data.p4.director != true && flag4 == false) {
-          arr[i] = data.p4.image;
-          flag4 = true;
-          continue;
+        if (flag4 == false) {
+          if (data.p4.director != true) {
+            console.log("user4 image load success");
+            arr[3] = data.p4.image;
+            flag4 = true;
+            continue;
+          } else {
+            console.log("director4 image load success");
+            arr[3] = missingImage;
+            tempDirectorImage = data.p4.image;
+            flag4 = true;
+            continue;
+          }
         }
-        if (data.p5.director != true && flag5 == false) {
-          arr[i] = data.p5.image;
-          flag5 = true;
-          continue;
+        if (flag5 == false) {
+          if (data.p5.director != true) {
+            console.log("user5 image load success");
+            arr[4] = data.p5.image;
+            flag5 = true;
+            continue;
+          } else {
+            console.log("director5 image load success");
+            arr[4] = missingImage;
+            tempDirectorImage = data.p5.image;
+            flag5 = true;
+          }
         }
       }
 
       setImage(arr);
+      setDirectorImage(tempDirectorImage);
+      console.log(images, directorImage);
     });
   }, []);
 
@@ -199,7 +247,7 @@ const RankModal = (props) => {
                   <img
                     className="OriPic"
                     alt="OriPic"
-                    src={images[indexImage]}
+                    src={directorImage}
                     width="500px"
                     height="300px"
                   ></img>

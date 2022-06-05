@@ -294,6 +294,7 @@ function Director(props) {
       const nowSelectImageList = event.target.files;
       const nowImageUrl = URL.createObjectURL(nowSelectImageList[0]);
       setMyImage(nowImageUrl);
+      socket.emit("image", [props.code,props.nickname,nowImageUrl]);
     }
   };
   const sendMessage_D = () => {
@@ -365,7 +366,7 @@ function Director(props) {
     if (selectCheck) {
       setInterval(() => {
         if(parseInt(document.getElementById("gametimer").innerText) > 0){ 
-          setTime((prevNumber) => prevNumber - 1);
+          setTime((prevNumber) => prevNumber - 10); //임시로 10으로 바꿈 
           socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
         }
       }, 1000);
