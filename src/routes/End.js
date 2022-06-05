@@ -113,6 +113,8 @@ const End = (props) => {
       const rank2 = [0, 0, 0, 0];
       const temp = 0;
 
+      console.log(rank1);
+
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3-i; j++) {
           if (rank1[i][1] < rank1[i+1][1]) {
@@ -122,6 +124,8 @@ const End = (props) => {
           }
         }
       }
+
+      console.log(rank1);
       
       for (let i = 0, j = 0; i < 4; i++) {
         if(!rank1[i][2]) {
@@ -130,12 +134,13 @@ const End = (props) => {
         }
       }
   
-      setTopImage(rank2[1][3]);
-      setFirst(rank2[1][0]);
-      setSecond(rank2[2][0]);
-      setThird(rank2[3][0]);
-      setForth(rank2[4][0]);
       console.log(rank2);
+
+      setTopImage(rank2[0][3]);
+      setFirst(rank2[0][0]);
+      setSecond(rank2[1][0]);
+      setThird(rank2[2][0]);
+      setForth(rank2[3][0]);
     });
   });
 
@@ -172,9 +177,7 @@ const End = (props) => {
           <RankBar>{forth}</RankBar>
           <BtnWrap>
             <Btn onClick={MainonClick}>홈으로</Btn>
-            <Btn onClick={GalleryonClick}>갤러리</Btn>                
-            <Btn onClick={openModal}>임시모달</Btn>
-            <Btn onClick={randerClick}>임시초기화</Btn>
+            <Btn onClick={GalleryonClick}>갤러리</Btn>          
             <Modal 
               open={showModal} 
               close={closeModal} 

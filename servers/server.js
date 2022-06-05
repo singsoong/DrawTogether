@@ -51,15 +51,15 @@ io.on('connect',function(socket){
         option.StateChange(data[2],data[0],data[1]);
         
         io.to(data[0]).emit('state', roomdata);
-        socket.emit('state', roomdata);
+        // socket.emit('state', roomdata);
     });
 
     socket.on('gameStart',function(data){
         // console.log(data);
         const roomdata = option.searchRoom(data[0]);
         // console.log(roomdata);
-        io.to(data[0]).emit('state', roomdata);
-        socket.emit('gameStart', roomdata);
+        io.to(data[0]).emit('gameStart', roomdata);
+        // socket.emit('gameStart', roomdata);
     });
 
     socket.on('Dmessage',function(data){
@@ -94,7 +94,7 @@ io.on('connect',function(socket){
 
     socket.on('gameScore',function(data){
         console.log("add game score");
-        const arr = [0, 0, 0, 0, 0];
+        var arr = [0, 0, 0, 0, 0];
         arr = option.outputScore(option.roomNumber);
         option.AddScore(data);
         io.to(data[0]).emit('gameScore', arr);

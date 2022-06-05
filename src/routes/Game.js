@@ -10,6 +10,7 @@ const Game = (props) => {
   const [director, setDirector] = useState(false);
 
   const SettingDirector = (data) => {
+    console.log(data,);
     if (data == null) {
       return;
     }

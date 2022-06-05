@@ -131,13 +131,13 @@ const RankModal = (props) => {
   const nextButtonHandler = () => {
     // console.log(score);
     if (images[indexImage+1] == null) {
+      socket.emit("gameScore", score);
       clo();
       // console.log("close");
     } else {
       setIndexImage(indexImage + 1);
       // console.log("+1");
     }
-    socket.emit("gameScore", score);
     // console.log(images[indexImage + 1]);
   }  
 
@@ -225,7 +225,7 @@ const RankModal = (props) => {
 
       setImage(arr);
       setDirectorImage(tempDirectorImage);
-      // console.log(images, directorImage);
+      console.log(images, directorImage);
     });
   }, []);
 
@@ -317,7 +317,6 @@ const RankModal = (props) => {
               </div>
               <div>
                 <OkBtn onClick={nextButtonHandler}>제출</OkBtn>
-                <OkBtn onClick={reset}>임시리셋</OkBtn>
               </div>
             </Footer>
           </Section>
