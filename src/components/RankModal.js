@@ -137,7 +137,7 @@ const RankModal = (props) => {
       setIndexImage(indexImage + 1);
       // console.log("+1");
     }
-    // socket.emit("gameScore", score);
+    socket.emit("gameScore", score);
     // console.log(images[indexImage + 1]);
   }  
 

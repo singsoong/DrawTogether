@@ -25,7 +25,6 @@ io.on('connect',function(socket){
     socket.emit('msg', `${socket.id} 연결 되었습니다.`);
   
     socket.on('add', function (data) {
-        console.log(data);
         option.AddUser(data[1],data[0],socket.id);
 
         const roomdata = option.searchRoom(data[0]);
@@ -36,14 +35,15 @@ io.on('connect',function(socket){
     });
 
     socket.on('lookup', function (data) {
-        console.log(data);
-        const roomdata = option.searchRoom(data[0]);
+        console.log(data,"look up");
+        const roomdata = option.searchRoom(data);
+        console.log(roomdata,"1");
 
         socket.emit('lookup', roomdata);
     });
 
     socket.on('state', function (data) {
-        console.log(data);
+        console.log(data,"state");
         const roomdata = option.searchRoom(data[0]);
 
         console.log(socket.id+"가 " +data+"상태 입니다.");

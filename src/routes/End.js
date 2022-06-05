@@ -4,6 +4,7 @@ import Modal from "../components/RankModal";
 import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
+import missingImage from ".././assets/images/missingImage.png";
 
 const Container = styled.div`
   background-color : #ffeec3;
@@ -78,14 +79,14 @@ const BtnWrap = styled.div`
   display : flex;
 `;
 
-const End = () => {
+const End = (props) => {
   const [showModal, setShowModal] = useState(true);
   const [index, setIndex] = useState(-1);
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [third, setThird] = useState("");
   const [forth, setForth] = useState("");
-  const [topImage, setTopImage] = useState("");
+  const [topImage, setTopImage] = useState(missingImage);
 
 
   const openModal = () => {
@@ -98,6 +99,7 @@ const End = () => {
   };
     
   useEffect(() => {
+    socket.emit("lookup", props.code);
     socket.on("lookup", function (data) {
       console.log(data);
 
