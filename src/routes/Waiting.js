@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import SettingBtn from "../components/SettingBtn";
+//import SettingBtn from "../components/SettingBtn";
 import axios from "axios";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
+import Volume from "../components/volume";
 import useSound from './BgmSounds';
 import effectSound from './BgmEffect';
 import BGM from './Audio/bgm1.mp3'
+import {finalVolume} from "../components/volume";
 
 const Container = styled.div`
   margin : 0;
@@ -34,9 +36,9 @@ const Content = styled.div`
   align-items: center;
   background-color: #fff5e9;
   justify-content: center;
-`; 
+`;
 
-const Wrap= styled.div`
+const Wrap = styled.div`
   box-sizing: border-box;  
   width : 100%;
   height: 100%;
@@ -97,7 +99,19 @@ const StartBtn = styled.div`
     background-color : #ffeacd;
   }
 `;
-
+const SettingBtn = styled.button`
+border : 5px solid #f7968a;
+border-radius: 10px;
+cursor: pointer;
+width : 100px;
+height : 50px;
+text-align : center;
+line-height: 40px;
+color : black;
+&:hover{
+  background-color : #ffeacd;
+}
+`;
 const Timer = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
@@ -113,7 +127,7 @@ const ReadyBtn = styled(StartBtn)``;
 const Waiting = (props) => {
 
   let flag = false;
-  
+
   const history = useHistory();
 
   const [p1, setp1] = useState("empty");
@@ -274,15 +288,15 @@ const Waiting = (props) => {
 
 
   //카운트다운 후 게임 화면으로 전환
-  
+
   const Counter = () => {
-    let countNum=2;// 초
+    let countNum = 2;// 초
     const temp = setInterval(() => {
       console.log("countNum : " + countNum);
       console.log("3. flag : " + flag);
 
-      if(document.getElementById("timer") != null ){
-        document.getElementById("timer").innerText = countNum+"초 후에 시작합니다";
+      if (document.getElementById("timer") != null) {
+        document.getElementById("timer").innerText = countNum + "초 후에 시작합니다";
       }
 
       if (flag == false) {
@@ -332,17 +346,29 @@ const Waiting = (props) => {
     });
 
 
+
     // waiting 화면 들어올 시 , user 등록 요청
     if (enterCode != "" && nickname != "") {
       socket.emit("add", [enterCode, nickname]);
     }
   }, [nickname, enterCode]);
 
-
-  useSound(BGM, 1, 5000);//bgm 재생
+  const [isOpen, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleModalCancel = () => setOpen(false);
+  useSound(BGM,0);//bgm 재생
   return (
     <>
       <Container>
+        <Header>
+          <SettingBtn onClick={handleClick}>설정</SettingBtn>
+          <Volume
+            isOpen={isOpen}
+            onCancel={handleModalCancel}
+          />
+        </Header>
         <Content>
           <Wrap>
             <Title>같이 그릴까?</Title>
