@@ -107,7 +107,7 @@ const RankModal = (props) => {
   const { open, close, header } = props;
   const [images, setImage] = useState([0, 0, 0, 0]);
   const [checkedItem, setCheckedItem] = useState(new Set());
-  const [indexImage, setIndexImage] = useState(0);
+  const [indexImage, setIndexImage] = useState(1);
   const [score, setScore] = useState([0, 0, 0, 0, 0]);
   const [directorImage, setDirectorImage] = useState(0);
   const [index, setIndex] = useState(-1);
@@ -123,27 +123,27 @@ const RankModal = (props) => {
 
   //임시리셋
   const reset = () => {
-    setIndexImage(0);
+    setIndexImage(1);
   }
 
   const clo = close;
 
   const nextButtonHandler = () => {
-    // console.log(score);
+    console.log(score);
     if (images[indexImage+1] == null) {
       socket.emit("gameScore", score);
       clo();
       // console.log("close");
     } else {
       setIndexImage(indexImage + 1);
-      // console.log("+1");
+      console.log("+1");
     }
-    // console.log(images[indexImage + 1]);
+    console.log(images[indexImage + 1]);    
   }  
 
   useEffect(() => {
     socket.on("image", function (data) {
-      // console.log(data);
+      console.log(data);
 
       let arr = new Array(images);
       let tempDirectorImage = directorImage;
@@ -317,6 +317,7 @@ const RankModal = (props) => {
               </div>
               <div>
                 <OkBtn onClick={nextButtonHandler}>제출</OkBtn>
+                <OkBtn onClick={reset}>리셋</OkBtn>
               </div>
             </Footer>
           </Section>
