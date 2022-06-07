@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 import axios from "axios";
-import SettingBtn from "../components/SettingBtn";
+import Volume from "../components/volume";
 import { useHistory } from "react-router-dom";
 import useSound from './BgmSounds';
 import effectSound from './BgmEffect';
@@ -70,7 +70,19 @@ const CreateRoomBtn = styled.button`
     border: 5px solid #f7968a;
   }
 `;
-
+const SettingBtn = styled.button`
+border : 5px solid #f7968a;
+border-radius: 10px;
+cursor: pointer;
+width : 100px;
+height : 50px;
+text-align : center;
+line-height: 40px;
+color : black;
+&:hover{
+  background-color : #ffeacd;
+}
+`;
 const EnterBtn = styled(CreateRoomBtn)``;
 
 const Main = (props) => {
@@ -129,12 +141,21 @@ const Main = (props) => {
         }
       });
   };
-  
-  useSound(BGM,0);//bgm 재생
+
+  const [isOpen, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleModalCancel = () => setOpen(false);
+  useSound(BGM,0);
   return (
     <Container>
       <Top>
-        <SettingBtn></SettingBtn>
+        <SettingBtn  onClick={handleClick}>설정</SettingBtn>
+        <Volume
+            isOpen={isOpen}
+            onCancel={handleModalCancel}
+          />
       </Top>
       <Header>
         <Title>같이 그릴까?</Title>

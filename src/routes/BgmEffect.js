@@ -1,4 +1,5 @@
 import { Howl } from 'howler';
+import {finalVolume} from "../components/volume";
 
 function effectSound(src, volume = 1) {
     let sound;
