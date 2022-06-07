@@ -111,14 +111,13 @@ const End = (props) => {
         [data.p5.nickname, data.p5.score, data.p5.director, data.p5.image]
       ];
       const rank2 = [0, 0, 0, 0];
-      const temp = 0;
 
       console.log(rank1);
 
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3-i; j++) {
           if (rank1[i][1] < rank1[i+1][1]) {
-            temp = rank1[j];
+            let temp = rank1[j];
             rank1[j] = rank1[j+1];
             rank1[j+1] = temp; 
           }
@@ -182,6 +181,7 @@ const End = (props) => {
               open={showModal} 
               close={closeModal} 
               header="점수" 
+              code={props.code}
             ></Modal>
           </BtnWrap>
         </Content>

@@ -93,10 +93,10 @@ io.on('connect',function(socket){
     });
 
     socket.on('gameScore',function(data){
-        console.log("add game score");
+        console.log("add game score", data);
         var arr = [0, 0, 0, 0, 0];
         arr = option.outputScore(option.roomNumber);
-        option.AddScore(data);
+        option.AddScore(data[0],data[1]);
         io.to(data[0]).emit('gameScore', arr);
     });
 });

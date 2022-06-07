@@ -155,24 +155,22 @@ exports.UpdateImg = function(img,roomNumber,nickname_p){
     }
 }
 
-exports.AddScore = function(score,roomNumber,nickname_p) {    
+exports.AddScore = function(score,roomNumber) {    
     for(var i=0;i<roomCount;i++){
         if(rooms[i].RoomNumber == roomNumber){
-            if (rooms[i].p1.nickname == nickname_p) {
-                for (let j = 0; j < 5; j++) {
-                    if (voteCheck[j]) {
-                        console.log("already vote");
-                    } else {
-                        rooms[i].p1.score += score[0];  
-                        rooms[i].p2.score += score[1];
-                        rooms[i].p3.score += score[2];
-                        rooms[i].p4.score += score[3];
-                        rooms[i].p5.score += score[4];
-                        voteCheck[j] = true;
-                    }                      
-                }
-                      
-            }
+            rooms[i].p1.score += score[0];  
+            rooms[i].p2.score += score[1];
+            rooms[i].p3.score += score[2];
+            rooms[i].p4.score += score[3];
+            rooms[i].p5.score += score[4];
+            console.log(
+                rooms[i].p1.score,
+                rooms[i].p2.score,
+                rooms[i].p3.score,
+                rooms[i].p4.score,
+                rooms[i].p5.score,
+                "option check log"
+                );
         }
     }
 }

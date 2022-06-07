@@ -104,7 +104,7 @@ export const sendImage = () => {
 }
 
 const RankModal = (props) => {
-  const { open, close, header } = props;
+  const { open, close, header, code } = props;
   const [images, setImage] = useState([0, 0, 0, 0]);
   const [checkedItem, setCheckedItem] = useState(new Set());
   const [indexImage, setIndexImage] = useState(1);
@@ -131,7 +131,7 @@ const RankModal = (props) => {
   const nextButtonHandler = () => {
     console.log(score);
     if (images[indexImage+1] == null) {
-      socket.emit("gameScore", score);
+      socket.emit("gameScore", [score, code]);
       clo();
       // console.log("close");
     } else {
