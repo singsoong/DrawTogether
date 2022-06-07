@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 import axios from "axios";
@@ -7,6 +7,9 @@ import { useHistory } from "react-router-dom";
 import useSound from './BgmSounds';
 import effectSound from './BgmEffect';
 import BGM from './Audio/bgm1.mp3'
+import {soundStop,getsounds}from './BgmEffect';
+
+
 
 const Container = styled.div`
   max-width: 100vw;
@@ -91,6 +94,7 @@ const Main = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [name, setName] = useState("");
+  const [vol, setVol] = useState(1);
 
   const openModal = () => {
     setModalOpen(true);
@@ -135,7 +139,6 @@ const Main = (props) => {
         const stateData = response.data.state;
         if (stateData == "ok") {
           history.push(`/waiting/${code}?${name}`);
-          
         } else {
           console.log("fail");
         }
@@ -147,7 +150,15 @@ const Main = (props) => {
     setOpen(true);
   };
   const handleModalCancel = () => setOpen(false);
-  useSound(BGM,0);
+  //console.log(vol);
+
+  useEffect(() => {
+    effectSound(1,vol);//음악 재생
+    props.setMusicVol(vol);
+    return ()=> {
+      soundStop();//재생중지
+    };
+  },[vol])
   return (
     <Container>
       <Top>
@@ -155,6 +166,7 @@ const Main = (props) => {
         <Volume
             isOpen={isOpen}
             onCancel={handleModalCancel}
+            vol = {setVol}
           />
       </Top>
       <Header>

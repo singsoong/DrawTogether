@@ -3,13 +3,12 @@ import { Howl } from 'howler';
 import {finalVolume} from "../components/volume";
 
 
-function useSound(src,fadeoutTime = 0) {
+function useSound(src,volume=1, fadeoutTime = 0) {
     let sound;
-    const Volume=finalVolume;
     const soundStop = () => sound.stop();
     const soundPlay = (src) => {
         sound = new Howl({ src });
-        sound.volume(Volume);
+        sound.volume(volume);
         sound.play();
     }
 
@@ -17,7 +16,7 @@ function useSound(src,fadeoutTime = 0) {
         soundPlay(src);
         sound.on('play', () => {
             const fadeouttime = fadeoutTime;
-            setTimeout(() => sound.fade(Volume, fadeouttime), (sound.duration() - sound.seek()) * 1000 - fadeouttime);
+            setTimeout(() => sound.fade(volume, fadeouttime), (sound.duration() - sound.seek()) * 1000 - fadeouttime);
         });
         return soundStop;
     }, []);
