@@ -77,6 +77,8 @@ const Main = styled.div`
   border-bottom: 1px solid #f7968a;
   border-top: 1px solid #f7968a;
   text-align: center;
+  display : flex;
+  justify-content: center;
 `;
 
 const Footer = styled.div`
@@ -267,10 +269,10 @@ const RankModal = (props) => {
                   </h1>
                   <img
                     className="OriPic"
-                    alt="OriPic"
+                    alt={missingImage}
                     src={directorImage}
-                    width="500px"
-                    height="300px"
+                    width="400px"
+                    height="250px"
                   ></img>
                 </div>                
                   {checkedItem}점
@@ -280,10 +282,10 @@ const RankModal = (props) => {
                   </h1>
                   <img
                     className="plyic"
-                    alt="plyPic"
+                    alt={missingImage}
                     src={images[indexImage]}
-                    width="500px"
-                    height="300px"
+                    width="400px"
+                    height="250px" 
                   ></img>
                 </div>
               </div>              

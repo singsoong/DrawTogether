@@ -224,18 +224,6 @@ const End = (props) => {
               nickname={props.nickname}
             ></Modal>
           </BtnWrap>
-          <KakaoLinkDefault
-            className="template"
-            template={template}
-            jsKey={"d8083b1b84b796d6d016e824b0f7da8f"}
-          >
-            <img 
-              width = "50px"
-              height= "50px"
-              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-              alt="카카오링크 보내기 버튼"
-            />
-          </KakaoLinkDefault>
         </Content>
     </Container>
   )

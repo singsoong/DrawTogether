@@ -169,6 +169,7 @@ exports.AddScore = function(score,roomNumber) {
             rooms[i].p3.score += (score[2] * 1);
             rooms[i].p4.score += (score[3] * 1);
             rooms[i].p5.score += (score[4] * 1);
+            /*
             console.log(
                 rooms[i].p1.score,
                 rooms[i].p2.score,
@@ -177,6 +178,7 @@ exports.AddScore = function(score,roomNumber) {
                 rooms[i].p5.score,
                 "option check log"
                 );
+            */
         }
     }
 }
@@ -209,7 +211,7 @@ exports.addVote = function (data, roomNumber, nickname_p) {
             }else if(rooms[i].p5.nickname == nickname_p){
                 rooms[i].p5.vote = data;
             }
-            console.log("투표데이터",rooms[i].p1.vote, rooms[i].p2.vote, rooms[i].p3.vote, rooms[i].p4.vote, rooms[i].p5.vote);
+            //console.log("투표데이터",rooms[i].p1.vote, rooms[i].p2.vote, rooms[i].p3.vote, rooms[i].p4.vote, rooms[i].p5.vote);
         }
     }
 }

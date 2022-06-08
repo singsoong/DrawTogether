@@ -368,20 +368,34 @@ function Director(props) {
   useEffect(() => {
     if (selectCheck) {
       setInterval(() => {
-        if(parseInt(document.getElementById("gametimer").innerText) > 0){ 
-          setTime((prevNumber) => prevNumber - 10); //임시로 10으로 바꿈 
+        if(parseInt(document.getElementById("gametimer").innerText) >= 0){ 
+          setTime((prevNumber) => prevNumber - 1);  
           socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
         }
       }, 1000);
     }
   }, [selectCheck]);
 
-  useEffect(() => {
+  socket.on("gametime", function (data) {
+    console.log(data);
+
+    if (document.getElementById("gametimer") != null) {
+
+      document.getElementById("gametimer").innerText =  parseInt(data);
+
+      if (data == "0") {
+        history.push("/end");
+        // 투표 진행
+      }
+    }
+  });
+
+  /*useEffect(() => {
     if (time == 0) {
       // 투표 진행
       history.push("/end");
     }
-  }, [time]);
+  }, [time]);*/
 
   const userChatOnClick = () => {
     socket.emit("Umessage", [props.code, props.nickname + " : " + chat_U]);

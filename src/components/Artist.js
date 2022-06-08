@@ -46,7 +46,7 @@ const Text = styled.span`
 `;
 
 const DirectorText = styled.div`
-  height: 30px;
+  height: 90px;
   padding: 10px;
   text-align: center;
   line-height: 30px;
@@ -309,7 +309,7 @@ function Artist(props) {
       });
       setPlayer4(false);
     }
-    setPlayer4(true);
+    //setPlayer4(true);
   };
 
   return (
