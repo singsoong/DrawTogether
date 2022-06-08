@@ -97,20 +97,15 @@ io.on('connect',function(socket){
         var arr = [0, 0, 0, 0, 0];
         arr = option.outputScore(option.roomNumber);
         option.AddScore(data[0],data[1]);
-        io.to(data[0]).emit('gameScore', arr);
+        io.to(data[1]).emit('gameScore', arr);
     });
 
     socket.on('voteCheck', function(data){
         console.log("voteCheck",data);
         option.addVote(data[0], data[1], data[2]);
         var arr = option.searchVote(data[1]);
-        io.to(data[0]).emit('voteCheck', arr);
+        io.to(data[1]).emit('voteCheck', arr);
     });
-
-    socket.on('searchVote', function (data) {
-        console("search",data);
-        io.to(data).emit('voteCheck', option.searchVote(data));
-    })
 });
 
 io.listen(3002);

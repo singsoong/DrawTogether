@@ -1,3 +1,4 @@
+const { NULL } = require("mysql/lib/protocol/constants/types");
 const { findRenderedComponentWithType } = require("react-dom/test-utils");
 
 var roomCount = 0;
@@ -216,6 +217,7 @@ exports.addVote = function (data, roomNumber, nickname_p) {
 exports.searchVote = function (roomNumber) {
     console.log("call searchVote");
     let arr = [false, false, false, false, false, 0];
+    let countLength = 0;
     for(var i=0;i<roomCount;i++){
         if(rooms[i].RoomNumber == roomNumber){     
             arr[0] = rooms[i].p1.vote;
@@ -223,7 +225,23 @@ exports.searchVote = function (roomNumber) {
             arr[2] = rooms[i].p3.vote;
             arr[3] = rooms[i].p4.vote;
             arr[4] = rooms[i].p5.vote;
-            arr[5] = rooms[i].length;
+            if(rooms[i].p1.image != NULL) {
+                countLength++;
+            }
+            if(rooms[i].p2.image != NULL) {
+                countLength++;
+            }
+            if(rooms[i].p3.image != NULL) {
+                countLength++;
+            }
+            if(rooms[i].p4.image != NULL) {
+                countLength++;
+            }
+            if(rooms[i].p5.image != NULL) {
+                countLength++;
+            }
+
+            arr[5] = countLength - 1;
         }
     }
     return arr;

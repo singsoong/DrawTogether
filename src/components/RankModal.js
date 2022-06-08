@@ -145,20 +145,24 @@ const RankModal = (props) => {
     console.log(images[indexImage + 1]);    
   }  
 
+  const emitbuttonhandler = () => {
+    socket.emit("voteCheck",[true,code,nickname]);
+  }
+
   useEffect(() => {
-    console.log("11");
-    socket.on("searchVote", function (data) {
-      console.log(data);
+    socket.on("voteCheck", function (data) {
+      let numberOfTrue = 0;
+      for (let i = 0; i < data.length; i++) {
+        if(data[i]){
+          numberOfTrue++;
+          console.log("++");
+        }
+      }
+      console.log(numberOfTrue,data[5]);
+      if (numberOfTrue > data[5] - 2) {
+        clo();
+      }
     });
-
-    // let timer = setInterval(( ) => {    
-    //   console.log("타이머");
-    //   setIndex(index + 1);  
-    // },2000)
-    // return () => clearInterval(timer)
-  }, [index]);
-
-  useEffect(() => {
     socket.on("image", function (data) {
       console.log(data);
 
@@ -335,6 +339,7 @@ const RankModal = (props) => {
               <div>
                 <OkBtn onClick={nextButtonHandler}>제출</OkBtn>
                 <OkBtn onClick={reset}>리셋</OkBtn>
+                <OkBtn onClick={emitbuttonhandler}>강제에밋</OkBtn>
               </div>
             </Footer>
           </Section>
