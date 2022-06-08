@@ -14,7 +14,8 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : true,
             image : null,
-            score : 0
+            score : 0,
+            vote : false
         }, 
         p2:{
             nickname :"",
@@ -22,7 +23,8 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : 0
+            score : 0,
+            vote : false
         }, 
         p3:{
             nickname :"",
@@ -30,7 +32,8 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : 0
+            score : 0,
+            vote : false
         },
         p4:{
             nickname :"",
@@ -38,7 +41,8 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : 0
+            score : 0,
+            vote : false
         },
         p5:{
             nickname :"",
@@ -46,7 +50,8 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : 0
+            score : 0,
+            vote : false
         }
     };
     
@@ -184,6 +189,41 @@ exports.outputScore = function(roomNumber) {
             arr[2] = rooms[i].p3.score;
             arr[3] = rooms[i].p4.score;
             arr[4] = rooms[i].p5.score;
+        }
+    }
+    return arr;
+}
+
+exports.addVote = function (data, roomNumber, nickname_p) {
+    for(var i=0;i<roomCount;i++){
+        if(rooms[i].RoomNumber == roomNumber){
+            if(rooms[i].p1.nickname == nickname_p){
+                rooms[i].p1.vote = data;
+            }else if(rooms[i].p2.nickname == nickname_p){
+                rooms[i].p2.vote = data;
+            }else if(rooms[i].p3.nickname == nickname_p){
+                rooms[i].p3.vote = data;
+            }else if(rooms[i].p4.nickname == nickname_p){
+                rooms[i].p4.vote = data;
+            }else if(rooms[i].p5.nickname == nickname_p){
+                rooms[i].p5.vote = data;
+            }
+            console.log("투표데이터",rooms[i].p1.vote, rooms[i].p2.vote, rooms[i].p3.vote, rooms[i].p4.vote, rooms[i].p5.vote);
+        }
+    }
+}
+
+exports.searchVote = function (roomNumber) {
+    console.log("call searchVote");
+    let arr = [false, false, false, false, false, 0];
+    for(var i=0;i<roomCount;i++){
+        if(rooms[i].RoomNumber == roomNumber){     
+            arr[0] = rooms[i].p1.vote;
+            arr[1] = rooms[i].p2.vote;
+            arr[2] = rooms[i].p3.vote;
+            arr[3] = rooms[i].p4.vote;
+            arr[4] = rooms[i].p5.vote;
+            arr[5] = rooms[i].length;
         }
     }
     return arr;
