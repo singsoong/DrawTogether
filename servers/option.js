@@ -14,7 +14,7 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : true,
             image : null,
-            score : ""
+            score : 0
         }, 
         p2:{
             nickname :"",
@@ -22,7 +22,7 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : ""
+            score : 0
         }, 
         p3:{
             nickname :"",
@@ -30,7 +30,7 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : ""
+            score : 0
         },
         p4:{
             nickname :"",
@@ -38,7 +38,7 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : ""
+            score : 0
         },
         p5:{
             nickname :"",
@@ -46,7 +46,7 @@ exports.createRoom = function(roomNumber){
             id : "",
             director : false,
             image : null,
-            score : ""
+            score : 0
         }
     };
     
@@ -158,11 +158,11 @@ exports.UpdateImg = function(img,roomNumber,nickname_p){
 exports.AddScore = function(score,roomNumber) {    
     for(var i=0;i<roomCount;i++){
         if(rooms[i].RoomNumber == roomNumber){
-            rooms[i].p1.score += score[0];  
-            rooms[i].p2.score += score[1];
-            rooms[i].p3.score += score[2];
-            rooms[i].p4.score += score[3];
-            rooms[i].p5.score += score[4];
+            rooms[i].p1.score += (score[0] * 1);  
+            rooms[i].p2.score += (score[1] * 1);
+            rooms[i].p3.score += (score[2] * 1);
+            rooms[i].p4.score += (score[3] * 1);
+            rooms[i].p5.score += (score[4] * 1);
             console.log(
                 rooms[i].p1.score,
                 rooms[i].p2.score,
