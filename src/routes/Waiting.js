@@ -5,21 +5,21 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
 import Volume from "../components/volume";
-import useSound from './BgmSounds';
-import effectSound from './BgmEffect';
-import BGM from './Audio/bgm1.mp3'
-import {finalVolume} from "../components/volume";
+import useSound from "./BgmSounds";
+import effectSound from "./BgmEffect";
+import BGM from "./Audio/bgm1.mp3";
+import {soundStop,getsounds}from './BgmEffect';
 
 const Container = styled.div`
-  margin : 0;
-  padding : 0;
-  width : 100vw;
-  height : 100vh;
-  display : flex;
-  flex-direction : column;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   background-image: url("../design/waiting/waiting_background.png");
-  background-size : cover;
+  background-size: cover;
 `;
 
 const Header = styled.div`
@@ -27,90 +27,90 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  box-sizing: border-box;  
-  width : 100%;
+  box-sizing: border-box;
+  width: 100%;
   height: 200px;
-  padding :15px;
-  border : 10px solid #f8a28b;
-  display : flex;
+  padding: 15px;
+  border: 10px solid #f8a28b;
+  display: flex;
   align-items: center;
   background-color: #fff5e9;
   justify-content: center;
 `;
 
 const Wrap = styled.div`
-  box-sizing: border-box;  
-  width : 100%;
+  box-sizing: border-box;
+  width: 100%;
   height: 100%;
-  border : 20px solid #ffd6c4;
-  display : flex;
+  border: 20px solid #ffd6c4;
+  display: flex;
   align-items: center;
   background-color: #fff5e9;
-  text-align : center;
+  text-align: center;
 `;
 
 const Title = styled.h1`
   font-size: 30px;
-  width : 200px;
-  height : 50px;
-  text-align : center;
-  margin-left : 300px;
+  width: 200px;
+  height: 50px;
+  text-align: center;
+  margin-left: 300px;
 `;
 
 const CodeText = styled.h4`
-  font-size : 30px;
-  width : 300px;
-  height : 50px;
-  margin-left : 100px;
+  font-size: 30px;
+  width: 300px;
+  height: 50px;
+  margin-left: 100px;
 `;
 
 const PlayerContainer = styled.div`
-  width : 80%;
-  height : 600px;
+  width: 80%;
+  height: 600px;
   text-align: center;
-  display : flex;
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
 `;
 
 const Player = styled.div`
-  border : 5px solid #f7968a;
+  border: 5px solid #f7968a;
   border-radius: 10px;
   background-color: ${(props) => props.color};
-  width : 400px;
-  height : 30%;
-  display : flex;
+  width: 400px;
+  height: 30%;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 `;
 
 const StartBtn = styled.div`
-  border : 5px solid #f7968a;
+  border: 5px solid #f7968a;
   border-radius: 10px;
   cursor: pointer;
-  width : 300px;
-  height : 50px;
-  text-align : center;
+  width: 300px;
+  height: 50px;
+  text-align: center;
   line-height: 50px;
-  color : black;
-  &:hover{
-    background-color : #ffeacd;
+  color: black;
+  &:hover {
+    background-color: #ffeacd;
   }
 `;
 const SettingBtn = styled.button`
-border : 5px solid #f7968a;
-border-radius: 10px;
-cursor: pointer;
-width : 100px;
-height : 50px;
-text-align : center;
-line-height: 40px;
-color : black;
-&:hover{
-  background-color : #ffeacd;
-}
+  border: 5px solid #f7968a;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  text-align: center;
+  line-height: 40px;
+  color: black;
+  &:hover {
+    background-color: #ffeacd;
+  }
 `;
 const Timer = styled.div`
   margin-top: 20px;
@@ -125,7 +125,6 @@ const Timer = styled.div`
 const ReadyBtn = styled(StartBtn)``;
 
 const Waiting = (props) => {
-
   let flag = false;
 
   const history = useHistory();
@@ -152,8 +151,12 @@ const Waiting = (props) => {
   const [color5, setColor5] = useState("white");
   const [myposition, setpMyposition] = useState(-1);
 
+  const [vol, setVol] = useState(getsounds());
+
+  console.log("sounds "+getsounds());
+  console.log(vol);
   const start = () => {
-    history.push("/game");
+    history.push("/game")
   };
 
   // 준비하기 btn 이벤트
@@ -195,7 +198,7 @@ const Waiting = (props) => {
     data.p3.state === "ready" ? setColor3("#ffe9e1") : setColor3("white");
     data.p4.state === "ready" ? setColor4("#ffe9e1") : setColor4("white");
     data.p5.state === "ready" ? setColor5("#ffe9e1") : setColor5("white");
-  }
+  };
 
   // user 닉네임 세팅 함수
   const SettingUser = (data) => {
@@ -230,11 +233,10 @@ const Waiting = (props) => {
       }
       setp5(data.p5.nickname);
     }
-  }
+  };
 
   // 3명 이상의 user 가 모두 ready 인지 체크 함수
   const CheckAllready = (data) => {
-
     let count = 0;
 
     if (data.p1.nickname != "") {
@@ -284,19 +286,19 @@ const Waiting = (props) => {
     } else {
       return false;
     }
-  }
-
+  };
 
   //카운트다운 후 게임 화면으로 전환
 
   const Counter = () => {
-    let countNum = 2;// 초
+    let countNum = 2; // 초
     const temp = setInterval(() => {
       console.log("countNum : " + countNum);
       console.log("3. flag : " + flag);
 
       if (document.getElementById("timer") != null) {
-        document.getElementById("timer").innerText = countNum + "초 후에 시작합니다";
+        document.getElementById("timer").innerText =
+          countNum + "초 후에 시작합니다";
       }
 
       if (flag == false) {
@@ -312,10 +314,9 @@ const Waiting = (props) => {
       }
       countNum = countNum - 1;
     }, 1000);
-  }
+  };
 
   useEffect(() => {
-
     // props 의 방입장 코드 및 닉네임 설정
     setEnterCode(props.code);
     setNickname(props.nickname);
@@ -345,8 +346,6 @@ const Waiting = (props) => {
       }
     });
 
-
-
     // waiting 화면 들어올 시 , user 등록 요청
     if (enterCode != "" && nickname != "") {
       socket.emit("add", [enterCode, nickname]);
@@ -358,16 +357,20 @@ const Waiting = (props) => {
     setOpen(true);
   };
   const handleModalCancel = () => setOpen(false);
-  useSound(BGM,0);//bgm 재생
+  useEffect(() => {
+    effectSound(1,vol);
+    props.setMusicVol(vol);
+    return ()=> {
+      soundStop();//음악 중지
+    };
+  },[vol])//bgm 재생
+  console.log(vol);
   return (
     <>
       <Container>
         <Header>
           <SettingBtn onClick={handleClick}>설정</SettingBtn>
-          <Volume
-            isOpen={isOpen}
-            onCancel={handleModalCancel}
-          />
+          <Volume isOpen={isOpen} onCancel={handleModalCancel} vol={setVol}/>
         </Header>
         <Content>
           <Wrap>

@@ -5,6 +5,8 @@ import goldmedal from "./../assets/images/goldmedal.png";
 import { useHistory } from "react-router-dom";
 import { socket } from "../etc/Socket";
 import missingImage from ".././assets/images/missingImage.png";
+import {soundStop,getsounds}from './BgmEffect';
+import effectSound from "./BgmEffect";
 
 const Container = styled.div`
   background-color : #ffeec3;
@@ -111,13 +113,14 @@ const End = (props) => {
         [data.p5.nickname, data.p5.score, data.p5.director, data.p5.image]
       ];
       const rank2 = [0, 0, 0, 0];
+      const temp = 0;
 
       console.log(rank1);
 
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3-i; j++) {
           if (rank1[i][1] < rank1[i+1][1]) {
-            let temp = rank1[j];
+            temp = rank1[j];
             rank1[j] = rank1[j+1];
             rank1[j+1] = temp; 
           }
@@ -154,6 +157,8 @@ const End = (props) => {
     setIndex(index + 1);
   } 
 
+  const [vol, setVol] = useState(getsounds());
+  effectSound(2,vol);//bgm 재생
   return (
     <Container>
         <Header>
@@ -181,7 +186,6 @@ const End = (props) => {
               open={showModal} 
               close={closeModal} 
               header="점수" 
-              code={props.code}
             ></Modal>
           </BtnWrap>
         </Content>
