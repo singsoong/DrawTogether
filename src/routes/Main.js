@@ -22,6 +22,10 @@ const Container = styled.div`
 `;
 const Top = styled.div`
   height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-right: 50px;
 `;
 const Header = styled.div`
   text-align: center;

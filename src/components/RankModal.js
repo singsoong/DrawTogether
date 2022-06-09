@@ -38,6 +38,7 @@ const OpenModal = styled.div`
 `;
 
 const Section = styled.div`
+  min-height: 300px;
   width: 90%;
   max-width: 1450px;
   margin: 0 auto;
@@ -84,6 +85,13 @@ const Main = styled.div`
 const Footer = styled.div`
   padding: 12px 16px;
   text-align: center;
+  height: 100px;
+`;
+
+const RridoWrap = styled.div`
+  display : flex;
+  justify-content: center;
+  margin: 25px;
 `;
 
 const OkBtn = styled.button`
@@ -99,6 +107,10 @@ const OkBtn = styled.button`
     background-color: #f7968a;
     color: white;
   }
+`;
+
+const WaitText = styled.h1`
+  display: none;
 `;
 
 export const sendImage = () => {
@@ -140,6 +152,17 @@ const RankModal = (props) => {
       setVoteCheck(true);
       setIndex(index+1);
       console.log("done",voteCheck);
+
+      document.getElementsByClassName("check")[0].style.display = "none";
+      document.getElementsByClassName("check")[1].style.display = "none";
+      document.getElementsByClassName("check")[2].style.display = "none";
+
+      document.getElementById("WaitText").style.display = "block";
+
+      document.getElementById("Section").style.display = "flex";
+      document.getElementById("Section").style.alignItems = "center";
+      document.getElementById("Section").style.justifyContent  = "center";
+
     } else {
       setIndexImage(indexImage + 1);
       console.log("+1");
@@ -161,7 +184,7 @@ const RankModal = (props) => {
         }
       }
       console.log(numberOfTrue,data[5]);
-      if (numberOfTrue > data[5] - 2) {
+      if (numberOfTrue > data[5] - 1) {
         clo();
       }
     });
@@ -256,12 +279,12 @@ const RankModal = (props) => {
     <>
       {open ? (
         <OpenModal>
-          <Section>
-            <Header>
+          <Section id = "Section">
+            <Header className="check">
               {header}
               <CloseBtn onClick={close}>&times;</CloseBtn>
             </Header>
-            <Main>
+            <Main className="check">
               <div style={{display: 'flex'}}>
                 <div>
                   <h1>
@@ -269,7 +292,7 @@ const RankModal = (props) => {
                   </h1>
                   <img
                     className="OriPic"
-                    alt={missingImage}
+                    alt="/images/missingImage.png"
                     src={directorImage}
                     width="400px"
                     height="250px"
@@ -282,7 +305,7 @@ const RankModal = (props) => {
                   </h1>
                   <img
                     className="plyic"
-                    alt={missingImage}
+                    alt="/images/missingImage.png"
                     src={images[indexImage]}
                     width="400px"
                     height="250px" 
@@ -290,8 +313,8 @@ const RankModal = (props) => {
                 </div>
               </div>              
             </Main>
-            <Footer>
-              <div className="radio" style={{display: 'flex'}}>
+            <Footer className="check">
+              <RridoWrap className="radio" >
                 <input
                   type="radio"
                   value="1"
@@ -337,13 +360,12 @@ const RankModal = (props) => {
                 <label>
                   5점
                 </label>
-              </div>
+              </RridoWrap>
               <div>
                 <OkBtn onClick={nextButtonHandler}>제출</OkBtn>
-                <OkBtn onClick={reset}>리셋</OkBtn>
-                <OkBtn onClick={emitbuttonhandler}>강제에밋</OkBtn>
               </div>
             </Footer>
+            <WaitText id ="WaitText">투표가 집계중 입니다.~</WaitText>
           </Section>
         </OpenModal>
       ) : null}

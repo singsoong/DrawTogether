@@ -283,7 +283,7 @@ function Director(props) {
   const [images, setImage] = useState([0, 0, 0, 0]);
   const [canEdit, setcanEdit] = useState(false);
   const [count, setCount] = useState(1);
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState(5);
   const [selectCheck, setSelectCheck] = useState(false);
   const history = useHistory();
 
@@ -368,9 +368,11 @@ function Director(props) {
   useEffect(() => {
     if (selectCheck) {
       setInterval(() => {
-        if(parseInt(document.getElementById("gametimer").innerText) >= 0){ 
-          setTime((prevNumber) => prevNumber - 1);  
-          socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
+        if(document.getElementById("gametimer").innerText != null){
+          if(parseInt(document.getElementById("gametimer").innerText) >= 0){ 
+            setTime((prevNumber) => prevNumber - 1);  
+            socket.emit("gametime", [props.code,document.getElementById("gametimer").innerText]);
+          }
         }
       }, 1000);
     }
