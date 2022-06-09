@@ -51,7 +51,7 @@ export const MyModal = ({ isOpen, onCancel, vol }) => {
   };
   const [volume, setVolume] = useState(getsounds());
   const [muted, setMuted] = useState(false);
-  const [finalVolume, setFinalVolume] = useState(0);
+  const [finalVolume, setFinalVolume] = useState(100);
   const [final, setFinal] = useState(0);
 
   useEffect(() => {

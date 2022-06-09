@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 var sound1 = new Howl({src:['http://localhost:3000/Audio/bgm1.mp3']});
 var sound2 = new Howl({src:['http://localhost:3000/Audio/bgm2.mp3']});
 
-var Sounds = 0;
+var Sounds = 0.5;
 console.log("!!!!!!!!!!!!!!!");
 function effectSound(src, volume) {
     const soundInject = (src) => {

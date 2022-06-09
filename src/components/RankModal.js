@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import { socket } from "../etc/Socket";
 import missingImage from ".././assets/images/missingImage.png";
+// import e from "express";
 
 const modalShow = keyframes`
     from{
@@ -126,12 +127,21 @@ const RankModal = (props) => {
   const [directorImage, setDirectorImage] = useState(0);
   const [voteCheck, setVoteCheck] = useState(false);
   const [index, setIndex] = useState(-1);
+  const [order, setOrder] = useState(0);
 
   const radioItemHandler = (e) => {    
-    // setIndex(index+1); 
+    // setIndex(index+1);     
     setCheckedItem(e.target.value); 
     let arr = score;
-    arr[indexImage] = e.target.value;
+    if (indexImage == order) {
+      console.log("stop to vote yours");  
+      arr[indexImage + 1] = e.target.value;
+      if (images[indexImage + 1] == null) {
+        arr[indexImage] = 0;
+      }
+    } else {
+      arr[indexImage] = e.target.value;
+    }        
     setScore(arr);
     console.log(arr,score,e.target.value, indexImage);
   }
@@ -164,8 +174,14 @@ const RankModal = (props) => {
       document.getElementById("Section").style.justifyContent  = "center";
 
     } else {
-      setIndexImage(indexImage + 1);
-      console.log("+1");
+      console.log("index and order", indexImage, order);
+      if (indexImage == (order - 1)) {
+        setIndexImage(indexImage + 2);
+        console.log("+2");
+      } else {
+        setIndexImage(indexImage + 1);
+        console.log("+1");
+      }
     }
     console.log(images[indexImage + 1]);    
   }  
@@ -193,12 +209,37 @@ const RankModal = (props) => {
 
       let arr = new Array(images);
       let tempDirectorImage = directorImage;
+      let localOrder = 0;
 
       let flag1 = false;
       let flag2 = false;
       let flag3 = false;
       let flag4 = false;
       let flag5 = false;
+
+      //현 플레이어 번호 저장
+      if (data.p1.nickname == props.nickname) {
+        localOrder = 1;
+        console.log("player order is 1");
+      } 
+      if (data.p2.nickname == props.nickname) {
+        localOrder = 2;
+        console.log("player order is 2");
+      }
+      if (data.p3.nickname == props.nickname) {
+        localOrder = 3;
+        console.log("player order is 3");
+      }
+      if (data.p4.nickname == props.nickname) {
+        localOrder = 4;
+        console.log("player order is 4");
+      }
+      if (data.p5.nickname == props.nickname) {
+        localOrder = 5;
+        console.log("player order is 5");
+      }
+
+      console.log(localOrder);
 
       for (let i = 0; i < 5; i++) {
         if (flag1 == false) {
@@ -268,7 +309,45 @@ const RankModal = (props) => {
           }
         }
       }
+
+      console.log("order data",localOrder, typeof(localOrder));
+      if (localOrder == 1) {
+        
+      } else if (localOrder == 5) {
+        arr[4] = 0;
+      } else {
+        for (let i = localOrder; i < 5; i++) {
+          arr[localOrder - 1] = arr[localOrder]; 
+        }
+      }
+      
+      // switch (localOrder) {
+      //   case 1:
+      //     console.log("data1.. plz die ");
+      //     break;
+      //   case 2:
+      //     console.log("data2.. plz die ");
+      //     arr[1] = 0;
+      //     break;
+      //   case 3:
+      //     console.log("data3.. plz die ");
+      //     arr[2] = 0;
+      //     break;
+      //   case 4:
+      //     console.log("data4.. plz die ");
+      //     arr[3] = 0;
+      //     break;
+      //   case 5:
+      //     console.log("data5.. plz die ");
+      //     arr[4] = 0;
+      //     break;      
+      //   default:
+      //     console.log("mol ru");
+      //     break;
+      // }      
+
       console.log(arr);
+      setOrder(localOrder);
       setImage(arr);
       setDirectorImage(tempDirectorImage);
       console.log(images, directorImage);
